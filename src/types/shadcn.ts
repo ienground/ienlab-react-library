@@ -1,0 +1,1 @@
+export type BadgeColor = "default" | "outline" | "secondary" | "destructive";
