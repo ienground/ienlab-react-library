@@ -1,0 +1,25 @@
+# Gemini Code Assist 공식 설정 규격
+code_review:
+  # 세밀한 리팩토링 제안을 위해 심각도 임계값을 LOW로 설정
+  comment_severity_threshold: LOW
+  # 리뷰 댓글 수 제한 없음
+  max_review_comments: -1
+
+pull_request_opened:
+  # PR 오픈 시 요약 및 자동 리뷰 활성화
+  summary: true
+  code_review: true
+  include_drafts: true
+
+# 리뷰 제외 대상 (React/Web 프로젝트 특화)
+ignore_patterns:
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/public/**"
+  - "**/*.config.js"
+  - "**/*.config.ts"
+  - "**/package-lock.json"
+  - "**/yarn.lock"
+  - "**/.next/**"
+  - "**/coverage/**"
