@@ -1,2 +1,2 @@
-export * from "./firestore.ts";
-export * from "./shadcn.ts";
+export * from "./firestore";
+export * from "./shadcn";

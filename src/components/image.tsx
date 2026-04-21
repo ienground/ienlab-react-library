@@ -24,8 +24,8 @@ export function CrossfadeImage({placeholder, src, ...imgProps}: CrossfadeImagePr
       // 이미지가 로드될 때 상태 업데이트
       img.onload = () => setIsLoaded(true);
       img.onerror = () => {
-        // 로드 실패 시에도 플레이스홀더를 제거하고 대체 렌더링을 시도할 수 있습니다. (여기서는 로드 완료로 처리)
-        setIsLoaded(true);
+        // 로드 실패 시에는 isLoaded를 true로 설정하지 않아 플레이스홀더를 유지합니다.
+        console.error("CrossfadeImage: Failed to load image", src);
       };
     }
   }, [src]);

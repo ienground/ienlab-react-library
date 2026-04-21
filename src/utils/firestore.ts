@@ -16,28 +16,18 @@ export async function fetchItems<T extends FirestoreItem>(
   cache: Map<string, T>,
   referenceArray: (DocumentReference | undefined)[] // 💡 DocumentReference 배열
 ) {
-  const cached: T[] = referenceArray
-    .map(ref => cache.get(ref?.path ?? ""))
-    .filter(Boolean) as T[];
-
-  const cachedPaths = new Set(cached.map(item => item.id));
-  const missingRefs = referenceArray.filter(ref => (ref && !cachedPaths.has(ref.path)));
-
+  const missingRefs = referenceArray.filter((ref): ref is DocumentReference => Boolean(ref && !cache.has(ref.path)));
   const chunkSize = 30;
   for (let i = 0; i < missingRefs.length; i += chunkSize) {
     const chunk = missingRefs.slice(i, i + chunkSize);
-
-    // 💡 DocumentReference 청크를 'in' 쿼리에 직접 사용
     const q = query(
       collection(firestore, colName),
-      where(documentId(), 'in', chunk) // 쿼리할 문서의 필드 이름으로 변경
+      where(documentId(), 'in', chunk.map(ref => ref.id))
     );
-
     const docs = await getDocs(q);
-
     docs.forEach(snapshot => {
       const item = changeMethod(snapshot as QueryDocumentSnapshot);
-      cache.set(item.id, item);
+      cache.set(snapshot.ref.path, item);
     });
   }
 }
@@ -47,16 +37,10 @@ export async function fetchItemsByOne<T extends FirestoreItem>(
   cache: Map<string, T>,
   referenceArray: (DocumentReference | undefined)[] // 💡 DocumentReference 배열
 ) {
-  const cached: T[] = referenceArray
-    .map(ref => cache.get(ref?.path ?? ""))
-    .filter(Boolean) as T[];
-
-  const cachedPaths = new Set(cached.map(item => item.id));
-  const missingRefs = referenceArray.filter(ref => (ref && !cachedPaths.has(ref.path)));
-
-  for (const ref of missingRefs) {
-    if (!ref) continue;
-    const item = await getDoc(ref).then(changeMethod);
-    cache.set(item.id, item);
-  }
+  const missingRefs = referenceArray.filter((ref): ref is DocumentReference => Boolean(ref && !cache.has(ref.path)));
+  await Promise.all(missingRefs.map(async (ref) => {
+    const snapshot = await getDoc(ref);
+    const item = changeMethod(snapshot);
+    cache.set(ref.path, item);
+  }));
 }
