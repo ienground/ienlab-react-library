@@ -15,8 +15,7 @@ export default defineConfig({
       formats: ['es', 'cjs'],  // ESM + CommonJS 동시 지원
     },
     rollupOptions: {
-      // react, react-dom은 번들에 포함하지 않음 (peer dependency)
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', "firebase", /^firebase\/.*/, "i18next", "zustand", "motion", "@tanstack/react-table", "react-i18next"],
       output: {
         globals: {
           react: 'React',
@@ -27,5 +26,8 @@ export default defineConfig({
     emptyOutDir: true,
     copyPublicDir: false,
     minify: true,
+  },
+  resolve: {
+    dedupe: ['firebase']
   },
 });

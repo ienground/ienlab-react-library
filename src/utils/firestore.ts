@@ -14,7 +14,7 @@ export async function fetchItems<T extends FirestoreItem>(
   colName: string,
   changeMethod: ((snapshot: QueryDocumentSnapshot | DocumentSnapshot) => T),
   cache: Map<string, T>,
-  referenceArray: (DocumentReference | undefined)[] // 💡 DocumentReference 배열
+  referenceArray: (DocumentReference | undefined | null)[] // 💡 DocumentReference 배열
 ) {
   const missingRefs = referenceArray.filter((ref): ref is DocumentReference => Boolean(ref && !cache.has(ref.path)));
   const chunkSize = 30;
@@ -35,7 +35,7 @@ export async function fetchItems<T extends FirestoreItem>(
 export async function fetchItemsByOne<T extends FirestoreItem>(
   changeMethod: ((snapshot: QueryDocumentSnapshot | DocumentSnapshot) => T),
   cache: Map<string, T>,
-  referenceArray: (DocumentReference | undefined)[] // 💡 DocumentReference 배열
+  referenceArray: (DocumentReference | undefined | null)[] // 💡 DocumentReference 배열
 ) {
   const missingRefs = referenceArray.filter((ref): ref is DocumentReference => Boolean(ref && !cache.has(ref.path)));
   await Promise.all(missingRefs.map(async (ref) => {
