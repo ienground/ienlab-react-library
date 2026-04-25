@@ -25,7 +25,27 @@ export function CrossfadeImage({placeholder, src, ...imgProps}: CrossfadeImagePr
       img.onload = () => setIsLoaded(true);
       img.onerror = () => {
         // 로드 실패 시에는 isLoaded를 true로 설정하지 않아 플레이스홀더를 유지합니다.
+export interface CrossfadeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  placeholder?: React.ReactNode;
+  src: string;
+  onError?: (error: string | Event) => void;
+}
+
+export function CrossfadeImage({ placeholder, src, onError, ...imgProps }: CrossfadeImageProps) {
+  // ... (중략)
+  useEffect(() => {
+    const img = new Image();
+    img.src = src;
+    img.onload = () => setIsLoaded(true);
+    img.onerror = (e) => {
+      if (onError) {
+        onError(e);
+      } else {
         console.error("CrossfadeImage: Failed to load image", src);
+      }
+    };
+  }, [src, onError]);
+  // ... (중략)
       };
     }
   }, [src]);
