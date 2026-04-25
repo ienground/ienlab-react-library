@@ -1,11 +1,11 @@
 import { serverTimestamp } from "firebase/firestore";
 
-export const deleteItem = {
+export const deleteItem = () => ({
   "updateAt": serverTimestamp(),
   "delete": true
-};
+});
 
-export const undeleteItem = {
+export const undeleteItem = () => ({
   "updateAt": serverTimestamp(),
   "delete": false
-};
+});
