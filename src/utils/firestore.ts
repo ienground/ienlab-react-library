@@ -2,7 +2,8 @@ import {collection, documentId, getDoc, getDocs, query,
   where, type DocumentData, type DocumentReference, type DocumentSnapshot, type QueryDocumentSnapshot, type Firestore,
   type Unsubscribe,
   onSnapshot,
-  FirestoreError} from "firebase/firestore";
+  type FirestoreError
+} from "firebase/firestore";
 import type {FirestoreItem} from "../types";
 
 export function snapshotToData(snapshot: QueryDocumentSnapshot | DocumentSnapshot): DocumentData {
