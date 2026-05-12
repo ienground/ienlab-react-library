@@ -1,5 +1,7 @@
 import {collection, documentId, getDoc, getDocs, query,
-  where, type DocumentData, type DocumentReference, type DocumentSnapshot, type QueryDocumentSnapshot, type Firestore} from "firebase/firestore";
+  where, type DocumentData, type DocumentReference, type DocumentSnapshot, type QueryDocumentSnapshot, type Firestore,
+  type Unsubscribe,
+  onSnapshot} from "firebase/firestore";
 import type {FirestoreItem} from "../types";
 
 export function snapshotToData(snapshot: QueryDocumentSnapshot | DocumentSnapshot): DocumentData {
@@ -43,4 +45,20 @@ export async function fetchItemsByOne<T extends FirestoreItem>(
     const item = changeMethod(snapshot);
     cache.set(ref.path, item);
   }));
+}
+
+export function getSnapshots(
+  ref: DocumentReference,
+  cache = true,
+  callback: (snapshot: DocumentSnapshot) => void
+): Unsubscribe {
+  return onSnapshot(
+    ref,
+    { includeMetadataChanges: !cache },  // KMP: includeMetadataChanges = !cache
+    (snapshot) => {
+      if (!snapshot.metadata.fromCache || cache) {
+        callback(snapshot)
+      }
+    }
+  )
 }
