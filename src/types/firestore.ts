@@ -1,4 +1,4 @@
-import type {DocumentReference, DocumentSnapshot, Timestamp} from "firebase/firestore";
+import type { DocumentReference, DocumentSnapshot, Timestamp } from "firebase/firestore";
 
 export interface FirestoreItem {
   id: string,
