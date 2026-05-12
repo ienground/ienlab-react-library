@@ -8,10 +8,10 @@ export interface FirestoreItem {
   delete: boolean,
 }
 
-export interface InfScrollStateList<T> {
-  itemList: Map<string, T>
-  lastVisibleDocument: DocumentSnapshot | null
-  isInitialized: boolean
-  isLoading: boolean
-  hasMore: boolean
+export interface InfiniteScrollState<T> {
+  itemList: Map<string, T>;
+  lastVisibleDocument: DocumentSnapshot | null;
+  isInitialized: boolean;
+  isLoading: boolean;
+  hasMore: boolean;
 }
