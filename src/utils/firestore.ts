@@ -51,10 +51,10 @@ export async function fetchItemsByOne<T extends FirestoreItem>(
 
 export function getSnapshots(
   ref: DocumentReference,
-  cache = true,
   callback: (snapshot: DocumentSnapshot) => void,
-  onError?: (error: FirestoreError) => void
+  options: { cache?: boolean; onError?: (error: FirestoreError) => void } = {}
 ): Unsubscribe {
+  const { cache = true, onError } = options;
   return onSnapshot(
     ref,
     { includeMetadataChanges: !cache },
