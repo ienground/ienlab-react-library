@@ -11,8 +11,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: "src/index.ts",
-      fileName: () => "my-library.es.js",
-      formats: ["es"],
+      fileName: (format) => "my-library." + format + ".js",
+      formats: ["es", "cjs"],
     },
     rollupOptions: {
       external: [
