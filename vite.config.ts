@@ -1,33 +1,62 @@
-// vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
+// @ienlab/react-library/vite.config.ts
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import dts from "vite-plugin-dts"
 
 export default defineConfig({
   plugins: [
     react(),
-    dts({ tsconfigPath: './tsconfig.build.json' }),
+    dts({ tsconfigPath: "./tsconfig.build.json" }),
   ],
   build: {
     lib: {
-      entry: 'src/index.ts',
-      fileName: (format) => `my-library.${format}.js`,
-      formats: ['es', 'cjs'],  // ESM + CommonJS 동시 지원
+      entry: "src/index.ts",
+      fileName: (format) => "my-library." + format + ".js",
+      formats: ["es", "cjs"],
     },
     rollupOptions: {
-      external: ['react', 'react-dom', "firebase", /^firebase\/.*/, "i18next", "zustand", "motion", "@tanstack/react-table", "react-i18next"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        /^react\/.*/,
+        /^react-dom\/.*/,
+
+        "firebase",
+        /^firebase\/.*/,
+
+        "i18next",
+        /^i18next\/.*/,
+
+        "zustand",
+        /^zustand\/.*/,
+
+        "motion",
+        /^motion\/.*/,
+
+        "@tanstack/react-table",
+        /^@tanstack\/.*/,
+
+        "react-i18next",
+        /^react-i18next\/.*/
+      ],
       output: {
         globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
+          react: "React",
+          "react-dom": "ReactDOM",
+          "react/jsx-runtime": "react/jsx-runtime",
         },
       },
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true,
     },
     emptyOutDir: true,
     copyPublicDir: false,
     minify: true,
   },
   resolve: {
-    dedupe: ['firebase']
+    dedupe: ["react", "react-dom", "firebase"],
   },
-});
+})
