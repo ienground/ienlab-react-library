@@ -54,7 +54,7 @@ export default defineConfig({
     },
     emptyOutDir: true,
     copyPublicDir: false,
-    minify: false,
+    minify: true,
   },
   resolve: {
     dedupe: ["react", "react-dom", "firebase"],
