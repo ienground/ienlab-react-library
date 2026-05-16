@@ -1,2 +1,2 @@
-export * from "./firestore";
-export * from "./shadcn";
+export * from "./firestore"
+export * from "./shadcn"

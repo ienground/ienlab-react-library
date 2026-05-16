@@ -1,3 +1,3 @@
-export * from "./firestore";
-export * from "./array";
-export * from "./platform";
+export * from "./firestore"
+export * from "./array"
+export * from "./platform"
