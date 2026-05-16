@@ -12,4 +12,4 @@ export function getPlatformType(): PlatformType {
   if (isAndroid) return "android"
   if (isIOS) return "ios"
   return "pc"
-};
+}
