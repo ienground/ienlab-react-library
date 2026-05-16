@@ -1,4 +1,4 @@
-import type { DocumentReference, DocumentSnapshot, Timestamp } from "firebase/firestore";
+import type { DocumentReference, DocumentSnapshot, Timestamp } from "firebase/firestore"
 
 export interface FirestoreItem {
   id: string,
@@ -9,9 +9,9 @@ export interface FirestoreItem {
 }
 
 export interface InfScrollStateList<T> {
-  itemList: Map<string, T>;
-  lastVisibleDocument: DocumentSnapshot | null;
-  isInitialized: boolean;
-  isLoading: boolean;
-  hasMore: boolean;
+  itemList: Map<string, T>
+  lastVisibleDocument: DocumentSnapshot | null
+  isInitialized: boolean
+  isLoading: boolean
+  hasMore: boolean
 }

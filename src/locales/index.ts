@@ -1,1 +1,1 @@
-export { initIenlabI18n } from './i18n';
+export { initIenlabI18n } from './i18n'
