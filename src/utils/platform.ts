@@ -1,6 +1,7 @@
 export type PlatformType = "android" | "ios" | "pc"
 
 export function getPlatformType(): PlatformType {
+  if (typeof window === "undefined") return "pc"
   const ua = navigator.userAgent
   const platform = navigator.platform
 
