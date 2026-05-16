@@ -1,4 +1,4 @@
-import {documentId, getDoc, getDocs, query, CollectionReference,
+import {documentId, getDoc, getDocs, query, type CollectionReference,
   where, type DocumentData, type DocumentReference, type DocumentSnapshot, type QueryDocumentSnapshot,
   type Unsubscribe,
   onSnapshot,
