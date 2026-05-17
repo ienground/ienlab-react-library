@@ -59,11 +59,14 @@ export type SnapshotOptions = {
 
 function resolveListenOptions(
   options: SnapshotOptions = {}
-): SnapshotListenOptions {
+): { listenOptions: SnapshotListenOptions; cache: boolean } {
   const { cache = true, includeMetadataChanges } = options
 
   return {
-    includeMetadataChanges: includeMetadataChanges ?? !cache,
+    listenOptions: {
+      includeMetadataChanges: includeMetadataChanges ?? !cache,
+    },
+    cache,
   }
 }
 
@@ -108,8 +111,8 @@ export function getSnapshots<
     | ((snapshot: QuerySnapshot<AppModelType, DbModelType>) => void),
   options: SnapshotOptions = {}
 ): Unsubscribe {
-  const { cache = true, onError } = options
-  const listenOptions = resolveListenOptions(options)
+  const { listenOptions, cache } = resolveListenOptions(options)
+  const { onError } = options
 
   if (target.type === "document") {
     return onSnapshot(
