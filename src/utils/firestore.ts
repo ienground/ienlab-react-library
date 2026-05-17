@@ -71,7 +71,7 @@ function shouldEmitSnapshot(
   fromCache: boolean,
   cache: boolean | undefined
 ): boolean {
-  return cache ?? true ? true : !fromCache
+  return cache !== false || !fromCache
 }
 
 export function getSnapshots<
