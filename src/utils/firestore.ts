@@ -2,7 +2,10 @@ import {documentId, getDoc, getDocs, query, type CollectionReference,
   where, type DocumentData, type DocumentReference, type DocumentSnapshot, type QueryDocumentSnapshot,
   type Unsubscribe,
   onSnapshot,
-  type FirestoreError
+  type FirestoreError,
+  type SnapshotListenOptions,
+  Query,
+  QuerySnapshot
 } from "firebase/firestore"
 import type {FirestoreItem} from "../types"
 
@@ -48,18 +51,93 @@ export async function fetchItemsByOne<T extends FirestoreItem>(
   }))
 }
 
-export function getSnapshots(
-  ref: DocumentReference,
-  callback: (snapshot: DocumentSnapshot) => void,
-  options: { cache?: boolean; onError?: (error: FirestoreError) => void } = {}
+export type SnapshotOptions = {
+  cache?: boolean
+  includeMetadataChanges?: boolean
+  onError?: (error: FirestoreError) => void
+}
+
+function resolveListenOptions(
+  options: SnapshotOptions = {}
+): SnapshotListenOptions {
+  const { cache = true, includeMetadataChanges } = options
+
+  return {
+    includeMetadataChanges: includeMetadataChanges ?? !cache,
+  }
+}
+
+function shouldEmitSnapshot(
+  fromCache: boolean,
+  cache: boolean | undefined
+): boolean {
+  return cache ?? true ? true : !fromCache
+}
+
+export function getSnapshots<
+  AppModelType,
+  DbModelType extends DocumentData = DocumentData,
+>(
+  ref: DocumentReference<AppModelType, DbModelType>,
+  callback: (
+    snapshot: DocumentSnapshot<AppModelType, DbModelType>
+  ) => void,
+  options?: SnapshotOptions
+): Unsubscribe
+
+export function getSnapshots<
+  AppModelType,
+  DbModelType extends DocumentData = DocumentData,
+>(
+  query: Query<AppModelType, DbModelType>,
+  callback: (
+    snapshot: QuerySnapshot<AppModelType, DbModelType>
+  ) => void,
+  options?: SnapshotOptions
+): Unsubscribe
+
+export function getSnapshots<
+  AppModelType,
+  DbModelType extends DocumentData = DocumentData,
+>(
+  target:
+    | DocumentReference<AppModelType, DbModelType>
+    | Query<AppModelType, DbModelType>,
+  callback:
+    | ((snapshot: DocumentSnapshot<AppModelType, DbModelType>) => void)
+    | ((snapshot: QuerySnapshot<AppModelType, DbModelType>) => void),
+  options: SnapshotOptions = {}
 ): Unsubscribe {
   const { cache = true, onError } = options
+  const listenOptions = resolveListenOptions(options)
+
+  if (target.type === "document") {
+    return onSnapshot(
+      target,
+      listenOptions,
+      (snapshot) => {
+        if (shouldEmitSnapshot(snapshot.metadata.fromCache, cache)) {
+          ;(
+            callback as (
+              snapshot: DocumentSnapshot<AppModelType, DbModelType>
+            ) => void
+          )(snapshot)
+        }
+      },
+      onError
+    )
+  }
+
   return onSnapshot(
-    ref,
-    { includeMetadataChanges: !cache },
+    target,
+    listenOptions,
     (snapshot) => {
-      if (cache || !snapshot.metadata.fromCache) {
-        callback(snapshot)
+      if (shouldEmitSnapshot(snapshot.metadata.fromCache, cache)) {
+        ;(
+          callback as (
+            snapshot: QuerySnapshot<AppModelType, DbModelType>
+          ) => void
+        )(snapshot)
       }
     },
     onError
