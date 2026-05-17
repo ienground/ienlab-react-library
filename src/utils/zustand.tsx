@@ -31,9 +31,13 @@ export function createZustandContext<TState extends object, TProps extends objec
     return useStore(store, selector)
   }
 
+  const cache = new Map<string | symbol, () => unknown>()
   const use = new Proxy({} as AutoSelectors<TState>, {
-    get: (_, key: string) => {
-      return () => useBoundStore((state) => state[key as keyof TState])
+    get: (_, key: string | symbol) => {
+      if (!cache.has(key)) {
+        cache.set(key, () => useBoundStore((state) => state[key as keyof TState]))
+      }
+      return cache.get(key)
     },
   })
 
