@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "errors": {
+      "invalid_credential": "잘못된 인증 정보입니다.",
+      "invalid_email": "이메일 주소가 유효하지 않습니다.",
+      "user_disabled": "사용자가 비활성화되었습니다.",
+      "too_many_requests": "요청이 너무 많습니다. 잠시 후 다시 시도해주세요.",
+      "network_failed": "네트워크 연결에 실패했습니다."
+    }
+  }
+}

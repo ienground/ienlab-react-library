@@ -1,9 +1,23 @@
-import i18next from 'i18next'
-import ko from './ko/strings.json'
-import en from './en/strings.json'
+import ko from './ko/libs.json'
+import en from './en/libs.json'
 
-// 앱에서 한 번 호출해서 라이브러리 번역 등록
-export function initIenlabI18n() {
-  i18next.addResourceBundle('ko', 'ienlab', ko, true, false)
-  i18next.addResourceBundle('en', 'ienlab', en, true, false)
+type I18nResourceApi = {
+  hasResourceBundle: (lng: string, ns: string) => boolean
+  addResourceBundle: (
+    lng: string,
+    ns: string,
+    resources: object,
+    deep?: boolean,
+    overwrite?: boolean
+  ) => unknown
+}
+
+export function initIenlabI18n(i18n: I18nResourceApi) {
+  if (!i18n.hasResourceBundle('ko', 'libs')) {
+    i18n.addResourceBundle('ko', 'libs', ko, true, false)
+  }
+
+  if (!i18n.hasResourceBundle('en', 'libs')) {
+    i18n.addResourceBundle('en', 'libs', en, true, false)
+  }
 }
