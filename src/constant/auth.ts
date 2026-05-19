@@ -1,9 +1,11 @@
 export function getAuthErrorKey(errorCode?: string): string {
   switch (errorCode) {
     case "auth/user-not-found":
+      return "libs:auth.errors.user_not_found"
     case "auth/wrong-password":
+      return "libs:auth.errors.wrong_password"
     case "auth/invalid-credential":
-      return "libs:auth.errors.invalid_credentials"
+      return "libs:auth.errors.invalid_credential"
 
     case "auth/invalid-email":
       return "libs:auth.errors.invalid_email"
