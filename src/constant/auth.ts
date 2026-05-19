@@ -17,7 +17,10 @@ export function getAuthErrorKey(errorCode?: string): string {
       return "libs:auth.errors.too_many_requests"
 
     case "auth/network-request-failed":
-      return "libs:auth.errors.network_failed"
+      return "libs:auth.errors.network_request_failed"
+
+    case "auth/timeout":
+      return "libs:auth.errors.timeout"
 
     case "auth/email-already-in-use":
       return "libs:auth.errors.email_already_in_use"
