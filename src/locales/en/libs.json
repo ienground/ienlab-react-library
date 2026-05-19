@@ -1,11 +1,27 @@
 {
   "auth": {
     "errors": {
-      "invalid_credential": "Invalid credentials.",
-      "invalid_email": "The email address is invalid.",
-      "user_disabled": "The user account has been disabled.",
-      "too_many_requests": "Too many requests. Please try again later.",
-      "network_failed": "Failed to connect to the network."
+      "invalid-credential": "Please check your email or password.",
+      "wrong-password": "Please check your email or password.",
+      "user-not-found": "We couldn’t find an account matching that information.",
+      "invalid-email": "Please check your email format.",
+      "email-already-in-use": "This email is already registered. Sign in or use a different email.",
+      "weak-password": "Your password must be at least 6 characters long.",
+      "user-disabled": "This account is currently unavailable. Please contact support.",
+      "too-many-requests": "Too many attempts. Please try again later.",
+      "network-request-failed": "Check your internet connection and try again.",
+      "timeout": "The request is taking too long. Please try again.",
+      "requires-recent-login": "For security reasons, please sign in again.",
+      "user-token-expired": "Your session has expired. Please sign in again.",
+      "operation-not-allowed": "This sign-in method is currently unavailable.",
+      "account-exists-with-different-credential": "This email is already linked to another sign-in method. Please use that method to sign in.",
+      "popup-blocked": "The sign-in window was blocked. Please allow pop-ups and try again.",
+      "popup-closed-by-user": "The sign-in window was closed before completion.",
+      "web-storage-unsupported": "Sign-in is not available with your current browser settings.",
+      "unauthorized-domain": "Sign-in is not available on this domain.",
+      "internal-error": "Something went wrong. Please try again later.",
+      "default": "We couldn’t complete the sign-in. Please try again later."
     }
-  }
+  },
+  "unknown_error_occured": "Unknown error occured."
 }
