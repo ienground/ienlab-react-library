@@ -1,7 +1,7 @@
 export const authErrorKeyMap: Record<string, string> = {
-  "auth/invalid-credential": "strings:auth.errors.invalid_credential",
-  "auth/invalid-email": "strings:auth.errors.invalid_email",
-  "auth/user-disabled": "strings:auth.errors.user_disabled",
-  "auth/too-many-requests": "strings:auth.errors.too_many_requests",
-  "auth/network-request-failed": "strings:auth.errors.network_failed",
+  "auth/invalid-credential": "ienlab:auth.errors.invalid_credential",
+  "auth/invalid-email": "ienlab:auth.errors.invalid_email",
+  "auth/user-disabled": "ienlab:auth.errors.user_disabled",
+  "auth/too-many-requests": "ienlab:auth.errors.too_many_requests",
+  "auth/network-request-failed": "ienlab:auth.errors.network_failed",
 }
