@@ -3,7 +3,7 @@ import {initReactI18next} from "react-i18next"
 
 import en from "./en/strings.json"
 import ko from "./ko/strings.json"
-import {initIenlabI18n} from "../../../src";
+import {initIenlabI18n} from "@ienlab/react-library";
 
 i18n
   .use(initReactI18next)
