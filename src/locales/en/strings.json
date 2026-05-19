@@ -1,3 +1,11 @@
 {
-  "hello": "Hello"
+  "auth": {
+    "errors": {
+      "invalid_credential": "Invalid credentials.",
+      "invalid_email": "The email address is invalid.",
+      "user_disabled": "The user account has been disabled.",
+      "too_many_requests": "Too many requests. Please try again later.",
+      "network_failed": "Failed to connect to the network."
+    }
+  }
 }

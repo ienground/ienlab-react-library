@@ -1,9 +1,15 @@
 import { useState } from 'react'
 import { CrossfadeImage } from '@ienlab/react-library'
+import { useTranslation } from 'react-i18next'
 import './App.css'
 
 export default function App() {
   const [count, setCount] = useState(0)
+  const { t, i18n } = useTranslation()
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng)
+  }
 
   return (
     <>
@@ -20,6 +26,17 @@ export default function App() {
               width={300}
               height={200}
             />
+          </div>
+          
+          <div style={{ margin: '20px 0' }}>
+            <h2>Translations</h2>
+            <p>{t('ienlab:auth.errors.invalid_credential')}</p>
+            <p>{t('strings:amount')}</p>
+          </div>
+          
+          <div style={{ margin: '20px 0' }}>
+            <button onClick={() => changeLanguage('en')}>English</button>
+            <button onClick={() => changeLanguage('ko')}>Korean</button>
           </div>
           
           <div>
