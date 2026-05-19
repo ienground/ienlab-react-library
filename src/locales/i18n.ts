@@ -1,5 +1,5 @@
-import ko from './ko/strings.json'
-import en from './en/strings.json'
+import ko from './ko/libs.json'
+import en from './en/libs.json'
 
 type I18nResourceApi = {
   hasResourceBundle: (lng: string, ns: string) => boolean
@@ -13,11 +13,11 @@ type I18nResourceApi = {
 }
 
 export function initIenlabI18n(i18n: I18nResourceApi) {
-  if (!i18n.hasResourceBundle('ko', 'ienlab')) {
-    i18n.addResourceBundle('ko', 'ienlab', ko, true, false)
+  if (!i18n.hasResourceBundle('ko', 'libs')) {
+    i18n.addResourceBundle('ko', 'libs', ko, true, false)
   }
 
-  if (!i18n.hasResourceBundle('en', 'ienlab')) {
-    i18n.addResourceBundle('en', 'ienlab', en, true, false)
+  if (!i18n.hasResourceBundle('en', 'libs')) {
+    i18n.addResourceBundle('en', 'libs', en, true, false)
   }
 }

@@ -30,7 +30,7 @@ export default function App() {
           
           <div style={{ margin: '20px 0' }}>
             <h2>Translations</h2>
-            <p>{t('ienlab:auth.errors.invalid_credential')}</p>
+            <p>{t('libs:auth.errors.invalid_credential')}</p>
             <p>{t('strings:amount')}</p>
           </div>
           
