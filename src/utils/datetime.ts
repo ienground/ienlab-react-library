@@ -15,7 +15,7 @@ export function useDateTimeFormatters() {
   const { t } = useTranslation(); // 💡 Hook은 여기서 한 번만 호출됩니다.
 
   return useMemo(() => ({
-    useBasicDateTimeFormat: (date: Date, format: string) => formatBaseDateTime(date, format, t),
+    basicDateTimeFormat: (date: Date, formatKey: string) => formatBaseDateTime(date, formatKey, t),
     dateTimeFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.date_time_format", t),
     dateFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.date_format", t),
     timeFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.time_format", t),
