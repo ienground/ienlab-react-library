@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { CrossfadeImage } from '@ienlab/react-library'
 import { useTranslation } from 'react-i18next'
 import './App.css'
+import dayjs from "dayjs";
+import {useDateTimeFormatters} from "../../src";
 
 export default function App() {
   const [count, setCount] = useState(0)
@@ -10,6 +12,9 @@ export default function App() {
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
   }
+
+  const { dateTimeFormat } = useDateTimeFormatters()
+  const time = dayjs()
 
   return (
     <>
@@ -38,7 +43,7 @@ export default function App() {
             <button onClick={() => changeLanguage('en')}>English</button>
             <button onClick={() => changeLanguage('ko')}>Korean</button>
           </div>
-          
+          <div>{dateTimeFormat(time.toDate())}</div>
           <div>
             <button
               type="button"
