@@ -23,5 +23,10 @@
       "default": "로그인 중 문제가 발생했어요. 잠시 후 다시 시도해 주세요."
     }
   },
-  "unknown_error_occurred": "알 수 없는 오류가 발생했습니다."
+  "unknown_error_occurred": "알 수 없는 오류가 발생했습니다.",
+  "datetime": {
+    "date_format": "YYYY년 M월 D일",
+    "date_time_format": "YYYY년 M월 D일 a h:mm:ss",
+    "time_format": "a h:mm:ss"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@ienlab/react-library",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "My React component library",
   "main": "./dist/my-library.cjs.js",
   "module": "./dist/my-library.es.js",
@@ -31,7 +31,8 @@
     "zustand": ">=5.0.0",
     "motion": ">=12.0.0",
     "@tanstack/react-table": ">=8.21.3",
-    "react-i18next": ">=16.0.0"
+    "react-i18next": ">=16.0.0",
+    "dayjs": "^1.11.0"
   },
   "devDependencies": {
     "react": "^19.2.5",
@@ -54,6 +55,7 @@
     "vite": "^8.0.9",
     "vite-plugin-dts": "^4.5.4",
     "@tanstack/react-table": "^8.21.3",
-    "react-i18next": "^16.0.0"
+    "react-i18next": "^16.0.0",
+    "dayjs": "^1.11.0"
   }
 }
