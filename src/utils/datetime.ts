@@ -23,9 +23,11 @@ export function useDateTimeFormatters() {
 }
 
 export function dateIdFormat(date: Date): string {
-  return dayjs(date).format("YYYYMMDD");
+  const d = dayjs(date);
+  return d.isValid() ? d.format("YYYYMMDD") : "";
 }
 
 export function time24Format(date: Date): string {
-  return dayjs(date).format("HH:mm");
+  const d = dayjs(date);
+  return d.isValid() ? d.format("HH:mm") : "";
 }
