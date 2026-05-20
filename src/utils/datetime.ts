@@ -4,11 +4,11 @@ import {useMemo} from 'react';
 import type {TFunction} from "i18next";
 
 function formatBaseDateTime(date: Date, formatKey: string, t: TFunction): string {
-  // 날짜가 유효한지 먼저 체크
-  if (!date || !dayjs(date).isValid()) {
+  const d = dayjs(date);
+  if (!date || !d.isValid()) {
     return '';
   }
-  return dayjs(date).format(t(formatKey));
+  return d.format(t(formatKey));
 }
 
 export function useDateTimeFormatters() {
