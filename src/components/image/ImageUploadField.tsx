@@ -71,6 +71,7 @@ export function ImageUploadField({
                     <CrossfadeImage
                       src={value.url}
                       className="iu-image"
+                      alt={label}
                     />
                   </div>
                 </div>
