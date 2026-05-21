@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next"
 import { Reorder } from "motion/react"
 import type {
   ComponentType,
+  CSSProperties,
   InputHTMLAttributes,
   LabelHTMLAttributes,
-  CSSProperties,
 } from "react"
 
 import { ImageUploadItem } from "../../types"
@@ -27,7 +27,6 @@ import {
   type ScrollBarProps,
 } from "../../types/image"
 import { CrossfadeImage } from "./CrossfadeImage"
-import "./image-upload.css"
 
 type InjectedComponents = {
   Input?: ComponentType<InputHTMLAttributes<HTMLInputElement>>
@@ -52,6 +51,131 @@ type ImageUploadSortableFieldProps = {
   accept?: string
   components?: InjectedComponents
 }
+
+const styles = {
+  wrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.75rem",
+  } satisfies CSSProperties,
+
+  outerBox: {
+    borderRadius: "1.5rem",
+    border: "1px solid #e5e7eb",
+    backgroundColor: "#ffffff",
+    overflow: "hidden",
+  } satisfies CSSProperties,
+
+  scrollArea: {
+    width: "100%",
+    overflowX: "auto",
+    overflowY: "hidden",
+    whiteSpace: "nowrap",
+  } satisfies CSSProperties,
+
+  list: {
+    display: "flex",
+    width: "max-content",
+    gap: "1rem",
+    padding: "1rem",
+  } satisfies CSSProperties,
+
+  item: {
+    position: "relative",
+    flexShrink: 0,
+  } satisfies CSSProperties,
+
+  card: {
+    position: "relative",
+    width: "15rem",
+    overflow: "hidden",
+    borderRadius: "0.75rem",
+    padding: 0,
+    backgroundColor: "#ffffff",
+    border: "1px solid #e5e7eb",
+    boxSizing: "border-box",
+  } satisfies CSSProperties,
+
+  cardInner: {
+    position: "relative",
+    width: "100%",
+    height: "100%",
+  } satisfies CSSProperties,
+
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+  } satisfies CSSProperties,
+
+  removeButton: {
+    position: "absolute",
+    right: "1rem",
+    bottom: "1rem",
+    borderRadius: "9999px",
+    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12)",
+  } satisfies CSSProperties,
+
+  uploadLabel: {
+    display: "block",
+    flexShrink: 0,
+    cursor: "pointer",
+  } satisfies CSSProperties,
+
+  uploadCard: {
+    width: "15rem",
+    overflow: "hidden",
+    borderRadius: "0.75rem",
+    padding: 0,
+    border: "1px dashed #d1d5db",
+    backgroundColor: "#ffffff",
+    boxSizing: "border-box",
+    transition: "background-color 160ms ease",
+  } satisfies CSSProperties,
+
+  uploadCardInner: {
+    display: "flex",
+    width: "100%",
+    height: "100%",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "1rem",
+    color: "#6b7280",
+    textAlign: "center",
+    padding: "1rem",
+    boxSizing: "border-box",
+  } satisfies CSSProperties,
+
+  badge: {
+    borderRadius: "1rem",
+    backgroundColor: "#f3f4f6",
+    padding: "0.75rem 1rem",
+    fontSize: "0.875rem",
+    lineHeight: 1.2,
+    color: "#111827",
+  } satisfies CSSProperties,
+
+  hint: {
+    margin: 0,
+    fontSize: "0.875rem",
+    lineHeight: 1.4,
+  } satisfies CSSProperties,
+
+  description: {
+    marginTop: "0.25rem",
+  } satisfies CSSProperties,
+
+  hiddenInput: {
+    display: "none",
+  } satisfies CSSProperties,
+
+  scrollBar: {
+    marginLeft: "1rem",
+    marginRight: "1rem",
+  } satisfies CSSProperties,
+} as const
 
 export function ImageUploadSortableField({
                                            id,
@@ -100,6 +224,12 @@ export function ImageUploadSortableField({
   }
 
   const cardStyle: CSSProperties = {
+    ...styles.card,
+    aspectRatio,
+  }
+
+  const uploadCardStyle: CSSProperties = {
+    ...styles.uploadCard,
     aspectRatio,
   }
 
@@ -107,37 +237,34 @@ export function ImageUploadSortableField({
     <Field>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
-      <div className="iusf-field">
-        <div className="iusf-container">
-          <ScrollArea className="iusf-scroll-area">
+      <div style={styles.wrapper}>
+        <div style={styles.outerBox}>
+          <ScrollArea style={styles.scrollArea}>
             <Reorder.Group
               axis="x"
               values={items}
               onReorder={onChange}
               layoutScroll
-              className="iusf-list"
+              style={styles.list}
             >
               {items.map((item) => (
                 <Reorder.Item
                   key={item.url}
                   value={item}
-                  className="iusf-item"
+                  style={styles.item}
                 >
-                  <Card
-                    className="iusf-card"
-                    style={cardStyle}
-                  >
-                    <div className="iusf-card-inner">
+                  <Card style={cardStyle}>
+                    <div style={styles.cardInner}>
                       <CrossfadeImage
                         src={item.url}
-                        className="iusf-image"
+                        className=""
+                        style={styles.image}
                         draggable={false}
-                        alt={label}
                       />
 
                       <Button
                         type="button"
-                        className="iusf-remove-button"
+                        style={styles.removeButton}
                         onClick={() => removeItem(item)}
                       >
                         <CloseIcon />
@@ -147,23 +274,25 @@ export function ImageUploadSortableField({
                 </Reorder.Item>
               ))}
 
-              <label htmlFor={id} className="iusf-upload-trigger">
+              <label htmlFor={id} style={styles.uploadLabel}>
                 <Card
-                  className="iusf-upload-card"
-                  style={cardStyle}
+                  style={uploadCardStyle}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#f9fafb"
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#ffffff"
+                  }}
                 >
-                  <div className="iusf-upload-inner">
-                    <div className="iu-badge">{t("libs:add_assets")}</div>
-                    <p className="iu-hint">{uploadHintText}</p>
+                  <div style={styles.uploadCardInner}>
+                    <div style={styles.badge}>{t("libs:add_assets")}</div>
+                    <p style={styles.hint}>{uploadHintText}</p>
                   </div>
                 </Card>
               </label>
             </Reorder.Group>
 
-            <ScrollBar
-              orientation="horizontal"
-              className="iusf-scrollbar"
-            />
+            <ScrollBar orientation="horizontal" style={styles.scrollBar} />
           </ScrollArea>
 
           <Input
@@ -171,15 +300,17 @@ export function ImageUploadSortableField({
             type="file"
             accept={accept}
             multiple
-            className="iu-hidden-input"
             onChange={(e) => {
               handleFilesSelected(e.target.files)
               e.currentTarget.value = ""
             }}
+            style={styles.hiddenInput}
           />
         </div>
 
-        <FieldDescription>{descriptionText}</FieldDescription>
+        <div style={styles.description}>
+          <FieldDescription>{descriptionText}</FieldDescription>
+        </div>
       </div>
     </Field>
   )
