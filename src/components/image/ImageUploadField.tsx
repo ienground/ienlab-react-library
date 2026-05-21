@@ -151,18 +151,53 @@ export function ImageUploadField({
         <label
           htmlFor={id}
           style={styles.trigger}
-          onMouseEnter={(e) => {
-            const card = e.currentTarget.firstElementChild as HTMLDivElement | null
-            const overlay = card?.lastElementChild as HTMLDivElement | null
-            if (card) card.style.backgroundColor = "#f9fafb"
-            if (overlay) overlay.style.boxShadow = "inset 0 0 0 2px rgba(59, 130, 246, 0.16)"
-          }}
-          onMouseLeave={(e) => {
-            const card = e.currentTarget.firstElementChild as HTMLDivElement | null
-            const overlay = card?.lastElementChild as HTMLDivElement | null
-            if (card) card.style.backgroundColor = "#ffffff"
-            if (overlay) overlay.style.boxShadow = "inset 0 0 0 0 rgba(59, 130, 246, 0)"
-          }}
+const [isHovered, setIsHovered] = useState(false)
+
+return (
+  <Field>
+    <FieldLabel htmlFor={id}>{label}</FieldLabel>
+
+    <div style={styles.wrapper}>
+      <label
+        htmlFor={id}
+        style={{
+          ...styles.trigger,
+          backgroundColor: isHovered ? "#f9fafb" : "#ffffff",
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div style={styles.card}>
+          <div style={styles.frame}>
+            {value.url ? (
+              <div style={styles.imageLayer}>
+                <div style={imageBoxStyle}>
+                  <CrossfadeImage
+                    src={value.url}
+                    className=""
+                    alt={label}
+                    style={styles.image}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div style={styles.empty}>
+                <div style={styles.badge}>{t("libs:add_assets")}</div>
+                <p style={styles.hint}>{uploadHintText}</p>
+              </div>
+            )}
+          </div>
+
+          <div
+            style={{
+              ...styles.overlay,
+              boxShadow: isHovered
+                ? "inset 0 0 0 2px rgba(59, 130, 246, 0.16)"
+                : "inset 0 0 0 0 rgba(59, 130, 246, 0)",
+            }}
+          />
+        </div>
+      </label>
         >
           <div style={styles.card}>
             <div style={styles.frame}>
