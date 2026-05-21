@@ -33,7 +33,7 @@ export function time24Format(date: Date): string {
 }
 
 const syncDayjsLocale = (lng?: string) => {
-  const normalized = lng?.startsWith('ko') ? 'ko' : 'en';
+  const normalized = lng?.split('-')[0] === 'ko' ? 'ko' : 'en';
   dayjs.locale(normalized);
 };
 
