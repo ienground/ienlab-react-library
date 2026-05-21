@@ -2,6 +2,8 @@ import {useTranslation} from "react-i18next";
 import dayjs from "dayjs";
 import {useMemo} from 'react';
 import i18n, {type TFunction} from "i18next";
+import 'dayjs/locale/ko';
+import 'dayjs/locale/en';
 
 function formatBaseDateTime(date: Date, formatKey: string, t: TFunction): string {
   const d = dayjs(date);
