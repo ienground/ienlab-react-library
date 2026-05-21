@@ -3,11 +3,9 @@ import { CrossfadeImage } from '@ienlab/react-library'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 import dayjs from "dayjs";
-import {ImageUploadField, ImageUploadItem, useDateTimeFormatters} from "../../src";
-import {ImageUploadSortableField} from "../../src/components/image/ImageUploadSortableField.tsx";
+import {ImageUploadField, ImageUploadItem, ImageUploadSortableField, useDateTimeFormatters} from "../../src";
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
-import {useDateTimeFormatters} from "../../src";
 
 export default function App() {
   const [count, setCount] = useState(0)
