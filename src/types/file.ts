@@ -1,4 +1,4 @@
 export interface ImageUploadItem {
-  url: string | null;
+  url: string;
   file: File | null;
 }
