@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import { CrossfadeImage } from '@ienlab/react-library'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 import dayjs from "dayjs";
+import 'dayjs/locale/ko' // 한국어 가져오기
+import 'dayjs/locale/en'
 import {useDateTimeFormatters} from "../../src";
 
 export default function App() {
   const [count, setCount] = useState(0)
   const { t, i18n } = useTranslation()
 
-  const changeLanguage = (lng: string) => {
-    i18n.changeLanguage(lng)
-  }
+  const changeLanguage = async (lng: string) => {
+    await i18n.changeLanguage(lng);
+  };
 
   const { dateTimeFormat } = useDateTimeFormatters()
   const time = dayjs()
