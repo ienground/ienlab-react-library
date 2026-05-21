@@ -1,6 +1,6 @@
 {
   "name": "@ienlab/react-library",
-  "version": "0.14.1",
+  "version": "0.14.2",
   "description": "My React component library",
   "main": "./dist/my-library.cjs.js",
   "module": "./dist/my-library.es.js",
@@ -15,6 +15,10 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "sideEffects": [
+    "*.css",
+    "**/*.css"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",

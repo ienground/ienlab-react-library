@@ -1,5 +1,6 @@
 import type {
   ButtonHTMLAttributes,
+  CSSProperties,
   HTMLAttributes,
   InputHTMLAttributes,
   LabelHTMLAttributes,
@@ -19,6 +20,7 @@ export type CardProps = HTMLAttributes<HTMLDivElement>
 export type ScrollAreaProps = {
   className?: string
   children?: ReactNode
+  style?: CSSProperties
   dir?: "ltr" | "rtl"
   type?: "auto" | "always" | "scroll" | "hover"
   scrollHideDelay?: number
