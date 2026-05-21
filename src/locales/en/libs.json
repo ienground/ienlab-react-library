@@ -28,5 +28,6 @@
     "date_format": "MMMM D, YYYY",
     "date_time_format": "MMMM D, YYYY h:mm:ss A",
     "time_format": "h:mm:ss A"
-  }
+  },
+  "add_assets": "Add Assets"
 }

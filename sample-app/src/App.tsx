@@ -3,6 +3,8 @@ import { CrossfadeImage } from '@ienlab/react-library'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 import dayjs from "dayjs";
+import {ImageUploadField, ImageUploadItem, useDateTimeFormatters} from "../../src";
+import {ImageUploadSortableField} from "../../src/components/image/ImageUploadSortableField.tsx";
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
 import {useDateTimeFormatters} from "../../src";
@@ -17,6 +19,8 @@ export default function App() {
 
   const { dateTimeFormat } = useDateTimeFormatters()
   const time = dayjs()
+  const [image, setImage] = useState<ImageUploadItem>(new ImageUploadItem({}))
+  const [images, setImages] = useState<ImageUploadItem[]>([])
 
   return (
     <>
@@ -55,6 +59,35 @@ export default function App() {
               Count is {count}
             </button>
           </div>
+          <ImageUploadField
+            id="thumbnail"
+            label="썸네일"
+            uploadHintText="이미지를 업로드하세요"
+            descriptionText="권장 비율은 16:9 입니다"
+            value={image}
+            onChange={item => setImage(item)}
+            // components={{
+            //   Input,
+            //   Field,
+            //   FieldLabel,
+            //   FieldDescription,
+            // }}
+          />
+          dddddd
+          <ImageUploadSortableField
+            id="thumbnail"
+            label="썸네일"
+            uploadHintText="이미지를 업로드하세요"
+            descriptionText="권장 비율은 16:9 입니다"
+            items={images}
+            onChange={items => setImages(items)}
+            // components={{
+            //   Input,
+            //   Field,
+            //   FieldLabel,
+            //   FieldDescription,
+            // }}
+          />
         </div>
       </section>
     </>

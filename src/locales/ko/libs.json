@@ -28,5 +28,7 @@
     "date_format": "YYYY년 M월 D일",
     "date_time_format": "YYYY년 M월 D일 A h:mm:ss",
     "time_format": "A h:mm:ss"
-  }
+  },
+  "add_assets": "애셋 추가"
+
 }
