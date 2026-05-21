@@ -1,5 +1,4 @@
-import { CrossfadeImage, ImageUploadItem } from "@ienlab/react-library"
-import { useTranslation } from "react-i18next"
+import {useTranslation} from "react-i18next"
 import {
   DefaultField,
   DefaultFieldDescription,
@@ -8,12 +7,14 @@ import {
   type DescriptionProps,
   type FieldProps,
 } from "../../types/image"
-import type {
-  ComponentType,
-  CSSProperties,
-  InputHTMLAttributes,
-  LabelHTMLAttributes,
+import {
+  type ComponentType,
+  type CSSProperties,
+  type InputHTMLAttributes,
+  type LabelHTMLAttributes, useState,
 } from "react"
+import {ImageUploadItem} from "../../types";
+import {CrossfadeImage} from "./CrossfadeImage.tsx";
 
 type InjectedComponents = {
   Input?: ComponentType<InputHTMLAttributes<HTMLInputElement>>
@@ -130,7 +131,7 @@ export function ImageUploadField({
                                    accept = "image/*",
                                    components,
                                  }: ImageUploadFieldProps) {
-  const { t } = useTranslation()
+  const {t} = useTranslation()
 
   const Field = components?.Field ?? DefaultField
   const FieldLabel = components?.FieldLabel ?? DefaultFieldLabel
@@ -142,6 +143,7 @@ export function ImageUploadField({
     ...styles.imageBox,
     aspectRatio,
   }
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <Field>
@@ -150,54 +152,12 @@ export function ImageUploadField({
       <div style={styles.wrapper}>
         <label
           htmlFor={id}
-          style={styles.trigger}
-const [isHovered, setIsHovered] = useState(false)
-
-return (
-  <Field>
-    <FieldLabel htmlFor={id}>{label}</FieldLabel>
-
-    <div style={styles.wrapper}>
-      <label
-        htmlFor={id}
-        style={{
-          ...styles.trigger,
-          backgroundColor: isHovered ? "#f9fafb" : "#ffffff",
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div style={styles.card}>
-          <div style={styles.frame}>
-            {value.url ? (
-              <div style={styles.imageLayer}>
-                <div style={imageBoxStyle}>
-                  <CrossfadeImage
-                    src={value.url}
-                    className=""
-                    alt={label}
-                    style={styles.image}
-                  />
-                </div>
-              </div>
-            ) : (
-              <div style={styles.empty}>
-                <div style={styles.badge}>{t("libs:add_assets")}</div>
-                <p style={styles.hint}>{uploadHintText}</p>
-              </div>
-            )}
-          </div>
-
-          <div
-            style={{
-              ...styles.overlay,
-              boxShadow: isHovered
-                ? "inset 0 0 0 2px rgba(59, 130, 246, 0.16)"
-                : "inset 0 0 0 0 rgba(59, 130, 246, 0)",
-            }}
-          />
-        </div>
-      </label>
+          style={{
+            ...styles.trigger,
+            backgroundColor: isHovered ? "#f9fafb" : "#ffffff",
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <div style={styles.card}>
             <div style={styles.frame}>
@@ -220,10 +180,16 @@ return (
               )}
             </div>
 
-            <div style={styles.overlay} />
+            <div
+              style={{
+                ...styles.overlay,
+                boxShadow: isHovered
+                  ? "inset 0 0 0 2px rgba(59, 130, 246, 0.16)"
+                  : "inset 0 0 0 0 rgba(59, 130, 246, 0)",
+              }}
+            />
           </div>
         </label>
-
         <Input
           id={id}
           type="file"
@@ -243,7 +209,7 @@ return (
 
             e.currentTarget.value = ""
           }}
-          style={{ display: "none" }}
+          style={{display: "none"}}
         />
 
         <FieldDescription>{descriptionText}</FieldDescription>
