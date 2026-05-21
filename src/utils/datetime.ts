@@ -38,7 +38,9 @@ const syncDayjsLocale = (lng?: string) => {
 };
 
 // 1) 앱 시작 시 최초 1회 동기화
-syncDayjsLocale(i18n.resolvedLanguage || i18n.language);
+if (i18n.isInitialized) {
+  syncDayjsLocale(i18n.resolvedLanguage || i18n.language);
+}
 
 // 2) 이후 언어 변경 이벤트 동기화
 i18n.on('languageChanged', syncDayjsLocale);
