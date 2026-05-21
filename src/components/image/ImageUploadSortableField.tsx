@@ -132,6 +132,7 @@ export function ImageUploadSortableField({
                         src={item.url}
                         className="iusf-image"
                         draggable={false}
+                        alt={label}
                       />
 
                       <Button
