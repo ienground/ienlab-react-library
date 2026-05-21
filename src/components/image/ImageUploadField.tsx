@@ -1,4 +1,5 @@
-import { CrossfadeImage, ImageUploadItem } from "@ienlab/react-library"
+import { ImageUploadItem } from "../../types"
+import { CrossfadeImage } from "./CrossfadeImage"
 import { useTranslation } from "react-i18next"
 import {
   DefaultField,
