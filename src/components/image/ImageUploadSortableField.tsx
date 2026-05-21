@@ -258,6 +258,7 @@ export function ImageUploadSortableField({
                       <CrossfadeImage
                         src={item.url}
                         className=""
+                        alt={label}
                         style={styles.image}
                         draggable={false}
                       />
