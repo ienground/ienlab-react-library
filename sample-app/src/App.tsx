@@ -71,7 +71,6 @@ export default function App() {
             //   FieldDescription,
             // }}
           />
-          dddddd
           <ImageUploadSortableField
             id="thumbnail"
             label="썸네일"
