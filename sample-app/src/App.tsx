@@ -1,9 +1,8 @@
 import {useState} from 'react'
-import { CrossfadeImage } from '@ienlab/react-library'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 import dayjs from "dayjs";
-import {ImageUploadField, ImageUploadItem, ImageUploadSortableField, useDateTimeFormatters} from "../../src";
+import {ImageUploadField, CrossfadeImage, ImageUploadItem, ImageUploadSortableField, useDateTimeFormatters} from "../../src";
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
 
