@@ -4,9 +4,16 @@ import {
   DefaultField,
   DefaultFieldDescription,
   DefaultFieldLabel,
-  DefaultInput, type DescriptionProps, type FieldProps,
-} from "../../types/image";
-import type {ComponentType, InputHTMLAttributes, LabelHTMLAttributes} from "react";
+  DefaultInput,
+  type DescriptionProps,
+  type FieldProps,
+} from "../../types/image"
+import type {
+  ComponentType,
+  InputHTMLAttributes,
+  LabelHTMLAttributes,
+} from "react"
+import "./image-upload.css"
 
 type InjectedComponents = {
   Input?: ComponentType<InputHTMLAttributes<HTMLInputElement>>
@@ -36,48 +43,45 @@ export function ImageUploadField({
                                    onChange,
                                    aspectRatio = "1 / 1",
                                    accept = "image/*",
-                                   components
+                                   components,
                                  }: ImageUploadFieldProps) {
   const { t } = useTranslation()
+
   const Field = components?.Field ?? DefaultField
   const FieldLabel = components?.FieldLabel ?? DefaultFieldLabel
-  const FieldDescription = components?.FieldDescription ?? DefaultFieldDescription
+  const FieldDescription =
+    components?.FieldDescription ?? DefaultFieldDescription
   const Input = components?.Input ?? DefaultInput
 
   return (
     <Field>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
-      <div className="space-y-4">
-        <label
-          htmlFor={id}
-          className="group block cursor-pointer"
-        >
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-background transition-colors hover:bg-accent/30">
-            <div className="relative w-full aspect-21/9">
+      <div className="iu-field">
+        <label htmlFor={id} className="iu-trigger">
+          <div className="iu-card">
+            <div className="iu-frame">
               {value.url ? (
-                <div className="absolute inset-0 p-6 md:p-8">
+                <div className="iu-image-layer">
                   <div
-                    className="m-auto max-h-full max-w-full"
+                    className="iu-image-box"
                     style={{ aspectRatio }}
                   >
                     <CrossfadeImage
-                      className="h-full w-full object-cover"
                       src={value.url}
+                      className="iu-image"
                     />
                   </div>
                 </div>
               ) : (
-                <div className="flex h-full w-full flex-col items-center justify-center gap-4 text-muted-foreground">
-                  <div className="rounded-2xl bg-muted px-4 py-3 text-sm">
-                    {t("libs:add_assets")}
-                  </div>
-                  <p className="text-sm">{uploadHintText}</p>
+                <div className="iu-empty">
+                  <div className="iu-badge">{t("libs:add_assets")}</div>
+                  <p className="iu-hint">{uploadHintText}</p>
                 </div>
               )}
             </div>
 
-            <div className="pointer-events-none absolute inset-0 ring-0 transition-all group-hover:ring-2 group-hover:ring-primary/20" />
+            <div className="iu-overlay" />
           </div>
         </label>
 
@@ -85,7 +89,7 @@ export function ImageUploadField({
           id={id}
           type="file"
           accept={accept}
-          className="hidden"
+          className="iu-hidden-input"
           onChange={(e) => {
             const file = e.target.files?.[0]
             if (!file) return
@@ -102,9 +106,9 @@ export function ImageUploadField({
             e.currentTarget.value = ""
           }}
         />
-      </div>
 
-      <FieldDescription>{descriptionText}</FieldDescription>
+        <FieldDescription>{descriptionText}</FieldDescription>
+      </div>
     </Field>
   )
 }

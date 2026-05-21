@@ -4,6 +4,7 @@ import type {
   ComponentType,
   InputHTMLAttributes,
   LabelHTMLAttributes,
+  CSSProperties,
 } from "react"
 
 import { ImageUploadItem } from "../../types"
@@ -26,6 +27,7 @@ import {
   type ScrollBarProps,
 } from "../../types/image"
 import { CrossfadeImage } from "./CrossfadeImage"
+import "./image-upload.css"
 
 type InjectedComponents = {
   Input?: ComponentType<InputHTMLAttributes<HTMLInputElement>>
@@ -48,7 +50,6 @@ type ImageUploadSortableFieldProps = {
   onChange: (items: ImageUploadItem[]) => void
   aspectRatio?: string
   accept?: string
-  cardRounded?: string
   components?: InjectedComponents
 }
 
@@ -61,7 +62,6 @@ export function ImageUploadSortableField({
                                            onChange,
                                            aspectRatio = "1 / 1",
                                            accept = "image/*",
-                                           cardRounded = "rounded-md",
                                            components,
                                          }: ImageUploadSortableFieldProps) {
   const { t } = useTranslation()
@@ -99,40 +99,44 @@ export function ImageUploadSortableField({
     onChange(nextItems)
   }
 
+  const cardStyle: CSSProperties = {
+    aspectRatio,
+  }
+
   return (
     <Field>
-      <div className="space-y-3">
-        <FieldLabel htmlFor={id}>{label}</FieldLabel>
+      <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
-        <div className="rounded-3xl border border-border bg-background">
-          <ScrollArea className="w-full whitespace-nowrap">
+      <div className="iusf-field">
+        <div className="iusf-container">
+          <ScrollArea className="iusf-scroll-area">
             <Reorder.Group
               axis="x"
               values={items}
               onReorder={onChange}
               layoutScroll
-              className="flex w-max gap-4 p-4"
+              className="iusf-list"
             >
               {items.map((item) => (
                 <Reorder.Item
                   key={item.url}
                   value={item}
-                  className="relative shrink-0"
+                  className="iusf-item"
                 >
                   <Card
-                    className={`w-60 overflow-hidden ${cardRounded} p-0`}
-                    style={{ aspectRatio }}
+                    className="iusf-card"
+                    style={cardStyle}
                   >
-                    <div className="relative h-full w-full">
+                    <div className="iusf-card-inner">
                       <CrossfadeImage
                         src={item.url}
-                        className="h-full w-full object-cover"
+                        className="iusf-image"
                         draggable={false}
                       />
 
                       <Button
                         type="button"
-                        className="absolute bottom-4 right-4 rounded-full shadow-sm"
+                        className="iusf-remove-button"
                         onClick={() => removeItem(item)}
                       >
                         <CloseIcon />
@@ -142,22 +146,23 @@ export function ImageUploadSortableField({
                 </Reorder.Item>
               ))}
 
-              <label htmlFor={id} className="block shrink-0 cursor-pointer">
+              <label htmlFor={id} className="iusf-upload-trigger">
                 <Card
-                  className={`w-60 overflow-hidden ${cardRounded} border-dashed p-0 transition-colors hover:bg-accent/30`}
-                  style={{ aspectRatio }}
+                  className="iusf-upload-card"
+                  style={cardStyle}
                 >
-                  <div className="flex h-full w-full flex-col items-center justify-center gap-4 text-muted-foreground">
-                    <div className="rounded-2xl bg-muted px-4 py-3 text-sm">
-                      {t("libs:add_assets")}
-                    </div>
-                    <p className="text-sm">{uploadHintText}</p>
+                  <div className="iusf-upload-inner">
+                    <div className="iu-badge">{t("libs:add_assets")}</div>
+                    <p className="iu-hint">{uploadHintText}</p>
                   </div>
                 </Card>
               </label>
             </Reorder.Group>
 
-            <ScrollBar orientation="horizontal" className="mx-4" />
+            <ScrollBar
+              orientation="horizontal"
+              className="iusf-scrollbar"
+            />
           </ScrollArea>
 
           <Input
@@ -165,7 +170,7 @@ export function ImageUploadSortableField({
             type="file"
             accept={accept}
             multiple
-            className="hidden"
+            className="iu-hidden-input"
             onChange={(e) => {
               handleFilesSelected(e.target.files)
               e.currentTarget.value = ""
