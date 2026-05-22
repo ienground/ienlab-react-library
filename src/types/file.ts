@@ -15,4 +15,8 @@ export class ImageUploadItem {
       URL.revokeObjectURL(this.url)
     }
   }
+
+  get isEmpty() {
+    return !this.file && !this.url
+  }
 }
