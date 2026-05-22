@@ -16,7 +16,7 @@ export class ImageUploadItem {
     }
   }
 
-  empty() {
-    return this.file === null && this.url.length === 0
+  get isEmpty() {
+    return !this.file && !this.url
   }
 }
