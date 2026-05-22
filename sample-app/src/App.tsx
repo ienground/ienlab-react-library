@@ -64,7 +64,7 @@ export default function App() {
     },
   ], [])
 
-  const itemsChildren = buildTreeWithSubRows(items, item => item.id, item => item.parentId, item => item.id === item.parentId)
+  const itemsChildren = useMemo(() => buildTreeWithSubRows(items, item => item.id, item => item.parentId, item => item.id === item.parentId), [items])
 
   return (
     <>
