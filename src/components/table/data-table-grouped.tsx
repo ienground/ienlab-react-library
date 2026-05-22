@@ -94,7 +94,7 @@ export function GroupedDataTable<TData, TValue>({columns, data, getRowId, select
               {row.getVisibleCells().map((cell, index) => {
                 // 첫 번째 컬럼(보통 체크박스나 제목)에 들여쓰기 적용
                 // row.depth가 0이면 0px, 1이면 20px, 2면 40px...
-                const indent = index === 0 ? row.depth * 24 : 0;
+                const indent = index === 0 ? row.depth * indentSize : 0;
 
                 return (
                   <TableCell
