@@ -27,6 +27,7 @@ interface GroupedDataTableProps<TData, TValue> {
   selectionState: [RowSelectionState, Dispatch<SetStateAction<RowSelectionState>>],
   onClick: (data: TData) => void
   components?: TableInjectedComponents
+  indentSize?: number
 }
 
 export function GroupedDataTable<TData, TValue>({columns, data, getRowId, selectionState, onClick, components}: GroupedDataTableProps<TData, TValue>) {
