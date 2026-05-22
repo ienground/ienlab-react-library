@@ -14,7 +14,7 @@ import {
   type LabelHTMLAttributes, useState,
 } from "react"
 import {ImageUploadItem} from "../../types";
-import {CrossfadeImage} from "./CrossfadeImage.tsx";
+import {CrossfadeImage} from "./CrossfadeImage";
 
 type InjectedComponents = {
   Input?: ComponentType<InputHTMLAttributes<HTMLInputElement>>
