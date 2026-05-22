@@ -30,7 +30,7 @@ interface GroupedDataTableProps<TData, TValue> {
   indentSize?: number
 }
 
-export function GroupedDataTable<TData, TValue>({columns, data, getRowId, selectionState, onClick, components}: GroupedDataTableProps<TData, TValue>) {
+export function GroupedDataTable<TData, TValue>({columns, data, getRowId, selectionState, onClick, components, indentSize = 24}: GroupedDataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = selectionState
 
   // eslint-disable-next-line react-hooks/incompatible-library
