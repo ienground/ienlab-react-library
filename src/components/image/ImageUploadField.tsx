@@ -45,6 +45,7 @@ const styles = {
   trigger: {
     display: "block",
     cursor: "pointer",
+    borderRadius: "1.5rem"
   } satisfies CSSProperties,
 
   card: {

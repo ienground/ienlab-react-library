@@ -1,10 +1,25 @@
-import {useState} from 'react'
+import {useMemo, useState} from 'react'
 import { useTranslation } from 'react-i18next'
 import './App.css'
 import dayjs from "dayjs";
-import {ImageUploadField, CrossfadeImage, ImageUploadItem, ImageUploadSortableField, useDateTimeFormatters} from "../../src";
+import {
+  ImageUploadField, CrossfadeImage, ImageUploadItem, ImageUploadSortableField, useDateTimeFormatters,
+  GroupedDataTable
+} from "../../src";
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
+import {buildTreeWithSubRows} from "../../src/utils/table";
+import type {ColumnDef, RowSelectionState} from "@tanstack/react-table";
+
+class Hi {
+  name: string = ""
+  parentId: string = ""
+  id: string = ""
+
+  constructor(partial: Partial<Hi>) {
+    Object.assign(this, partial)
+  }
+}
 
 export default function App() {
   const [count, setCount] = useState(0)
@@ -18,6 +33,38 @@ export default function App() {
   const time = dayjs()
   const [image, setImage] = useState<ImageUploadItem>(new ImageUploadItem({}))
   const [images, setImages] = useState<ImageUploadItem[]>([])
+
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const items = [
+    new Hi({ name: "name", parentId: "0", id: "0"}),
+    new Hi({ name: "name2", parentId: "0" , id: "3",}),
+    new Hi({ name: "name3", parentId: "1", id: "1",}),
+    new Hi({ name: "name4", parentId: "1", id: "4" }),
+    new Hi({ name: "name5", parentId: "1", id: "5" }),
+    new Hi({ name: "name6", parentId: "2" , id: "2"}),
+    new Hi({ name: "name7", parentId: "2" , id: "6"}),
+  ]
+
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
+  const columns: ColumnDef<Hi>[] = useMemo(() => [
+    {
+      id: "name",
+      header: () => (<div>name</div>),
+      cell: ({ row }) => (<div>{row.original.name}</div>),
+    },
+    {
+      id: "id",
+      header: () => (<div>id</div>),
+      cell: ({ row }) => (<div>{row.original.id}</div>),
+    },
+    {
+      id: "parentId",
+      header: () => (<div>parentId</div>),
+      cell: ({ row }) => (<div>{row.original.parentId}</div>),
+    },
+  ], [])
+
+  const itemsChildren = buildTreeWithSubRows(items, item => item.id, item => item.parentId, item => item.id === item.parentId)
 
   return (
     <>
@@ -83,6 +130,9 @@ export default function App() {
             //   FieldLabel,
             //   FieldDescription,
             // }}
+          />
+          <GroupedDataTable columns={columns} data={itemsChildren} getRowId={item => item.id} selectionState={[rowSelection, setRowSelection]} onClick={() => {}}
+
           />
         </div>
       </section>
