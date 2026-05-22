@@ -1,6 +1,6 @@
 import {getDownloadURL as getFbDownloadURL, ref, uploadBytes, type FirebaseStorage } from "firebase/storage";
 import {ImageUploadItem} from "../types";
-import {getFileExtension} from "./file.ts";
+import {getFileExtension} from "./file";
 
 /**
  * @param storage Firebase Storage 객체
