@@ -8,8 +8,15 @@ import {getFileExtension} from "./file";
  * @param item 업로드할 이미지
  * @return 업로드된 이미지의 URL
  */
-export async function getDownloadURL(storage: FirebaseStorage, path: string, item: ImageUploadItem) {
+export async function uploadImage(storage: FirebaseStorage, path: string, item: ImageUploadItem) {
   if (!item.file) return item.url
-  const imageRef = ref(storage, `${path}.${getFileExtension(item.file.name)}`)
-  return await uploadBytes(imageRef, item.file).then(result => getFbDownloadURL(result.ref))
+  try {
+    const extension = getFileExtension(item.file.name)
+    const imageRef = ref(storage, extension ? path + "." + extension : path)
+    const result = await uploadBytes(imageRef, item.file)
+    return await getFbDownloadURL(result.ref)
+  } catch (error) {
+    console.error("Firebase image upload failed:", error)
+    throw error
+  }
 }
