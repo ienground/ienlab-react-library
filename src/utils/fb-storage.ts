@@ -13,7 +13,9 @@ export async function uploadImage(storage: FirebaseStorage, path: string, item: 
   try {
     const extension = getFileExtension(item.file.name)
     const imageRef = ref(storage, extension ? path + "." + extension : path)
-    const result = await uploadBytes(imageRef, item.file)
+    const result = await uploadBytes(imageRef, item.file, {
+      contentType: item.file.type,
+    })
     return await getFbDownloadURL(result.ref)
   } catch (error) {
     console.error("Firebase image upload failed:", error)
