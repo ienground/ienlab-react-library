@@ -1,11 +1,13 @@
+export type TreeItem<T> = T & { subRows: TreeItem<T>[] };
+
 export function buildTreeWithSubRows<T, TId>(
   items: T[],
   getId: (item: T) => TId,
   getParentId: (item: T) => TId | null | undefined,
   isRoot?: (item: T) => boolean,
-): Array<T & { subRows: Array<T & { subRows: unknown[] }> }> {
-  const map = new Map<TId, T & { subRows: Array<T & { subRows: unknown[] }> }>()
-  const roots: Array<T & { subRows: Array<T & { subRows: unknown[] }> }> = []
+): TreeItem<T>[] {
+  const map = new Map<TId, TreeItem<T>>()
+  const roots: TreeItem<T>[] = []
 
   for (const item of items) {
     map.set(getId(item), { ...item, subRows: [] })
