@@ -35,7 +35,7 @@ export default function App() {
   const [images, setImages] = useState<ImageUploadItem[]>([])
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  const items = [
+  const items = useMemo(() => [
     new Hi({ name: "name", parentId: "0", id: "0"}),
     new Hi({ name: "name2", parentId: "0" , id: "3",}),
     new Hi({ name: "name3", parentId: "1", id: "1",}),
@@ -43,7 +43,7 @@ export default function App() {
     new Hi({ name: "name5", parentId: "1", id: "5" }),
     new Hi({ name: "name6", parentId: "2" , id: "2"}),
     new Hi({ name: "name7", parentId: "2" , id: "6"}),
-  ]
+  ], [])
 
   // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const columns: ColumnDef<Hi>[] = useMemo(() => [
