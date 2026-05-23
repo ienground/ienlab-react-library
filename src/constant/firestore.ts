@@ -1,21 +1,21 @@
 import { serverTimestamp } from "firebase/firestore"
 
 export const delItemLegacy = () => ({
-  "updateAt": serverTimestamp(),
-  "delete": true
+  updateAt: serverTimestamp(),
+  delete: true
 })
 
 export const undelItemLegacy = () => ({
-  "updateAt": serverTimestamp(),
-  "delete": false
+  updateAt: serverTimestamp(),
+  delete: false
 })
 
 export const delItem = () => ({
-  "updateAt": serverTimestamp(),
-  "deletedAt": serverTimestamp()
+  updateAt: serverTimestamp(),
+  deleteAt: serverTimestamp()
 })
 
 export const undelItem = () => ({
-  "updateAt": serverTimestamp(),
-  "deletedAt": null
+  updateAt: serverTimestamp(),
+  deleteAt: null
 })
