@@ -12,7 +12,7 @@ export interface FirestoreItemLegacy extends BaseFirestoreItem {
 }
 
 export interface FirestoreItem extends BaseFirestoreItem {
-  deleteAt: Timestamp | null,
+  deletedAt: Timestamp | null,
 }
 
 export interface InfScrollStateList<T> {
