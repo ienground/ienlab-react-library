@@ -12,10 +12,10 @@ export const undelItemLegacy = () => ({
 
 export const delItem = () => ({
   updateAt: serverTimestamp(),
-  deleteAt: serverTimestamp()
+  deletedAt: serverTimestamp()
 })
 
 export const undelItem = () => ({
   updateAt: serverTimestamp(),
-  deleteAt: null
+  deletedAt: null
 })
