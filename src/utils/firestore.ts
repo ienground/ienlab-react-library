@@ -7,7 +7,7 @@ import {documentId, getDoc, getDocs, query, type CollectionReference,
   Query,
   QuerySnapshot
 } from "firebase/firestore"
-import type {FirestoreItem} from "../types"
+import type {BaseFirestoreItem} from "../types"
 
 export function snapshotToData(snapshot: QueryDocumentSnapshot | DocumentSnapshot): DocumentData {
   return {
@@ -16,7 +16,7 @@ export function snapshotToData(snapshot: QueryDocumentSnapshot | DocumentSnapsho
   }
 }
 
-export async function fetchItems<T extends FirestoreItem>(
+export async function fetchItems<T extends BaseFirestoreItem>(
   collection: CollectionReference,
   changeMethod: ((snapshot: QueryDocumentSnapshot | DocumentSnapshot) => T),
   cache: Map<string, T>,
@@ -38,7 +38,7 @@ export async function fetchItems<T extends FirestoreItem>(
   }
 }
 
-export async function fetchItemsByOne<T extends FirestoreItem>(
+export async function fetchItemsByOne<T extends BaseFirestoreItem>(
   changeMethod: ((snapshot: QueryDocumentSnapshot | DocumentSnapshot) => T),
   cache: Map<string, T>,
   referenceArray: (DocumentReference | undefined | null)[] // 💡 DocumentReference 배열
