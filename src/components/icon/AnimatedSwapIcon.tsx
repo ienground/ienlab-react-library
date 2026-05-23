@@ -27,9 +27,9 @@ export function AnimatedSwapIcon({
     <div className={className}>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
-          key={loading ? "loading" : "idle"}
           {...defaultFadeProps}
           {...motionProps}
+          key={loading ? "loading" : "idle"}
         >
           {loading ? loadingNode : idleNode}
         </motion.div>
