@@ -1,4 +1,5 @@
-export type PageMode = "create" | "edit";
+export type PageMode = "create" | "edit"
+
 export type PageModeProps = {
-  mode: "create" | "edit"
+  mode: PageMode
 }
