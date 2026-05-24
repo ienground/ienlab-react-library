@@ -23,3 +23,5 @@ export interface InfScrollStateList<T> {
   isLoading: boolean
   hasMore: boolean
 }
+
+export type FirestoreListMode = "list" | "search"
