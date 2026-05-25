@@ -4,7 +4,7 @@ import './App.css'
 import dayjs from "dayjs";
 import {
   ImageUploadField, CrossfadeImage, ImageUploadItem, ImageUploadSortableField, useDateTimeFormatters,
-  GroupedDataTable
+  GroupedDataTable, Localized
 } from "../../src";
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
@@ -66,6 +66,7 @@ export default function App() {
 
   const itemsChildren = useMemo(() => buildTreeWithSubRows(items, item => item.id, item => item.parentId, item => item.id === item.parentId), [items])
 
+  const text: Localized<string> = { ko: "안녕", en: "Hello" }
   return (
     <>
       <section id="center">
@@ -88,7 +89,8 @@ export default function App() {
             <p>{t('libs:auth.errors.invalid_credential')}</p>
             <p>{t('strings:amount')}</p>
           </div>
-          
+          <div>{text.ko} / {text.en}</div>
+          <div>{Localized.get(text, "ko")}</div>
           <div style={{ margin: '20px 0' }}>
             <button onClick={() => changeLanguage('en')}>English</button>
             <button onClick={() => changeLanguage('ko')}>Korean</button>

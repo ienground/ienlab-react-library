@@ -15,6 +15,14 @@ export default defineConfig([
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
+    rules: {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-namespace": [
+        "error",
+        { allowDeclarationMerging: true } // 클래스/함수와 병합되는 namespace만 허용
+      ]
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
