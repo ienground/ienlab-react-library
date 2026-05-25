@@ -24,11 +24,17 @@
       "wrong_password": "Please check your email or password."
     }
   },
+  "cancel": "Cancel",
+  "confirm": "Confirm",
   "datetime": {
     "date_format": "MMMM D, YYYY",
     "date_time_format": "MMMM D, YYYY h:mm:ss A",
     "time_format": "h:mm:ss A"
   },
+  "delete_dialog_desc": "This item will be deleted.",
+  "delete_dialog_title": "Delete?",
   "no_results": "No results",
+  "quit_warning_title": "Discard all changes?",
+  "quite_warning_desc": "All changes will be canceled and you will go back to the previous screen.",
   "unknown_error_occurred": "Unknown error occurred."
 }
