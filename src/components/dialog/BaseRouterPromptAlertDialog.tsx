@@ -1,11 +1,11 @@
 import {useTranslation} from "react-i18next";
-import type AlertDialogProps from "./AlertDialogProps.ts"
 import {
   DefaultDialogContent, DefaultDialogDescription, DefaultDialogFooter,
   DefaultDialogHeader,
   DefaultDialogRoot, DefaultDialogTitle
 } from "../../types"
-import {DefaultButton} from "../../types/image.tsx"
+import {DefaultButton} from "../../types/image"
+import type {AlertDialogProps} from "./AlertDialogProps"
 
 export function BaseRouterPromptAlertDialog(props: AlertDialogProps) {
   const { t } = useTranslation()

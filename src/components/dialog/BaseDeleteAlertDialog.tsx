@@ -6,8 +6,8 @@ import {
   DefaultDialogRoot,
   DefaultDialogTitle
 } from "../../types"
-import type AlertDialogProps from "./AlertDialogProps.ts"
-import {DefaultButton} from "../../types/image.tsx"
+import {DefaultButton} from "../../types/image"
+import type {AlertDialogProps} from "./AlertDialogProps"
 
 export function BaseDeleteAlertDialog(props: AlertDialogProps) {
   const { t } = useTranslation()

@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next"
-import {DefaultField, DefaultFieldLabel} from "../../types/image.tsx"
-import type DateTimeSelectorProps from "./DateTimeSelectorProps.ts"
+import {DefaultField, DefaultFieldLabel} from "../../types/image"
 import {
   DefaultCalendar,
   DefaultFieldGroup, DefaultInputGroup,
@@ -8,10 +7,9 @@ import {
   DefaultInputGroupInput,
   DefaultTimeIcon
 } from "../../types"
+import type {DateTimeSelectorProps} from "./DateTimeSelectorProps"
 
-
-
-export function DateTimeSelector(props: DateTimeSelectorProps) {
+export function BaseDateTimeSelector(props: DateTimeSelectorProps) {
   const { t } = useTranslation()
 
   const timeValue = props.date
@@ -75,7 +73,7 @@ export function DateTimeSelector(props: DateTimeSelectorProps) {
               className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
             />
             <InputGroupAddon>
-              <TimeIcon />
+              <TimeIcon className="text-muted-foreground" />
             </InputGroupAddon>
           </InputGroup>
         </Field>

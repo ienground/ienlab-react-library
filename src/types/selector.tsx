@@ -1,5 +1,5 @@
 import type {ComponentType, InputHTMLAttributes, LabelHTMLAttributes, ReactNode} from "react"
-import type {FieldProps, IconProps} from "./image.tsx"
+import type {FieldProps, IconProps} from "./image"
 
 
 type CalendarProps = {
@@ -28,7 +28,7 @@ type InputGroupAddonProps = {
 }
 
 export type DateTimeSelectorInjectedComponents = {
-  Calendar?: ComponentType<CalendarProps>
+  Calendar?: ComponentType<any>
   Field?: ComponentType<FieldProps>
   FieldLabel?: ComponentType<LabelHTMLAttributes<HTMLLabelElement>>
   FieldGroup?: ComponentType<FieldGroupProps>

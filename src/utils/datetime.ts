@@ -18,9 +18,9 @@ export function useDateTimeFormatters() {
 
   return useMemo(() => ({
     basicDateTimeFormat: (date: Date, formatKey: string) => formatBaseDateTime(date, formatKey, t),
-    dateTimeFormat: (date: Date) => formatBaseDateTime(date, "libs:selector.date_time_format", t),
-    dateFormat: (date: Date) => formatBaseDateTime(date, "libs:selector.date_format", t),
-    timeFormat: (date: Date) => formatBaseDateTime(date, "libs:selector.time_format", t),
+    dateTimeFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.date_time_format", t),
+    dateFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.date_format", t),
+    timeFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.time_format", t),
   }), [t]);
 }
 
