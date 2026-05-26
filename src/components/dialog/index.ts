@@ -1,3 +1,3 @@
 export * from "./AlertDialogProps"
-export * from "./DeleteAlertDialog"
-export * from "./RouterPromptAlertDialog"
+export * from "./BaseDeleteAlertDialog"
+export * from "./BaseRouterPromptAlertDialog"

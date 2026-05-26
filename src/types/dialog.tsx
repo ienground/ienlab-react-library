@@ -14,17 +14,19 @@ export type DialogHeaderProps = HTMLAttributes<HTMLDivElement>
 export type DialogTitleProps = HTMLAttributes<HTMLHeadingElement>
 export type DialogDescriptionProps = HTMLAttributes<HTMLParagraphElement>
 export type DialogFooterProps = HTMLAttributes<HTMLDivElement>
-export type DialogButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
+export type DialogButtonProps =
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: "default" | "outline" | "destructive" | "secondary" | "ghost" | "link"
+}
 
 export type AlertDialogInjectedComponents = {
-  DialogRoot?: ComponentType<DialogRootProps>
-  DialogContent?: ComponentType<DialogContentProps>
-  DialogHeader?: ComponentType<DialogHeaderProps>
-  DialogTitle?: ComponentType<DialogTitleProps>
-  DialogDescription?: ComponentType<DialogDescriptionProps>
-  DialogFooter?: ComponentType<DialogFooterProps>
-  CancelButton?: ComponentType<DialogButtonProps>
-  ConfirmButton?: ComponentType<DialogButtonProps>
+  AlertDialog?: ComponentType<DialogRootProps>
+  AlertDialogContent?: ComponentType<DialogContentProps>
+  AlertDialogHeader?: ComponentType<DialogHeaderProps>
+  AlertDialogTitle?: ComponentType<DialogTitleProps>
+  AlertDialogDescription?: ComponentType<DialogDescriptionProps>
+  AlertDialogFooter?: ComponentType<DialogFooterProps>
+  Button?: ComponentType<DialogButtonProps>
 }
 
 export const DefaultDialogRoot = ({ open, children }: DialogRootProps) => {
@@ -37,5 +39,3 @@ export const DefaultDialogHeader = (props: DialogHeaderProps) => <div {...props}
 export const DefaultDialogTitle = (props: DialogTitleProps) => <h2 {...props} />
 export const DefaultDialogDescription = (props: DialogDescriptionProps) => <p {...props} />
 export const DefaultDialogFooter = (props: DialogFooterProps) => <div {...props} />
-export const DefaultCancelButton = (props: DialogButtonProps) => <button type="button" {...props} />
-export const DefaultConfirmButton = (props: DialogButtonProps) => <button type="button" {...props} />

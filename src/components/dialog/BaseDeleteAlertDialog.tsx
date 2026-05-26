@@ -1,0 +1,47 @@
+import { useTranslation } from "react-i18next"
+import {
+  DefaultDialogContent,
+  DefaultDialogDescription, DefaultDialogFooter,
+  DefaultDialogHeader,
+  DefaultDialogRoot,
+  DefaultDialogTitle
+} from "../../types"
+import type AlertDialogProps from "./AlertDialogProps.ts"
+import {DefaultButton} from "../../types/image.tsx"
+
+export function BaseDeleteAlertDialog(props: AlertDialogProps) {
+  const { t } = useTranslation()
+
+  const AlertDialog = props.components?.AlertDialog ?? DefaultDialogRoot
+  const AlertDialogContent = props.components?.AlertDialogContent ?? DefaultDialogContent
+  const AlertDialogHeader = props.components?.AlertDialogHeader ?? DefaultDialogHeader
+  const AlertDialogTitle = props.components?.AlertDialogTitle ?? DefaultDialogTitle
+  const AlertDialogDescription = props.components?.AlertDialogDescription ?? DefaultDialogDescription
+  const AlertDialogFooter = props.components?.AlertDialogFooter ?? DefaultDialogFooter
+  const Button = props.components?.Button ?? DefaultButton
+
+  return (
+    <AlertDialog open={props.visible} onOpenChange={props.onVisibleChange}>
+      <AlertDialogContent role="alertdialog" aria-modal="true">
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("libs:delete_dialog_title")}</AlertDialogTitle>
+          <AlertDialogDescription>{t("libs:delete_dialog_desc")}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <Button
+            variant="outline"
+            onClick={() => props.onVisibleChange(false)}
+          >
+            {t("libs:cancel")}
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={props.onConfirm}
+          >
+            {t("libs:confirm")}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
