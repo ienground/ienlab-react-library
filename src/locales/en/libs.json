@@ -36,5 +36,6 @@
   "no_results": "No results",
   "quit_warning_title": "Discard all changes?",
   "quite_warning_desc": "All changes will be canceled and you will go back to the previous screen.",
+  "time": "Time",
   "unknown_error_occurred": "Unknown error occurred."
 }
