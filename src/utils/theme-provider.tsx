@@ -8,6 +8,7 @@ type ThemeProviderProps = {
   children: React.ReactNode
   defaultTheme?: Theme
   storageKey?: string
+  themeExpiryHours?: number
 }
 
 type ThemeProviderState = {
@@ -28,10 +29,31 @@ export function ThemeProvider({
                                 children,
                                 defaultTheme = "system",
                                 storageKey = "vite-ui-theme",
+                                themeExpiryHours = 24
                               }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  const [theme, setTheme] = useState<Theme>(() => {
+    const storedTheme = localStorage.getItem(storageKey)
+    
+    // 저장된 테마가 있는지 확인
+    if (storedTheme) {
+      try {
+        const parsed = JSON.parse(storedTheme)
+        // 유통기한 검사
+        if (parsed && parsed.theme) {
+          const storedTime = parsed.time
+          const currentTime = Date.now()
+          const expiryTime = themeExpiryHours * 60 * 60 * 1000 // 시간을 밀리초로 변환
+          if (currentTime - storedTime < expiryTime) {
+            return parsed.theme
+          }
+        }
+      } catch (e) {
+        // 파싱 실패 시 기본 테마 반환
+        console.warn("Failed to parse stored theme:", e)
+      }
+    }
+    return defaultTheme
+  })
 
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() =>
     window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
@@ -63,11 +85,16 @@ export function ThemeProvider({
       theme,
       resolvedTheme,
       setTheme: (theme: Theme) => {
-        localStorage.setItem(storageKey, theme)
+        // 테마와 현재 시간을 함께 저장
+        const themeData = {
+          theme,
+          time: Date.now()
+        }
+        localStorage.setItem(storageKey, JSON.stringify(themeData))
         setTheme(theme)
       },
     }),
-    [theme, resolvedTheme, storageKey]
+    [theme, resolvedTheme, storageKey, themeExpiryHours]
   )
 
   return (
