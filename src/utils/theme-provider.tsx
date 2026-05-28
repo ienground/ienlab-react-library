@@ -94,7 +94,7 @@ export function ThemeProvider({
         setTheme(theme)
       },
     }),
-    [theme, resolvedTheme, storageKey, themeExpiryHours]
+    [theme, resolvedTheme, storageKey]
   )
 
   return (
