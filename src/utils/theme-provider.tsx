@@ -1,5 +1,5 @@
 import * as React from "react"
-import {createContext, useContext, useEffect, useMemo, useState} from "react"
+import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
 type Theme = "dark" | "light" | "system"
 type ResolvedTheme = "dark" | "light"
@@ -17,6 +17,11 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void
 }
 
+type StoredThemeData = {
+  theme: Theme
+  time: number
+}
+
 const initialState: ThemeProviderState = {
   theme: "system",
   resolvedTheme: "light",
@@ -25,38 +30,69 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
+const isTheme = (value: unknown): value is Theme => {
+  return value === "light" || value === "dark" || value === "system"
+}
+
+const readStoredTheme = (
+  storageKey: string,
+  defaultTheme: Theme,
+  themeExpiryHours: number
+): Theme => {
+  const storedTheme = localStorage.getItem(storageKey)
+  if (!storedTheme) return defaultTheme
+
+  try {
+    const parsed: unknown = JSON.parse(storedTheme)
+
+    if (isTheme(parsed)) {
+      return parsed
+    }
+
+    if (
+      parsed &&
+      typeof parsed === "object" &&
+      "theme" in parsed &&
+      "time" in parsed
+    ) {
+      const data = parsed as StoredThemeData
+
+      if (!isTheme(data.theme)) {
+        return defaultTheme
+      }
+
+      if (typeof data.time !== "number") {
+        return defaultTheme
+      }
+
+      const currentTime = Date.now()
+      const expiryTime = themeExpiryHours * 60 * 60 * 1000
+
+      if (currentTime - data.time < expiryTime) {
+        return data.theme
+      }
+
+      localStorage.removeItem(storageKey)
+      return defaultTheme
+    }
+  } catch {
+    if (isTheme(storedTheme)) {
+      return storedTheme
+    }
+  }
+
+  return defaultTheme
+}
+
 export function ThemeProvider({
                                 children,
                                 defaultTheme = "system",
                                 storageKey = "vite-ui-theme",
-                                themeExpiryHours = 24
+                                themeExpiryHours = 24,
                               }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const storedTheme = localStorage.getItem(storageKey)
-
-    // 저장된 테마가 있는지 확인
-    if (storedTheme) {
-      try {
-        const parsed = JSON.parse(storedTheme)
-        // 유통기한 검사
-        if (parsed && typeof parsed === "object" && parsed.theme) {
-          const storedTime = parsed.time
-          const currentTime = Date.now()
-          const expiryTime = themeExpiryHours * 60 * 60 * 1000 // 시간을 밀리초로 변환
-          if (currentTime - storedTime < expiryTime) {
-            return parsed.theme
-          }
-        }
-      } catch (e) {
-        // 하위 호환성: 기존에 JSON 형식이 아닌 일반 문자열("light", "dark", "system")로 저장되어 있던 경우
-        if (storedTheme === "light" || storedTheme === "dark" || storedTheme === "system") {
-          return storedTheme as Theme
-        }
-        console.warn("Failed to parse stored theme:", e)
-      }
-    }
-    return defaultTheme
-  })
+  const [theme, setThemeState] = useState<Theme>(() =>
+    readStoredTheme(storageKey, defaultTheme, themeExpiryHours)
+  )
 
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>(() =>
     window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
@@ -78,23 +114,24 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
+    const safeTheme: ResolvedTheme = resolvedTheme === "dark" ? "dark" : "light"
 
     root.classList.remove("light", "dark")
-    root.classList.add(resolvedTheme)
+    root.classList.add(safeTheme)
   }, [resolvedTheme])
 
   const value = useMemo(
     () => ({
       theme,
       resolvedTheme,
-      setTheme: (theme: Theme) => {
-        // 테마와 현재 시간을 함께 저장
-        const themeData = {
-          theme,
-          time: Date.now()
+      setTheme: (nextTheme: Theme) => {
+        const themeData: StoredThemeData = {
+          theme: nextTheme,
+          time: Date.now(),
         }
+
         localStorage.setItem(storageKey, JSON.stringify(themeData))
-        setTheme(theme)
+        setThemeState(nextTheme)
       },
     }),
     [theme, resolvedTheme, storageKey]
@@ -107,6 +144,4 @@ export function ThemeProvider({
   )
 }
 
-export const useTheme = () => {
-  return useContext(ThemeProviderContext)
-}
+export const useTheme = () => useContext(ThemeProviderContext)
