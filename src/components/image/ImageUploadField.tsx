@@ -52,8 +52,8 @@ const styles = {
     position: "relative",
     overflow: "hidden",
     borderRadius: "1.5rem",
-    border: "1px solid #e5e7eb",
-    backgroundColor: "#ffffff",
+    border: "1px solid var(--border)",
+    backgroundColor: "var(--card)",
     transition: "background-color 160ms ease, box-shadow 160ms ease",
   } satisfies CSSProperties,
 
@@ -90,7 +90,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     gap: "1rem",
-    color: "#6b7280",
+    color: "var(--muted-foreground)",
     textAlign: "center",
     padding: "1rem",
     boxSizing: "border-box",
@@ -98,11 +98,11 @@ const styles = {
 
   badge: {
     borderRadius: "1rem",
-    backgroundColor: "#f3f4f6",
+    backgroundColor: "var(--secondary)",
     padding: "0.75rem 1rem",
     fontSize: "0.875rem",
     lineHeight: 1.2,
-    color: "#111827",
+    color: "var(--secondary-foreground)",
   } satisfies CSSProperties,
 
   hint: {
@@ -155,7 +155,7 @@ export function ImageUploadField({
           htmlFor={id}
           style={{
             ...styles.trigger,
-            backgroundColor: isHovered ? "#f9fafb" : "#ffffff",
+            backgroundColor: isHovered ? "var(--accent)" : "var(--card)",
           }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
