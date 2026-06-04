@@ -1,6 +1,6 @@
 {
   "name": "@ienlab/react-library",
-  "version": "0.17.0-beta.31",
+  "version": "0.17.0-beta.32",
   "description": "My React component library",
   "main": "./dist/my-library.cjs.js",
   "module": "./dist/my-library.es.js",
