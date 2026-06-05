@@ -12,44 +12,47 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#039;")
 }
 
+function replaceMetaContent(
+  html: string,
+  attrName: "name" | "property",
+  attrValue: string,
+  newContent: string,
+): string {
+  const metaRegex = /<meta\s[^>]*\/?>/gi
+
+  return html.replace(metaRegex, (tag) => {
+    const hasTarget = new RegExp(
+      `\\s${attrName}=["']${attrValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`,
+      "i",
+    ).test(tag)
+
+    if (!hasTarget) return tag
+    return tag.replace(
+      /content=["']([^"']*)["']/i,
+      `content="${newContent}"`,
+    )
+  })
+}
+
 export function replaceOGTags(html: string, og: OGData): string {
   const t = escapeHtml(og.title)
   const d = escapeHtml(og.description)
   const i = escapeHtml(og.image)
 
-  return html
-    .replace(
-      /(<title[^>]*>)[^<]*(<\/title>)/i,
-      (_, open, close) => `${open}${t}${close}`,
-    )
-    .replace(
-      /(<meta\s+name=["']description["']\s+content=["'])[^"']*(["'])/i,
-      (_, pre, post) => `${pre}${d}${post}`,
-    )
-    .replace(
-      /(<meta\s+property=["']og:title["']\s+content=["'])[^"']*(["'])/i,
-      (_, pre, post) => `${pre}${t}${post}`,
-    )
-    .replace(
-      /(<meta\s+property=["']og:description["']\s+content=["'])[^"']*(["'])/i,
-      (_, pre, post) => `${pre}${d}${post}`,
-    )
-    .replace(
-      /(<meta\s+property=["']og:image["']\s+content=["'])[^"']*(["'])/i,
-      (_, pre, post) => `${pre}${i}${post}`,
-    )
-    .replace(
-      /(<meta\s+name=["']twitter:title["']\s+content=["'])[^"']*(["'])/i,
-      (_, pre, post) => `${pre}${t}${post}`,
-    )
-    .replace(
-      /(<meta\s+name=["']twitter:description["']\s+content=["'])[^"']*(["'])/i,
-      (_, pre, post) => `${pre}${d}${post}`,
-    )
-    .replace(
-      /(<meta\s+name=["']twitter:image["']\s+content=["'])[^"']*(["'])/i,
-      (_, pre, post) => `${pre}${i}${post}`,
-    )
+  let result = html.replace(
+    /(<title[^>]*>)[^<]*(<\/title>)/i,
+    (_, open, close) => `${open}${t}${close}`,
+  )
+
+  result = replaceMetaContent(result, "name", "description", d)
+  result = replaceMetaContent(result, "property", "og:title", t)
+  result = replaceMetaContent(result, "property", "og:description", d)
+  result = replaceMetaContent(result, "property", "og:image", i)
+  result = replaceMetaContent(result, "name", "twitter:title", t)
+  result = replaceMetaContent(result, "name", "twitter:description", d)
+  result = replaceMetaContent(result, "name", "twitter:image", i)
+
+  return result
 }
 
 export function generateOGPages(
