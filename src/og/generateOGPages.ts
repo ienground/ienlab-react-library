@@ -18,34 +18,37 @@ export function replaceOGTags(html: string, og: OGData): string {
   const i = escapeHtml(og.image)
 
   return html
-    .replace(/(<title>)[^<]*(<\/title>)/, (_, open, close) => `${open}${t}${close}`)
     .replace(
-      /(<meta\s+name="description"\s+content=")[^"]*(")/,
-      (_, pre, quote) => `${pre}${d}${quote}`,
+      /(<title[^>]*>)[^<]*(<\/title>)/i,
+      (_, open, close) => `${open}${t}${close}`,
     )
     .replace(
-      /(<meta\s+property="og:title"\s+content=")[^"]*(")/,
-      (_, pre, quote) => `${pre}${t}${quote}`,
+      /(<meta\s+name=["']description["']\s+content=["'])[^"']*(["'])/i,
+      (_, pre, post) => `${pre}${d}${post}`,
     )
     .replace(
-      /(<meta\s+property="og:description"\s+content=")[^"]*(")/,
-      (_, pre, quote) => `${pre}${d}${quote}`,
+      /(<meta\s+property=["']og:title["']\s+content=["'])[^"']*(["'])/i,
+      (_, pre, post) => `${pre}${t}${post}`,
     )
     .replace(
-      /(<meta\s+property="og:image"\s+content=")[^"]*(")/,
-      (_, pre, quote) => `${pre}${i}${quote}`,
+      /(<meta\s+property=["']og:description["']\s+content=["'])[^"']*(["'])/i,
+      (_, pre, post) => `${pre}${d}${post}`,
     )
     .replace(
-      /(<meta\s+name="twitter:title"\s+content=")[^"]*(")/,
-      (_, pre, quote) => `${pre}${t}${quote}`,
+      /(<meta\s+property=["']og:image["']\s+content=["'])[^"']*(["'])/i,
+      (_, pre, post) => `${pre}${i}${post}`,
     )
     .replace(
-      /(<meta\s+name="twitter:description"\s+content=")[^"]*(")/,
-      (_, pre, quote) => `${pre}${d}${quote}`,
+      /(<meta\s+name=["']twitter:title["']\s+content=["'])[^"']*(["'])/i,
+      (_, pre, post) => `${pre}${t}${post}`,
     )
     .replace(
-      /(<meta\s+name="twitter:image"\s+content=")[^"]*(")/,
-      (_, pre, quote) => `${pre}${i}${quote}`,
+      /(<meta\s+name=["']twitter:description["']\s+content=["'])[^"']*(["'])/i,
+      (_, pre, post) => `${pre}${d}${post}`,
+    )
+    .replace(
+      /(<meta\s+name=["']twitter:image["']\s+content=["'])[^"']*(["'])/i,
+      (_, pre, post) => `${pre}${i}${post}`,
     )
 }
 
