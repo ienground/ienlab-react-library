@@ -1,6 +1,6 @@
 {
   "name": "@ienlab/react-library",
-  "version": "0.17.0-beta.32",
+  "version": "0.17.0-beta.33",
   "description": "My React component library",
   "main": "./dist/my-library.cjs.js",
   "module": "./dist/my-library.es.js",
@@ -13,6 +13,10 @@
       "import": "./dist/my-library.es.js",
       "require": "./dist/my-library.cjs.js",
       "types": "./dist/index.d.ts"
+    },
+    "./og": {
+      "import": "./dist/og/index.js",
+      "types": "./dist/og/index.d.ts"
     }
   },
   "sideEffects": [
@@ -22,7 +26,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run build:og",
+    "build:og": "tsc -p tsconfig.node-out.json",
     "lint": "eslint .",
     "preview": "vite preview"
   },
