@@ -3,36 +3,49 @@ import {existsSync, mkdirSync, readFileSync, writeFileSync} from "node:fs"
 import {join} from "node:path"
 import type {OGData} from "./types.js"
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+}
+
 export function replaceOGTags(html: string, og: OGData): string {
+  const t = escapeHtml(og.title)
+  const d = escapeHtml(og.description)
+  const i = escapeHtml(og.image)
+
   return html
-    .replace(/(<title>)[^<]*(<\/title>)/, `$1${og.title}$2`)
+    .replace(/(<title>)[^<]*(<\/title>)/, (_, open, close) => `${open}${t}${close}`)
     .replace(
       /(<meta\s+name="description"\s+content=")[^"]*(")/,
-      `$1${og.description}$2`,
+      (_, pre, quote) => `${pre}${d}${quote}`,
     )
     .replace(
       /(<meta\s+property="og:title"\s+content=")[^"]*(")/,
-      `$1${og.title}$2`,
+      (_, pre, quote) => `${pre}${t}${quote}`,
     )
     .replace(
       /(<meta\s+property="og:description"\s+content=")[^"]*(")/,
-      `$1${og.description}$2`,
+      (_, pre, quote) => `${pre}${d}${quote}`,
     )
     .replace(
       /(<meta\s+property="og:image"\s+content=")[^"]*(")/,
-      `$1${og.image}$2`,
+      (_, pre, quote) => `${pre}${i}${quote}`,
     )
     .replace(
       /(<meta\s+name="twitter:title"\s+content=")[^"]*(")/,
-      `$1${og.title}$2`,
+      (_, pre, quote) => `${pre}${t}${quote}`,
     )
     .replace(
       /(<meta\s+name="twitter:description"\s+content=")[^"]*(")/,
-      `$1${og.description}$2`,
+      (_, pre, quote) => `${pre}${d}${quote}`,
     )
     .replace(
       /(<meta\s+name="twitter:image"\s+content=")[^"]*(")/,
-      `$1${og.image}$2`,
+      (_, pre, quote) => `${pre}${i}${quote}`,
     )
 }
 

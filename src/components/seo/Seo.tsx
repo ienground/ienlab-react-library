@@ -10,9 +10,10 @@ type Props = {
 
 export function Seo({title, description, image, fallbackImage}: Props) {
   const fullTitle = title
-  const defaultOGImage = `${window.location.origin}/og/og-default.png`
+  const isClient = typeof window !== "undefined"
+  const defaultOGImage = isClient ? `${window.location.origin}/og/og-default.png` : ""
   const ogImage = image ?? fallbackImage ?? defaultOGImage
-  const url = window.location.href
+  const url = isClient ? window.location.href : ""
 
   return (
     <Helmet>
