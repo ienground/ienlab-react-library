@@ -138,6 +138,24 @@ const styles = {
   } satisfies CSSProperties,
 } as const
 
+/**
+ * 단일 이미지 업로드 필드 컴포넌트.
+ * 클릭 또는 드래그 앤 드롭으로 이미지를 업로드하며, 업로드 전 유효성 검사를 수행합니다.
+ *
+ * @param id - input 요소의 id (label htmlFor 연결)
+ * @param label - 필드 레이블 텍스트
+ * @param uploadHintText - 업로드 영역에 표시할 힌트 텍스트
+ * @param descriptionText - 필드 설명 텍스트
+ * @param value - 현재 업로드된 이미지 아이템
+ * @param onChange - 이미지 변경 시 호출되는 콜백
+ * @param aspectRatio - 이미지 표시 영역의 종횡비 (기본값 "1 / 1")
+ * @param accept - 허용할 파일 MIME 타입 (기본값 "image/*")
+ * @param requiredSize - 필수 이미지 크기 (예: "1920x1080")
+ * @param maxSize - 최대 이미지 크기 (예: "3840x2160")
+ * @param maxFileSizeMB - 최대 파일 크기 (MB 단위)
+ * @param requiredAspectRatio - 종횡비 검증 활성화 여부
+ * @param components - 주입 가능한 커스텀 컴포넌트
+ */
 export function ImageUploadField({
                                     id,
                                     label,
@@ -176,6 +194,7 @@ export function ImageUploadField({
   const [isDragOver, setIsDragOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+  /** 유효성 검증 실패 결과를 다국어 문자열로 변환합니다 */
   const getErrorString = (result: Extract<ImageValidationError, {ok: false}>): string => {
     switch (result.type) {
       case "requiredSize":
@@ -189,6 +208,7 @@ export function ImageUploadField({
     }
   }
 
+  /** 선택된 파일을 검증하고 유효하면 ImageUploadItem으로 변환하여 onChange로 전달합니다 */
   const acceptFile = async (file: File) => {
     setErrorMessage(null)
     const url = URL.createObjectURL(file)
@@ -206,18 +226,21 @@ export function ImageUploadField({
     onChange(new ImageUploadItem({file, url}))
   }
 
+  /** 드래그 오버 시 기본 동작을 방지하고 isDragOver 상태를 true로 설정합니다 */
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsDragOver(true)
   }
 
+  /** 드래그 리브 시 기본 동작을 방지하고 isDragOver 상태를 false로 설정합니다 */
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsDragOver(false)
   }
 
+  /** 드롭된 파일을 수락하고 검증 후 업로드합니다 */
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()

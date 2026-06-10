@@ -215,6 +215,24 @@ const styles = {
   } satisfies CSSProperties,
 } as const
 
+/**
+ * 정렬 가능한 다중 이미지 업로드 필드 컴포넌트.
+ * 드래그 앤 드롭으로 이미지를 업로드하고, Reorder를 통해 순서를 변경할 수 있습니다.
+ *
+ * @param id - input 요소의 id (label htmlFor 연결)
+ * @param label - 필드 레이블 텍스트
+ * @param descriptionText - 필드 설명 텍스트
+ * @param uploadHintText - 업로드 영역에 표시할 힌트 텍스트
+ * @param items - 현재 업로드된 이미지 아이템 배열
+ * @param onChange - 이미지 목록 변경 시 호출되는 콜백
+ * @param aspectRatio - 이미지 카드의 종횡비 (기본값 "1 / 1")
+ * @param accept - 허용할 파일 MIME 타입 (기본값 "image/*")
+ * @param requiredSize - 필수 이미지 크기 (예: "1920x1080")
+ * @param maxSize - 최대 이미지 크기 (예: "3840x2160")
+ * @param maxFileSizeMB - 최대 파일 크기 (MB 단위)
+ * @param requiredAspectRatio - 종횡비 검증 활성화 여부
+ * @param components - 주입 가능한 커스텀 컴포넌트
+ */
 export function ImageUploadSortableField({
                                             id,
                                             label,
@@ -254,6 +272,7 @@ export function ImageUploadSortableField({
   const [isDragOver, setIsDragOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+  /** 유효성 검증 실패 결과를 다국어 문자열로 변환합니다 */
   const getErrorString = (result: Extract<ImageValidationError, {ok: false}>): string => {
     switch (result.type) {
       case "requiredSize":
@@ -267,11 +286,13 @@ export function ImageUploadSortableField({
     }
   }
 
+  /** target 아이템을 목록에서 제거하고 URL을 해제합니다 */
   const removeItem = (target: ImageUploadItem) => {
     target.revokeIfNeeded()
     onChange(items.filter((item) => item !== target))
   }
 
+  /** 선택된 파일들을 검증하고 ImageUploadItem 배열로 변환하여 기존 목록에 추가합니다 */
   const handleFilesSelected = async (files: FileList | null) => {
     if (!files || files.length === 0) return
 
@@ -303,12 +324,14 @@ export function ImageUploadSortableField({
     onChange(nextItems)
   }
 
+  /** 드래그 오버 시 기본 동작을 방지하고 isDragOver 상태를 true로 설정합니다 */
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
     setIsDragOver(true)
   }
 
+  /** 드래그 리브 시 기본 동작을 방지하고, 외부로 나간 경우에만 isDragOver를 false로 설정합니다 */
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -317,6 +340,7 @@ export function ImageUploadSortableField({
     }
   }
 
+  /** 드롭된 파일들을 수락하고 검증 후 목록에 추가합니다 */
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
