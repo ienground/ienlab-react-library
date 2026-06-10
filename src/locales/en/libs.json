@@ -4,6 +4,7 @@
   "validation_image_required_size": "Image must be exactly {{size}}",
   "validation_image_max_size": "Image must not exceed {{size}}",
   "validation_image_oversize": "File must not exceed {{size}}MB",
+  "validation_image_aspect_ratio": "Image must have aspect ratio of {{ratio}}",
   "auth": {
     "errors": {
       "account_exists_with_different_credential": "This email is already linked to another sign-in method. Please use that method to sign in.",

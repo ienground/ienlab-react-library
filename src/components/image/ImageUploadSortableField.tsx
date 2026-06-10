@@ -47,7 +47,7 @@ type InjectedComponents = {
   CloseIcon?: ComponentType<IconProps>
 }
 
-type ImageUploadSortableFieldProps = ImageValidationOptions & {
+type ImageUploadSortableFieldProps = {
   id: string
   label: string
   descriptionText: string
@@ -57,6 +57,10 @@ type ImageUploadSortableFieldProps = ImageValidationOptions & {
   aspectRatio?: string
   accept?: string
   components?: InjectedComponents
+  requiredSize?: string
+  maxSize?: string
+  maxFileSizeMB?: number
+  requiredAspectRatio?: boolean
 }
 
 const styles = {
@@ -223,11 +227,17 @@ export function ImageUploadSortableField({
                                             requiredSize,
                                             maxSize,
                                             maxFileSizeMB,
+                                            requiredAspectRatio,
                                             components,
                                           }: ImageUploadSortableFieldProps) {
   const { t } = useTranslation()
 
-  const validationOptions: ImageValidationOptions = {requiredSize, maxSize, maxFileSizeMB}
+  const validationOptions: ImageValidationOptions = {
+    requiredSize,
+    maxSize,
+    maxFileSizeMB,
+    requiredAspectRatio: requiredAspectRatio ? aspectRatio : undefined,
+  }
 
   const Field = components?.Field ?? DefaultField
   const FieldLabel = components?.FieldLabel ?? DefaultFieldLabel
@@ -252,6 +262,8 @@ export function ImageUploadSortableField({
         return t("libs:validation_image_max_size", {size: `${result.maxWidth}x${result.maxHeight}`})
       case "maxFileSize":
         return t("libs:validation_image_oversize", {size: result.maxSizeMB})
+      case "requiredAspectRatio":
+        return t("libs:validation_image_aspect_ratio", {ratio: result.ratio})
     }
   }
 

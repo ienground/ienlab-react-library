@@ -30,7 +30,7 @@ type InjectedComponents = {
   FieldDescription?: ComponentType<DescriptionProps>
 }
 
-type ImageUploadFieldProps = ImageValidationOptions & {
+type ImageUploadFieldProps = {
   id: string
   label: string
   uploadHintText: string
@@ -40,6 +40,10 @@ type ImageUploadFieldProps = ImageValidationOptions & {
   aspectRatio?: string
   accept?: string
   components?: InjectedComponents
+  requiredSize?: string
+  maxSize?: string
+  maxFileSizeMB?: number
+  requiredAspectRatio?: boolean
 }
 
 const styles = {
@@ -146,6 +150,7 @@ export function ImageUploadField({
                                     requiredSize,
                                     maxSize,
                                     maxFileSizeMB,
+                                    requiredAspectRatio,
                                     components,
                                   }: ImageUploadFieldProps) {
   const {t} = useTranslation()
@@ -156,7 +161,12 @@ export function ImageUploadField({
     components?.FieldDescription ?? DefaultFieldDescription
   const Input = components?.Input ?? DefaultInput
 
-  const validationOptions: ImageValidationOptions = {requiredSize, maxSize, maxFileSizeMB}
+  const validationOptions: ImageValidationOptions = {
+    requiredSize,
+    maxSize,
+    maxFileSizeMB,
+    requiredAspectRatio: requiredAspectRatio ? aspectRatio : undefined,
+  }
 
   const imageBoxStyle: CSSProperties = {
     ...styles.imageBox,
@@ -174,6 +184,8 @@ export function ImageUploadField({
         return t("libs:validation_image_max_size", {size: `${result.maxWidth}x${result.maxHeight}`})
       case "maxFileSize":
         return t("libs:validation_image_oversize", {size: result.maxSizeMB})
+      case "requiredAspectRatio":
+        return t("libs:validation_image_aspect_ratio", {ratio: result.ratio})
     }
   }
 
