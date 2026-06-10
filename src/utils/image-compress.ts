@@ -16,8 +16,8 @@ export async function compressImage(
   if (!file.type.startsWith("image/")) return file
 
   const compressed = await imageCompression(file, {
-    maxSizeMB: policy.maxSizeMB,
-    maxWidthOrHeight: policy.maxWidthOrHeight,
+    ...(policy.maxSizeMB != null && {maxSizeMB: policy.maxSizeMB}),
+    ...(policy.maxWidthOrHeight != null && {maxWidthOrHeight: policy.maxWidthOrHeight}),
     useWebWorker: true,
   })
 

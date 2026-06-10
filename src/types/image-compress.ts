@@ -5,6 +5,6 @@
  * maxWidthOrHeight - 최대 너비 또는 높이 (픽셀)
  */
 export type ImageCompressionPolicy = {
-  maxSizeMB: number
-  maxWidthOrHeight: number
+  maxSizeMB?: number
+  maxWidthOrHeight?: number
 }
