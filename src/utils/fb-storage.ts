@@ -1,8 +1,7 @@
 import { getDownloadURL as getFbDownloadURL, ref, uploadBytes, type FirebaseStorage } from "firebase/storage";
-import {ImageUploadItem} from "../types";
+import {type ImageCompressionPolicy, ImageUploadItem} from "../types";
 import {getFileExtension} from "./file";
-import type {ImageCompressionPolicy} from "../types/image.tsx"
-import {compressImage} from "./image.ts"
+import {compressImage} from "./image-compress.ts"
 
 /**
  * Firebase Storage에 이미지 파일을 업로드합니다.
