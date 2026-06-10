@@ -145,6 +145,37 @@ export function ImageUploadField({
     aspectRatio,
   }
   const [isHovered, setIsHovered] = useState(false)
+  const [isDragOver, setIsDragOver] = useState(false)
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(false)
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(false)
+
+    const file = e.dataTransfer.files?.[0]
+    if (!file) return
+
+    value.revokeIfNeeded()
+
+    onChange(
+      new ImageUploadItem({
+        file,
+        url: URL.createObjectURL(file),
+      }),
+    )
+  }
 
   return (
     <Field>
@@ -155,10 +186,13 @@ export function ImageUploadField({
           htmlFor={id}
           style={{
             ...styles.trigger,
-            backgroundColor: isHovered ? "var(--accent)" : "var(--card)",
+            backgroundColor: isHovered || isDragOver ? "var(--accent)" : "var(--card)",
           }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
         >
           <div style={styles.card}>
             <div style={styles.frame}>
@@ -184,9 +218,11 @@ export function ImageUploadField({
             <div
               style={{
                 ...styles.overlay,
-                boxShadow: isHovered
-                  ? "inset 0 0 0 2px rgba(59, 130, 246, 0.16)"
-                  : "inset 0 0 0 0 rgba(59, 130, 246, 0)",
+                boxShadow: isDragOver
+                  ? "inset 0 0 0 2px rgba(59, 130, 246, 0.5)"
+                  : isHovered
+                    ? "inset 0 0 0 2px rgba(59, 130, 246, 0.16)"
+                    : "inset 0 0 0 0 rgba(59, 130, 246, 0)",
               }}
             />
           </div>

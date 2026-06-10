@@ -6,6 +6,7 @@ import type {
   InputHTMLAttributes,
   LabelHTMLAttributes,
 } from "react"
+import { useRef, useState } from "react"
 
 import { ImageUploadItem } from "../../types"
 import {
@@ -175,6 +176,27 @@ const styles = {
     marginLeft: "1rem",
     marginRight: "1rem",
   } satisfies CSSProperties,
+
+  dropOverlay: {
+    position: "absolute",
+    inset: 0,
+    zIndex: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "inherit",
+    backgroundColor: "rgba(59, 130, 246, 0.08)",
+    backdropFilter: "blur(2px)",
+  } satisfies CSSProperties,
+
+  dropOverlayInner: {
+    borderRadius: "1rem",
+    backgroundColor: "var(--secondary)",
+    padding: "0.75rem 1rem",
+    fontSize: "0.875rem",
+    lineHeight: 1.2,
+    color: "var(--secondary-foreground)",
+  } satisfies CSSProperties,
 } as const
 
 export function ImageUploadSortableField({
@@ -201,6 +223,9 @@ export function ImageUploadSortableField({
   const Button = components?.Button ?? DefaultButton
   const CloseIcon = components?.CloseIcon ?? DefaultCloseIcon
 
+  const outerRef = useRef<HTMLDivElement>(null)
+  const [isDragOver, setIsDragOver] = useState(false)
+
   const removeItem = (target: ImageUploadItem) => {
     target.revokeIfNeeded()
     onChange(items.filter((item) => item !== target))
@@ -223,6 +248,27 @@ export function ImageUploadSortableField({
     onChange(nextItems)
   }
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(true)
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (outerRef.current && !outerRef.current.contains(e.relatedTarget as Node)) {
+      setIsDragOver(false)
+    }
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragOver(false)
+    handleFilesSelected(e.dataTransfer.files)
+  }
+
   const cardStyle: CSSProperties = {
     ...styles.card,
     aspectRatio,
@@ -238,7 +284,20 @@ export function ImageUploadSortableField({
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
       <div style={styles.wrapper}>
-        <div style={styles.outerBox}>
+        <div
+          ref={outerRef}
+          style={{...styles.outerBox, position: "relative"}}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+        >
+          {isDragOver && (
+            <div style={styles.dropOverlay}>
+              <div style={styles.dropOverlayInner}>
+                {t("libs:drop_to_upload")}
+              </div>
+            </div>
+          )}
           <ScrollArea style={styles.scrollArea}>
             <Reorder.Group
               axis="x"

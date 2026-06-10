@@ -1,5 +1,6 @@
 {
   "add_assets": "Add Assets",
+  "drop_to_upload": "Drop files to upload",
   "auth": {
     "errors": {
       "account_exists_with_different_credential": "This email is already linked to another sign-in method. Please use that method to sign in.",
