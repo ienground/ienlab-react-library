@@ -28,6 +28,12 @@ import {
   type ScrollBarProps,
 } from "../../types/image"
 import { CrossfadeImage } from "./CrossfadeImage"
+import {
+  validateUpload,
+  hasValidation,
+  type ImageValidationOptions,
+  type ImageValidationError,
+} from "../../utils"
 
 type InjectedComponents = {
   Input?: ComponentType<InputHTMLAttributes<HTMLInputElement>>
@@ -41,7 +47,7 @@ type InjectedComponents = {
   CloseIcon?: ComponentType<IconProps>
 }
 
-type ImageUploadSortableFieldProps = {
+type ImageUploadSortableFieldProps = ImageValidationOptions & {
   id: string
   label: string
   descriptionText: string
@@ -197,20 +203,31 @@ const styles = {
     lineHeight: 1.2,
     color: "var(--secondary-foreground)",
   } satisfies CSSProperties,
+
+  error: {
+    color: "var(--destructive)",
+    fontSize: "0.875rem",
+    lineHeight: 1.4,
+  } satisfies CSSProperties,
 } as const
 
 export function ImageUploadSortableField({
-                                           id,
-                                           label,
-                                           descriptionText,
-                                           uploadHintText,
-                                           items,
-                                           onChange,
-                                           aspectRatio = "1 / 1",
-                                           accept = "image/*",
-                                           components,
-                                         }: ImageUploadSortableFieldProps) {
+                                            id,
+                                            label,
+                                            descriptionText,
+                                            uploadHintText,
+                                            items,
+                                            onChange,
+                                            aspectRatio = "1 / 1",
+                                            accept = "image/*",
+                                            requiredSize,
+                                            maxSize,
+                                            maxFileSizeMB,
+                                            components,
+                                          }: ImageUploadSortableFieldProps) {
   const { t } = useTranslation()
+
+  const validationOptions: ImageValidationOptions = {requiredSize, maxSize, maxFileSizeMB}
 
   const Field = components?.Field ?? DefaultField
   const FieldLabel = components?.FieldLabel ?? DefaultFieldLabel
@@ -225,18 +242,44 @@ export function ImageUploadSortableField({
 
   const outerRef = useRef<HTMLDivElement>(null)
   const [isDragOver, setIsDragOver] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const getErrorString = (result: Extract<ImageValidationError, {ok: false}>): string => {
+    switch (result.type) {
+      case "requiredSize":
+        return t("libs:validation_image_required_size", {size: `${result.requiredWidth}x${result.requiredHeight}`})
+      case "maxSize":
+        return t("libs:validation_image_max_size", {size: `${result.maxWidth}x${result.maxHeight}`})
+      case "maxFileSize":
+        return t("libs:validation_image_oversize", {size: result.maxSizeMB})
+    }
+  }
 
   const removeItem = (target: ImageUploadItem) => {
     target.revokeIfNeeded()
     onChange(items.filter((item) => item !== target))
   }
 
-  const handleFilesSelected = (files: FileList | null) => {
+  const handleFilesSelected = async (files: FileList | null) => {
     if (!files || files.length === 0) return
+
+    setErrorMessage(null)
+
+    const fileArray = Array.from(files)
+
+    if (hasValidation(validationOptions)) {
+      for (const file of fileArray) {
+        const result = await validateUpload(file, validationOptions)
+        if (!result.ok) {
+          setErrorMessage(getErrorString(result))
+          return
+        }
+      }
+    }
 
     const nextItems = [
       ...items,
-      ...Array.from(files).map(
+      ...fileArray.map(
         (file) =>
           new ImageUploadItem({
             file,
@@ -368,6 +411,9 @@ export function ImageUploadSortableField({
           />
         </div>
 
+        {errorMessage && (
+          <div style={styles.error}>{errorMessage}</div>
+        )}
         <div style={styles.description}>
           <FieldDescription>{descriptionText}</FieldDescription>
         </div>

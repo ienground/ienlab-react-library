@@ -11,10 +11,17 @@ import {
   type ComponentType,
   type CSSProperties,
   type InputHTMLAttributes,
-  type LabelHTMLAttributes, useState,
+  type LabelHTMLAttributes,
+  useState,
 } from "react"
-import {ImageUploadItem} from "../../types";
-import {CrossfadeImage} from "./CrossfadeImage";
+import {ImageUploadItem} from "../../types"
+import {CrossfadeImage} from "./CrossfadeImage"
+import {
+  validateUpload,
+  hasValidation,
+  type ImageValidationOptions,
+  type ImageValidationError,
+} from "../../utils"
 
 type InjectedComponents = {
   Input?: ComponentType<InputHTMLAttributes<HTMLInputElement>>
@@ -23,7 +30,7 @@ type InjectedComponents = {
   FieldDescription?: ComponentType<DescriptionProps>
 }
 
-type ImageUploadFieldProps = {
+type ImageUploadFieldProps = ImageValidationOptions & {
   id: string
   label: string
   uploadHintText: string
@@ -119,19 +126,28 @@ const styles = {
     boxShadow: "inset 0 0 0 0 rgba(59, 130, 246, 0)",
     transition: "box-shadow 160ms ease",
   } satisfies CSSProperties,
+
+  error: {
+    color: "var(--destructive)",
+    fontSize: "0.875rem",
+    lineHeight: 1.4,
+  } satisfies CSSProperties,
 } as const
 
 export function ImageUploadField({
-                                   id,
-                                   label,
-                                   uploadHintText,
-                                   descriptionText,
-                                   value,
-                                   onChange,
-                                   aspectRatio = "1 / 1",
-                                   accept = "image/*",
-                                   components,
-                                 }: ImageUploadFieldProps) {
+                                    id,
+                                    label,
+                                    uploadHintText,
+                                    descriptionText,
+                                    value,
+                                    onChange,
+                                    aspectRatio = "1 / 1",
+                                    accept = "image/*",
+                                    requiredSize,
+                                    maxSize,
+                                    maxFileSizeMB,
+                                    components,
+                                  }: ImageUploadFieldProps) {
   const {t} = useTranslation()
 
   const Field = components?.Field ?? DefaultField
@@ -140,12 +156,43 @@ export function ImageUploadField({
     components?.FieldDescription ?? DefaultFieldDescription
   const Input = components?.Input ?? DefaultInput
 
+  const validationOptions: ImageValidationOptions = {requiredSize, maxSize, maxFileSizeMB}
+
   const imageBoxStyle: CSSProperties = {
     ...styles.imageBox,
     aspectRatio,
   }
   const [isHovered, setIsHovered] = useState(false)
   const [isDragOver, setIsDragOver] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const getErrorString = (result: Extract<ImageValidationError, {ok: false}>): string => {
+    switch (result.type) {
+      case "requiredSize":
+        return t("libs:validation_image_required_size", {size: `${result.requiredWidth}x${result.requiredHeight}`})
+      case "maxSize":
+        return t("libs:validation_image_max_size", {size: `${result.maxWidth}x${result.maxHeight}`})
+      case "maxFileSize":
+        return t("libs:validation_image_oversize", {size: result.maxSizeMB})
+    }
+  }
+
+  const acceptFile = async (file: File) => {
+    setErrorMessage(null)
+    const url = URL.createObjectURL(file)
+
+    if (hasValidation(validationOptions)) {
+      const result = await validateUpload(file, validationOptions)
+      if (!result.ok) {
+        URL.revokeObjectURL(url)
+        setErrorMessage(getErrorString(result))
+        return
+      }
+    }
+
+    value.revokeIfNeeded()
+    onChange(new ImageUploadItem({file, url}))
+  }
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault()
@@ -167,14 +214,7 @@ export function ImageUploadField({
     const file = e.dataTransfer.files?.[0]
     if (!file) return
 
-    value.revokeIfNeeded()
-
-    onChange(
-      new ImageUploadItem({
-        file,
-        url: URL.createObjectURL(file),
-      }),
-    )
+    acceptFile(file)
   }
 
   return (
@@ -234,21 +274,15 @@ export function ImageUploadField({
           onChange={(e) => {
             const file = e.target.files?.[0]
             if (!file) return
-
-            value.revokeIfNeeded()
-
-            onChange(
-              new ImageUploadItem({
-                file,
-                url: URL.createObjectURL(file),
-              }),
-            )
-
+            acceptFile(file)
             e.currentTarget.value = ""
           }}
           style={{display: "none"}}
         />
 
+        {errorMessage && (
+          <div style={styles.error}>{errorMessage}</div>
+        )}
         <FieldDescription>{descriptionText}</FieldDescription>
       </div>
     </Field>

@@ -1,6 +1,9 @@
 {
   "add_assets": "애셋 추가",
   "drop_to_upload": "파일을 끌어다 놓으세요",
+  "validation_image_required_size": "이미지는 {{size}} 크기여야 합니다",
+  "validation_image_max_size": "이미지는 {{size}} 이하여야 합니다",
+  "validation_image_oversize": "파일 용량은 {{size}}MB 이하여야 합니다",
   "auth": {
     "errors": {
       "account_exists_with_different_credential": "이미 다른 로그인 방식으로 가입된 이메일이에요. 기존 방식으로 로그인해 주세요.",

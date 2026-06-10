@@ -122,6 +122,7 @@ function ScreenBody() {
           label="썸네일"
           uploadHintText="이미지를 업로드하세요"
           descriptionText="권장 비율은 16:9 입니다"
+          maxFileSizeMB={5}
           value={image}
           onChange={item => setImage(item)}
           // components={{
