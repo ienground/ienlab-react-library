@@ -1,11 +1,15 @@
 import {useTranslation} from "react-i18next"
 import {
+  DefaultButton,
+  DefaultCloseIcon,
   DefaultField,
   DefaultFieldDescription,
   DefaultFieldLabel,
   DefaultInput,
+  type ButtonLikeProps,
   type DescriptionProps,
   type FieldProps,
+  type IconProps,
 } from "../../types/image"
 import {
   type ComponentType,
@@ -28,6 +32,8 @@ type InjectedComponents = {
   Field?: ComponentType<FieldProps>
   FieldLabel?: ComponentType<LabelHTMLAttributes<HTMLLabelElement>>
   FieldDescription?: ComponentType<DescriptionProps>
+  Button?: ComponentType<ButtonLikeProps>
+  CloseIcon?: ComponentType<IconProps>
 }
 
 type ImageUploadFieldProps = {
@@ -136,6 +142,14 @@ const styles = {
     fontSize: "0.875rem",
     lineHeight: 1.4,
   } satisfies CSSProperties,
+
+  removeButton: {
+    position: "absolute",
+    right: "1rem",
+    bottom: "1rem",
+    borderRadius: "9999px",
+    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.12)",
+  } satisfies CSSProperties,
 } as const
 
 /**
@@ -178,6 +192,8 @@ export function ImageUploadField({
   const FieldDescription =
     components?.FieldDescription ?? DefaultFieldDescription
   const Input = components?.Input ?? DefaultInput
+  const Button = components?.Button ?? DefaultButton
+  const CloseIcon = components?.CloseIcon ?? DefaultCloseIcon
 
   const validationOptions: ImageValidationOptions = {
     requiredSize,
@@ -224,6 +240,13 @@ export function ImageUploadField({
 
     value.revokeIfNeeded()
     onChange(new ImageUploadItem({file, url}))
+  }
+
+  /** 현재 업로드된 이미지를 제거하고 onChange로 빈 ImageUploadItem을 전달합니다 */
+  const removeImage = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    value.revokeIfNeeded()
+    onChange(new ImageUploadItem())
   }
 
   /** 드래그 오버 시 기본 동작을 방지하고 isDragOver 상태를 true로 설정합니다 */
@@ -281,6 +304,14 @@ export function ImageUploadField({
                       style={styles.image}
                     />
                   </div>
+
+                  <Button
+                    type="button"
+                    style={styles.removeButton}
+                    onClick={removeImage}
+                  >
+                    <CloseIcon />
+                  </Button>
                 </div>
               ) : (
                 <div style={styles.empty}>
