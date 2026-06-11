@@ -1,6 +1,6 @@
 {
   "name": "@ienlab/react-library",
-  "version": "0.17.0-beta.43",
+  "version": "0.17.0-beta.44",
   "description": "My React component library",
   "main": "./dist/my-library.cjs.js",
   "module": "./dist/my-library.es.js",
@@ -51,7 +51,7 @@
     "browser-image-compression": "^2.0.2",
     "@eslint/js": "^10.0.1",
     "@tanstack/react-table": "^8.21.3",
-    "@types/node": "^25.9.2",
+    "@types/node": "^25.9.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",

@@ -8,7 +8,7 @@ import type {
 } from "react"
 import { useRef, useState } from "react"
 
-import { ImageUploadItem } from "../../types"
+import { FileUploadItem } from "../../types"
 import {
   type ButtonLikeProps,
   type CardProps,
@@ -52,8 +52,8 @@ type ImageUploadSortableFieldProps = {
   label: string
   descriptionText: string
   uploadHintText: string
-  items: ImageUploadItem[]
-  onChange: (items: ImageUploadItem[]) => void
+  items: FileUploadItem[]
+  onChange: (items: FileUploadItem[]) => void
   aspectRatio?: string
   accept?: string
   components?: InjectedComponents
@@ -287,7 +287,7 @@ export function ImageUploadSortableField({
   }
 
   /** target 아이템을 목록에서 제거하고 URL을 해제합니다 */
-  const removeItem = (target: ImageUploadItem) => {
+  const removeItem = (target: FileUploadItem) => {
     target.revokeIfNeeded()
     onChange(items.filter((item) => item !== target))
   }
@@ -314,7 +314,7 @@ export function ImageUploadSortableField({
       ...items,
       ...fileArray.map(
         (file) =>
-          new ImageUploadItem({
+          new FileUploadItem({
             file,
             url: URL.createObjectURL(file),
           }),

@@ -1,8 +1,8 @@
-export class ImageUploadItem {
+export class FileUploadItem {
   url: string = ""
   file: File | null = null
 
-  constructor(partial: Partial<ImageUploadItem> = {}) {
+  constructor(partial: Partial<FileUploadItem> = {}) {
     Object.assign(this, partial)
   }
 

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import dayjs from "dayjs";
 import "./App.css"
 import {
-  ImageUploadField, CrossfadeImage, ImageUploadItem, ImageUploadSortableField, useDateTimeFormatters,
+  ImageUploadField, CrossfadeImage, FileUploadItem, ImageUploadSortableField, useDateTimeFormatters,
   GroupedDataTable, Localized, ThemeProvider, useTheme
 } from "../../src";
 import 'dayjs/locale/ko' // 한국어 가져오기
@@ -40,8 +40,8 @@ function ScreenBody() {
 
   const { dateTimeFormat } = useDateTimeFormatters()
   const time = dayjs()
-  const [image, setImage] = useState<ImageUploadItem>(new ImageUploadItem({}))
-  const [images, setImages] = useState<ImageUploadItem[]>([])
+  const [image, setImage] = useState<FileUploadItem>(new FileUploadItem({}))
+  const [images, setImages] = useState<FileUploadItem[]>([])
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const items = useMemo(() => [

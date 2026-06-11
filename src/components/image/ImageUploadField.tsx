@@ -18,7 +18,7 @@ import {
   type LabelHTMLAttributes,
   useState,
 } from "react"
-import {ImageUploadItem} from "../../types"
+import {FileUploadItem} from "../../types"
 import {CrossfadeImage} from "./CrossfadeImage"
 import {
   validateUpload,
@@ -41,8 +41,8 @@ type ImageUploadFieldProps = {
   label: string
   uploadHintText: string
   descriptionText: string
-  value: ImageUploadItem
-  onChange: (value: ImageUploadItem) => void
+  value: FileUploadItem
+  onChange: (value: FileUploadItem) => void
   aspectRatio?: string
   accept?: string
   components?: InjectedComponents
@@ -239,14 +239,14 @@ export function ImageUploadField({
     }
 
     value.revokeIfNeeded()
-    onChange(new ImageUploadItem({file, url}))
+    onChange(new FileUploadItem({file, url}))
   }
 
   /** 현재 업로드된 이미지를 제거하고 onChange로 빈 ImageUploadItem을 전달합니다 */
   const removeImage = (e: React.MouseEvent) => {
     e.stopPropagation()
     value.revokeIfNeeded()
-    onChange(new ImageUploadItem())
+    onChange(new FileUploadItem())
   }
 
   /** 드래그 오버 시 기본 동작을 방지하고 isDragOver 상태를 true로 설정합니다 */
