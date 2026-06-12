@@ -1,5 +1,5 @@
 import imageCompression from "browser-image-compression"
-import type {ImageCompressionPolicy} from "../types"
+import type {ImageCompressionPolicy} from "../../types"
 
 /**
  * browser-image-compression 라이브러리를 사용하여 이미지 파일을 압축합니다.
