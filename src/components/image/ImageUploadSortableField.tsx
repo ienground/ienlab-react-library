@@ -55,6 +55,7 @@ type ImageUploadSortableFieldProps = {
   items: FileUploadItem[]
   onChange: (items: FileUploadItem[]) => void
   aspectRatio?: string
+  cardAspectRatio?: string
   accept?: string
   components?: InjectedComponents
   requiredSize?: string
@@ -62,6 +63,8 @@ type ImageUploadSortableFieldProps = {
   maxFileSizeMB?: number
   requiredAspectRatio?: boolean
   className?: string
+  width?: string
+  height?: string
 }
 
 const styles = {
@@ -226,7 +229,8 @@ const styles = {
  * @param uploadHintText - 업로드 영역에 표시할 힌트 텍스트
  * @param items - 현재 업로드된 이미지 아이템 배열
  * @param onChange - 이미지 목록 변경 시 호출되는 콜백
- * @param aspectRatio - 이미지 카드의 종횡비 (기본값 "1 / 1")
+ * @param aspectRatio - 이미지 표시 영역의 종횡비 (기본값 "1 / 1")
+ * @param cardAspectRatio - 업로드 카드 영역의 종횡비 (설정하지 않으면 aspectRatio와 동일)
  * @param accept - 허용할 파일 MIME 타입 (기본값 "image/*")
  * @param requiredSize - 필수 이미지 크기 (예: "1920x1080")
  * @param maxSize - 최대 이미지 크기 (예: "3840x2160")
@@ -234,6 +238,8 @@ const styles = {
  * @param requiredAspectRatio - 종횡비 검증 활성화 여부
  * @param components - 주입 가능한 커스텀 컴포넌트
  * @param className - 컴포넌트에 적용할 CSS 클래스명
+ * @param width - 필드 너비 (CSS 값, 예: "20rem", "100%")
+ * @param height - 필드 높이 (CSS 값, 예: "20rem", "auto")
  */
 export function ImageUploadSortableField({
                                             id,
@@ -243,6 +249,7 @@ export function ImageUploadSortableField({
                                             items,
                                             onChange,
                                             aspectRatio = "1 / 1",
+                                            cardAspectRatio,
                                             accept = "image/*",
                                             requiredSize,
                                             maxSize,
@@ -250,6 +257,8 @@ export function ImageUploadSortableField({
                                             requiredAspectRatio,
                                             components,
                                             className,
+                                            width,
+                                            height,
                                           }: ImageUploadSortableFieldProps) {
   const { t } = useTranslation()
 
@@ -356,19 +365,25 @@ export function ImageUploadSortableField({
 
   const cardStyle: CSSProperties = {
     ...styles.card,
-    aspectRatio,
+    aspectRatio: cardAspectRatio ?? aspectRatio,
   }
 
   const uploadCardStyle: CSSProperties = {
     ...styles.uploadCard,
-    aspectRatio,
+    aspectRatio: cardAspectRatio ?? aspectRatio,
+  }
+
+  const wrapperStyle: CSSProperties = {
+    ...styles.wrapper,
+    ...(width ? {width} : {}),
+    ...(height ? {height} : {}),
   }
 
   return (
     <Field className={className}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
-      <div style={styles.wrapper}>
+      <div style={wrapperStyle}>
         <div
           ref={outerRef}
           style={{...styles.outerBox, position: "relative"}}

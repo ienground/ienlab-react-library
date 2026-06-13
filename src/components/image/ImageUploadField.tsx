@@ -44,6 +44,7 @@ type ImageUploadFieldProps = {
   value: FileUploadItem
   onChange: (value: FileUploadItem) => void
   aspectRatio?: string
+  cardAspectRatio?: string
   accept?: string
   components?: InjectedComponents
   requiredSize?: string
@@ -51,6 +52,8 @@ type ImageUploadFieldProps = {
   maxFileSizeMB?: number
   requiredAspectRatio?: boolean
   className?: string
+  width?: string
+  height?: string
 }
 
 const styles = {
@@ -75,20 +78,16 @@ const styles = {
     transition: "background-color 160ms ease, box-shadow 160ms ease",
   } satisfies CSSProperties,
 
-  frame: {
-    position: "relative",
-    width: "100%",
-    aspectRatio: "16 / 9",
-  } satisfies CSSProperties,
-
   imageLayer: {
     position: "absolute",
     inset: 0,
-    padding: "1.5rem",
+    padding: "0.75rem",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   } satisfies CSSProperties,
 
   imageBox: {
-    margin: "0 auto",
     maxWidth: "100%",
     maxHeight: "100%",
   } satisfies CSSProperties,
@@ -164,6 +163,7 @@ const styles = {
  * @param value - 현재 업로드된 이미지 아이템
  * @param onChange - 이미지 변경 시 호출되는 콜백
  * @param aspectRatio - 이미지 표시 영역의 종횡비 (기본값 "1 / 1")
+ * @param cardAspectRatio - 업로드 카드 영역의 종횡비 (설정하지 않으면 aspectRatio와 동일)
  * @param accept - 허용할 파일 MIME 타입 (기본값 "image/*")
  * @param requiredSize - 필수 이미지 크기 (예: "1920x1080")
  * @param maxSize - 최대 이미지 크기 (예: "3840x2160")
@@ -171,6 +171,8 @@ const styles = {
  * @param requiredAspectRatio - 종횡비 검증 활성화 여부
  * @param components - 주입 가능한 커스텀 컴포넌트
  * @param className - 컴포넌트에 적용할 CSS 클래스명
+ * @param width - 필드 너비 (CSS 값, 예: "20rem", "100%")
+ * @param height - 필드 높이 (CSS 값, 예: "20rem", "auto")
  */
 export function ImageUploadField({
                                     id,
@@ -180,13 +182,16 @@ export function ImageUploadField({
                                     value,
                                     onChange,
                                     aspectRatio = "1 / 1",
+                                    cardAspectRatio,
                                     accept = "image/*",
                                     requiredSize,
                                     maxSize,
                                     maxFileSizeMB,
                                     requiredAspectRatio,
                                     components,
-                                    className
+                                    className,
+                                    width,
+                                    height,
                                   }: ImageUploadFieldProps) {
   const {t} = useTranslation()
 
@@ -206,9 +211,18 @@ export function ImageUploadField({
     acceptType: accept,
   }
 
+  const cardStyle: CSSProperties = {
+    ...styles.card,
+    aspectRatio: cardAspectRatio ?? aspectRatio,
+  }
   const imageBoxStyle: CSSProperties = {
     ...styles.imageBox,
     aspectRatio,
+  }
+  const wrapperStyle: CSSProperties = {
+    ...styles.wrapper,
+    ...(width ? {width} : {}),
+    ...(height ? {height} : {}),
   }
   const [isHovered, setIsHovered] = useState(false)
   const [isDragOver, setIsDragOver] = useState(false)
@@ -285,7 +299,7 @@ export function ImageUploadField({
     <Field className={className}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
-      <div style={styles.wrapper}>
+      <div style={wrapperStyle}>
         <label
           htmlFor={id}
           style={{
@@ -298,34 +312,32 @@ export function ImageUploadField({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
-          <div style={styles.card}>
-            <div style={styles.frame}>
-              {value.url ? (
-                <div style={styles.imageLayer}>
-                  <div style={imageBoxStyle}>
-                    <CrossfadeImage
-                      src={value.url}
-                      className=""
-                      alt={label}
-                      style={styles.image}
-                    />
-                  </div>
+          <div style={cardStyle}>
+            {value.url ? (
+              <div style={styles.imageLayer}>
+                <div style={imageBoxStyle}>
+                  <CrossfadeImage
+                    src={value.url}
+                    className=""
+                    alt={label}
+                    style={styles.image}
+                  />
+                </div>
 
-                  <Button
-                    type="button"
-                    style={styles.removeButton}
-                    onClick={removeImage}
-                  >
-                    <CloseIcon />
-                  </Button>
-                </div>
-              ) : (
-                <div style={styles.empty}>
-                  <div style={styles.badge}>{t("libs:add_assets")}</div>
-                  <p style={styles.hint}>{uploadHintText}</p>
-                </div>
-              )}
-            </div>
+                <Button
+                  type="button"
+                  style={styles.removeButton}
+                  onClick={removeImage}
+                >
+                  <CloseIcon />
+                </Button>
+              </div>
+            ) : (
+              <div style={styles.empty}>
+                <div style={styles.badge}>{t("libs:add_assets")}</div>
+                <p style={styles.hint}>{uploadHintText}</p>
+              </div>
+            )}
 
             <div
               style={{
