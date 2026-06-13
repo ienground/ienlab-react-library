@@ -37,7 +37,8 @@
       "verify_failure_no_send": "No code sent.",
       "verify_failure_wrong": "Code does not match.",
       "verify_failure_unknown": "Verification failed."
-    },
+    }
+  },
   "cancel": "Cancel",
   "confirm": "Confirm",
   "datetime": {
