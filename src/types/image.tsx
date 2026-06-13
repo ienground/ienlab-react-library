@@ -9,10 +9,12 @@ import type {
 
 export type FieldProps = {
   children: ReactNode
+  className?: string
 }
 
 export type DescriptionProps = {
   children: ReactNode
+  className?: string
 }
 
 export type CardProps = HTMLAttributes<HTMLDivElement>
@@ -37,7 +39,7 @@ export type IconProps = {
 export type ButtonLikeProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 /** 기본 Field 렌더러 - children을 div로 감싸 반환합니다 */
-export const DefaultField = ({ children }: FieldProps) => <div>{children}</div>
+export const DefaultField = ({ children, className }: FieldProps) => <div className={className}>{children}</div>
 
 /** 기본 Label 렌더러 - label 엘리먼트를 반환합니다 */
 export const DefaultFieldLabel = (
@@ -45,8 +47,8 @@ export const DefaultFieldLabel = (
 ) => <label {...props} />
 
 /** 기본 Description 렌더러 - p 엘리먼트를 반환합니다 */
-export const DefaultFieldDescription = ({ children }: DescriptionProps) => (
-  <p>{children}</p>
+export const DefaultFieldDescription = ({ children, className }: DescriptionProps) => (
+  <p className={className}>{children}</p>
 )
 
 /** 기본 Input 렌더러 - input 엘리먼트를 반환합니다 */

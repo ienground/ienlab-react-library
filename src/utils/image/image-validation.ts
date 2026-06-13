@@ -3,6 +3,7 @@ export type ImageValidationOptions = {
   maxSize?: string
   maxFileSizeMB?: number
   requiredAspectRatio?: string
+  acceptType?: string
 }
 
 export type ImageValidationError =
@@ -10,20 +11,47 @@ export type ImageValidationError =
   | { ok: false; type: "maxSize"; width: number; height: number; maxWidth: number; maxHeight: number }
   | { ok: false; type: "maxFileSize"; fileSize: number; maxSizeMB: number }
   | { ok: false; type: "requiredAspectRatio"; width: number; height: number; ratio: string }
+  | { ok: false; type: "invalidType"; acceptType: string; fileType: string }
   | { ok: true }
 
 /**
+ * 파일의 MIME 타입이 accept 패턴과 일치하는지 검사합니다.
+ *
+ * @param fileType - 검사할 파일의 MIME 타입 (예: "image/png")
+ * @param accept - 허용할 MIME 타입 패턴 (예: "image/*", "image/png,image/jpeg")
+ * @returns 패턴이 일치하면 true
+ */
+function matchesAcceptType(fileType: string, accept: string): boolean {
+  const types = accept.split(",").map((t) => t.trim())
+  return types.some((type) => {
+    if (type.endsWith("/*")) {
+      const prefix = type.slice(0, -2)
+      return fileType.startsWith(prefix + "/")
+    }
+    return fileType === type
+  })
+}
+
+/**
  * 이미지 파일을 업로드 전에 검증합니다.
- * 파일 크기, Required 크기, 최대 크기, Required 종횡비를 순차적으로 검사합니다.
+ * 파일 MIME 타입, 크기, Required 크기, 최대 크기, Required 종횡비를 순차적으로 검사합니다.
  *
  * @param file - 검증할 이미지 파일
- * @param options - 검증 옵션 (requiredSize, maxSize, maxFileSizeMB, requiredAspectRatio)
+ * @param options - 검증 옵션 (acceptType, requiredSize, maxSize, maxFileSizeMB, requiredAspectRatio)
  * @returns 검증 결과. 성공 시 { ok: true }, 실패 시 상세 오류 정보를 포함한 객체
  */
 export async function validateUpload(
   file: File,
   options: ImageValidationOptions,
 ): Promise<ImageValidationError> {
+  if (options.acceptType && !matchesAcceptType(file.type, options.acceptType)) {
+    return {
+      ok: false,
+      type: "invalidType",
+      acceptType: options.acceptType,
+      fileType: file.type,
+    }
+  }
   if (options.maxFileSizeMB != null) {
     const maxBytes = options.maxFileSizeMB * 1024 * 1024
     if (file.size > maxBytes) {
@@ -117,5 +145,5 @@ function loadImageDimensions(
  * @returns 검증 조건이 하나라도 존재하면 true, 그렇지 않으면 false
  */
 export function hasValidation(options: ImageValidationOptions): boolean {
-  return !!(options.requiredSize || options.maxSize || options.maxFileSizeMB != null || options.requiredAspectRatio)
+  return !!(options.requiredSize || options.maxSize || options.maxFileSizeMB != null || options.requiredAspectRatio || options.acceptType)
 }

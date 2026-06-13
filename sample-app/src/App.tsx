@@ -122,10 +122,11 @@ function ScreenBody() {
           label="썸네일"
           uploadHintText="이미지를 업로드하세요"
           descriptionText="권장 비율은 16:9 입니2다"
-          aspectRatio="16 / 9"
+          aspectRatio="16/9"
           requiredAspectRatio
           value={image}
           onChange={item => setImage(item)}
+          className="w-200"
           // components={{
           //   Input,
           //   Field,

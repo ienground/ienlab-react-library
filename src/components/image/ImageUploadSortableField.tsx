@@ -61,6 +61,7 @@ type ImageUploadSortableFieldProps = {
   maxSize?: string
   maxFileSizeMB?: number
   requiredAspectRatio?: boolean
+  className?: string
 }
 
 const styles = {
@@ -232,6 +233,7 @@ const styles = {
  * @param maxFileSizeMB - 최대 파일 크기 (MB 단위)
  * @param requiredAspectRatio - 종횡비 검증 활성화 여부
  * @param components - 주입 가능한 커스텀 컴포넌트
+ * @param className - 컴포넌트에 적용할 CSS 클래스명
  */
 export function ImageUploadSortableField({
                                             id,
@@ -247,6 +249,7 @@ export function ImageUploadSortableField({
                                             maxFileSizeMB,
                                             requiredAspectRatio,
                                             components,
+                                            className,
                                           }: ImageUploadSortableFieldProps) {
   const { t } = useTranslation()
 
@@ -255,6 +258,7 @@ export function ImageUploadSortableField({
     maxSize,
     maxFileSizeMB,
     requiredAspectRatio: requiredAspectRatio ? aspectRatio : undefined,
+    acceptType: accept,
   }
 
   const Field = components?.Field ?? DefaultField
@@ -283,6 +287,8 @@ export function ImageUploadSortableField({
         return t("libs:validation_image_oversize", {size: result.maxSizeMB})
       case "requiredAspectRatio":
         return t("libs:validation_image_aspect_ratio", {ratio: result.ratio})
+      case "invalidType":
+        return t("libs:validation_image_invalid_type", {accept: result.acceptType, type: result.fileType})
     }
   }
 
@@ -359,7 +365,7 @@ export function ImageUploadSortableField({
   }
 
   return (
-    <Field>
+    <Field className={className}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
 
       <div style={styles.wrapper}>
