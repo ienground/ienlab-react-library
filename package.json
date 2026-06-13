@@ -1,6 +1,6 @@
 {
   "name": "@ienlab/react-library",
-  "version": "0.17.0-beta.52",
+  "version": "0.17.0-beta.53",
   "description": "My React component library",
   "main": "./dist/my-library.cjs.js",
   "module": "./dist/my-library.es.js",
@@ -56,7 +56,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "dayjs": "^1.11.21",
-    "eslint": "^10.4.1",
+    "eslint": "^10.5.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "firebase": "^12.14.0",

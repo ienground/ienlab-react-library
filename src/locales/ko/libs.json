@@ -30,6 +30,15 @@
       "wrong_password": "이메일 또는 비밀번호를 다시 확인해 주세요."
     }
   },
+  "phone_verify": {
+    "errors": {
+      "send_failure_over_limit": "인증번호 발송 횟수를 초과했습니다.",
+      "send_failure_unknown": "인증번호 발송에 실패했습니다.",
+      "verify_failure_no_send": "인증번호가 발송되지 않았습니다.",
+      "verify_failure_wrong": "인증번호가 일치하지 않습니다.",
+      "verify_failure_unknown": "인증에 실패했습니다."
+    }
+  },
   "cancel": "취소",
   "confirm": "확인",
   "datetime": {

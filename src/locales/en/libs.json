@@ -30,6 +30,14 @@
       "wrong_password": "Please check your email or password."
     }
   },
+  "phone_verify": {
+    "errors": {
+      "send_failure_over_limit": "Send limit exceeded.",
+      "send_failure_unknown": "Failed to send code.",
+      "verify_failure_no_send": "No code sent.",
+      "verify_failure_wrong": "Code does not match.",
+      "verify_failure_unknown": "Verification failed."
+    },
   "cancel": "Cancel",
   "confirm": "Confirm",
   "datetime": {

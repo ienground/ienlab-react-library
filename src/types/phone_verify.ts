@@ -1,3 +1,5 @@
+import type {TFunction} from "i18next"
+
 export namespace PhoneVerify {
   export enum Request {
     IDLE = 0,
@@ -9,6 +11,13 @@ export namespace PhoneVerify {
 
   export namespace Request {
     export const Default = Request.FAILURE_UNKNOWN
+    export function getMessage(t: TFunction, value: Request) {
+      switch (value) {
+        case Request.FAILURE_OVER_LIMIT: return t("libs:phone_verify.errors.send_failure_over_limit")
+        case Request.FAILURE_UNKNOWN: return t("libs:phone_verify.errors.send_failure_unknown")
+        default: return ""
+      }
+    }
   }
 
   export enum Result {
@@ -22,6 +31,14 @@ export namespace PhoneVerify {
 
   export namespace Result {
     export const Default = Result.FAILURE_UNKNOWN
+    export function getMessage(t: TFunction, value: Result) {
+      switch (value) {
+        case Result.FAILURE_WRONG: return t("libs:phone_verify.errors.verify_failure_wrong")
+        case Result.FAILURE_NO_SEND: return t("libs:phone_verify.errors.verify_failure_no_send")
+        case Result.FAILURE_UNKNOWN: return t("libs:phone_verify.errors.verify_failure_unknown")
+        default: return ""
+      }
+    }
   }
 
   export namespace Send {
