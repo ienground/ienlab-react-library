@@ -31,7 +31,7 @@ export namespace PhoneVerify {
     }
 
     export type Result = {
-      code: PhoneVerify.Result
+      code: PhoneVerify.Request
     }
   }
 
