@@ -23,4 +23,27 @@ export namespace PhoneVerify {
   export namespace Result {
     export const Default = Result.FAILURE_UNKNOWN
   }
+
+  export namespace Send {
+    export type Params = {
+      phoneNumber: string
+      uid: string
+    }
+
+    export type Result = {
+      code: PhoneVerify.Result
+    }
+  }
+
+  export namespace Verify {
+    export type Params = {
+      code: string
+      phoneNumber: string
+      uid: string
+    }
+
+    export type Result = {
+      code: PhoneVerify.Result
+    }
+  }
 }
