@@ -10,7 +10,7 @@ export namespace PhoneVerify {
   }
 
   export namespace Request {
-    export const Default = Request.FAILURE_UNKNOWN
+    export const Default = Request.IDLE
     export function getMessage(t: TFunction, value: Request) {
       switch (value) {
         case Request.FAILURE_OVER_LIMIT: return t("libs:phone_verify.errors.send_failure_over_limit")
@@ -30,7 +30,7 @@ export namespace PhoneVerify {
   }
 
   export namespace Result {
-    export const Default = Result.FAILURE_UNKNOWN
+    export const Default = Result.IDLE
     export function getMessage(t: TFunction, value: Result) {
       switch (value) {
         case Result.FAILURE_WRONG: return t("libs:phone_verify.errors.verify_failure_wrong")
