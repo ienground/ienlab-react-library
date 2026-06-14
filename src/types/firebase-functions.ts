@@ -43,14 +43,11 @@ export type FnResult<
   K extends FnKey<TSchema>,
 > = ToRuntimeType<TSchema[K]["result"]>
 
-export function createCallableFactory<TSchema extends FnSchemaLike>(
-  functions: Functions,
-  schema: TSchema,
-) {
-  return function createCallable<K extends FnKey<TSchema>>(key: K) {
-    return httpsCallable<FnParams<TSchema, K>, FnResult<TSchema, K>>(
-      functions,
-      schema[key].name,
-    )
+export function createCallableFactory<TSchema extends FnSchemaLike>(schema: TSchema) {
+  return function <K extends keyof TSchema>(functions: Functions, key: K) {
+    return httpsCallable<
+      ToRuntimeType<TSchema[K]["params"]>,
+      ToRuntimeType<TSchema[K]["result"]>
+    >(functions, schema[key].name)
   }
 }
