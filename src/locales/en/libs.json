@@ -116,6 +116,7 @@
   "unknown_error_occurred": "Unknown error occurred.",
   "validation_image_aspect_ratio": "Image must have aspect ratio of {{ratio}}",
   "validation_image_invalid_type": "Unsupported file type. Only {{accept}} files are allowed",
+  "validation_image_max_count": "You can upload up to {{count}} files",
   "validation_image_max_size": "Image must not exceed {{size}}",
   "validation_image_oversize": "File must not exceed {{size}}MB",
   "validation_image_required_size": "Image must be exactly {{size}}"

@@ -62,6 +62,7 @@ type ImageUploadSortableFieldProps = {
   maxSize?: string
   maxFileSizeMB?: number
   requiredAspectRatio?: boolean
+  maxCount?: number
   className?: string
   width?: string
   height?: string
@@ -236,6 +237,7 @@ const styles = {
  * @param maxSize - 최대 이미지 크기 (예: "3840x2160")
  * @param maxFileSizeMB - 최대 파일 크기 (MB 단위)
  * @param requiredAspectRatio - 종횡비 검증 활성화 여부
+ * @param maxCount - 최대 업로드 가능한 파일 개수 (설정하지 않으면 제한 없음)
  * @param components - 주입 가능한 커스텀 컴포넌트
  * @param className - 컴포넌트에 적용할 CSS 클래스명
  * @param width - 필드 너비 (CSS 값, 예: "20rem", "100%")
@@ -255,6 +257,7 @@ export function ImageUploadSortableField({
                                             maxSize,
                                             maxFileSizeMB,
                                             requiredAspectRatio,
+                                            maxCount,
                                             components,
                                             className,
                                             width,
@@ -314,6 +317,11 @@ export function ImageUploadSortableField({
     setErrorMessage(null)
 
     const fileArray = Array.from(files)
+
+    if (maxCount !== undefined && items.length + fileArray.length > maxCount) {
+      setErrorMessage(t("libs:validation_image_max_count", {count: maxCount}))
+      return
+    }
 
     if (hasValidation(validationOptions)) {
       for (const file of fileArray) {
@@ -434,22 +442,24 @@ export function ImageUploadSortableField({
                 </Reorder.Item>
               ))}
 
-              <label htmlFor={id} style={styles.uploadLabel}>
-                <Card
-                  style={uploadCardStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--accent)"
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--card)"
-                  }}
-                >
-                  <div style={styles.uploadCardInner}>
-                    <div style={styles.badge}>{t("libs:add_assets")}</div>
-                    <p style={styles.hint}>{uploadHintText}</p>
-                  </div>
-                </Card>
-              </label>
+              {maxCount !== undefined && items.length >= maxCount ? null : (
+                <label htmlFor={id} style={styles.uploadLabel}>
+                  <Card
+                    style={uploadCardStyle}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = "var(--accent)"
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "var(--card)"
+                    }}
+                  >
+                    <div style={styles.uploadCardInner}>
+                      <div style={styles.badge}>{t("libs:add_assets")}</div>
+                      <p style={styles.hint}>{uploadHintText}</p>
+                    </div>
+                  </Card>
+                </label>
+              )}
             </Reorder.Group>
 
             <ScrollBar orientation="horizontal" style={styles.scrollBar} />
