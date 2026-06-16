@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next"
 import {useMemo} from "react"
-import {formatBaseDateTime} from "./utils.ts"
+import {formatBaseDateTime} from "./utils"
 import type {Dayjs} from "dayjs"
 
 export function useDateTimeFormatters() {

@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next"
-import {useCallback, useMemo} from "react"
-import {formatBaseDateTime} from "./utils.ts"
+import {useMemo} from "react"
+import {formatBaseDateTime} from "./utils"
 import type {Dayjs} from "dayjs"
 
 export function useTimeFormatter() {
@@ -18,8 +18,6 @@ export function useTimeFormatter() {
 export interface FormatMinutesOptions {
   style?: 'long' | 'short'
 }
-
-const DURATION_KEY = 'libs:datetime.duration'
 
 function splitTime(minutes: number) {
   const totalSeconds = Math.round(minutes * 60)
