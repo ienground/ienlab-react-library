@@ -1,3 +1,4 @@
+import i18n from "i18next"
 import dayjs, {Dayjs} from "dayjs"
 
 export function formatBaseDateTime(date: Date | Dayjs, formatStr: string): string {
@@ -5,5 +6,6 @@ export function formatBaseDateTime(date: Date | Dayjs, formatStr: string): strin
   if (!date || !d.isValid()) {
     return '';
   }
-  return d.format(formatStr);
+  const locale = i18n.language?.split('-')[0] === 'ko' ? 'ko' : 'en';
+  return d.locale(locale).format(formatStr);
 }

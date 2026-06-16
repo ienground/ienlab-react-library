@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 export * from "./date"
 export * from "./datetime"
 export * from "./time"
+export * from "./utils"
 
 const syncDayjsLocale = (lng?: string) => {
   const normalized = lng?.split('-')[0] === 'ko' ? 'ko' : 'en';

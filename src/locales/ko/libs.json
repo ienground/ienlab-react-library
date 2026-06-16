@@ -39,11 +39,11 @@
         "sec": "YYYY년 M월 D일 A h:mm:ss"
       },
       "no_year": {
-        "no_sec": "M월 D일 dddd A h:mm",
-        "sec": "M월 D일 dddd A h:mm:ss",
+        "no_sec": "M월 D일 A h:mm",
+        "sec": "M월 D일 A h:mm:ss",
         "short": {
           "no_sec": "M월 D일 A h:mm",
-          "sec": "M월 D일 dddd A h:mm:ss"
+          "sec": "M월 D일 A h:mm:ss"
         }
       },
       "short": {

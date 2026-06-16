@@ -39,8 +39,8 @@
         "sec": "MMMM D, YYYY, h:mm:ss A"
       },
       "no_year": {
-        "no_sec": "dddd, MMM D, h:mm A",
-        "sec": "dddd, MMM D, h:mm:ss A",
+        "no_sec": "MMM D, h:mm A",
+        "sec": "MMM D, h:mm:ss A",
         "short": {
           "no_sec": "MMM D, h:mm A",
           "sec": "MMM D, h:mm:ss A"
