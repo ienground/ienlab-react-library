@@ -69,6 +69,25 @@
         "no_sec": "H:mm",
         "sec": "H:mm:ss"
       }
+    },
+    "duration": {
+      "day_other": "{{count}}일",
+      "hour": {
+        "default_other": "{{count}}시간",
+        "short_other": "{{count}}시간"
+      },
+      "minute": {
+        "default_other": "{{count}}분",
+        "short_other": "{{count}}분"
+      },
+      "second": {
+        "default_other": "{{count}}초",
+        "short_other": "{{count}}초"
+      },
+      "zero": {
+        "default": "0분",
+        "short": "0분"
+      }
     }
   },
   "delete_dialog_desc": "이 항목을 삭제합니다.",
