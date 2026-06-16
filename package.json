@@ -1,6 +1,6 @@
 {
   "name": "@ienlab/react-library",
-  "version": "0.17.0-beta.58",
+  "version": "0.17.0-beta.59",
   "description": "My React component library",
   "main": "./dist/my-library.cjs.js",
   "module": "./dist/my-library.es.js",
@@ -68,7 +68,7 @@
     "react-i18next": "^17.0.8",
     "react-router": "^7.17.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.61.0",
+    "typescript-eslint": "^8.61.1",
     "vite": "^8.0.16",
     "vite-plugin-dts": "^5.0.2",
     "zustand": "^5.0.14",

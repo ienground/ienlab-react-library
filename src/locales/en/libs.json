@@ -1,11 +1,5 @@
 {
   "add_assets": "Add Assets",
-  "drop_to_upload": "Drop files to upload",
-  "validation_image_required_size": "Image must be exactly {{size}}",
-  "validation_image_max_size": "Image must not exceed {{size}}",
-  "validation_image_oversize": "File must not exceed {{size}}MB",
-  "validation_image_aspect_ratio": "Image must have aspect ratio of {{ratio}}",
-  "validation_image_invalid_type": "Unsupported file type. Only {{accept}} files are allowed",
   "auth": {
     "errors": {
       "account_exists_with_different_credential": "This email is already linked to another sign-in method. Please use that method to sign in.",
@@ -30,27 +24,73 @@
       "wrong_password": "Please check your email or password."
     }
   },
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "datetime": {
+    "date_format": {
+      "default": "dddd, MMMM D, YYYY",
+      "no_year": "dddd, MMMM D",
+      "no_year_short": "MMM D",
+      "short": "MMM D, YYYY"
+    },
+    "date_time_format": {
+      "default": {
+        "no_sec": "MMMM D, YYYY, h:mm A",
+        "sec": "MMMM D, YYYY, h:mm:ss A"
+      },
+      "no_year": {
+        "no_sec": "dddd, MMM D, h:mm A",
+        "sec": "dddd, MMM D, h:mm:ss A",
+        "short": {
+          "no_sec": "MMM D, h:mm A",
+          "sec": "MMM D, h:mm:ss A"
+        }
+      },
+      "short": {
+        "no_sec": "MMM D, YYYY h:mm A",
+        "sec": "MMM D, YYYY h:mm:ss A"
+      }
+    },
+    "time_format": {
+      "apm": "A",
+      "f12": {
+        "no_sec": "h:mm A",
+        "sec": "h:mm:ss A"
+      },
+      "f12_no_apm": {
+        "no_sec": "h:mm",
+        "sec": "h:mm:ss"
+      },
+      "f24": {
+        "no_sec": "HH:mm",
+        "sec": "HH:mm:ss"
+      },
+      "f24_short": {
+        "no_sec": "H:mm",
+        "sec": "H:mm:ss"
+      }
+    }
+  },
+  "delete_dialog_desc": "This item will be deleted.",
+  "delete_dialog_title": "Delete?",
+  "drop_to_upload": "Drop files to upload",
+  "no_results": "No results",
   "phone_verify": {
     "errors": {
       "send_failure_over_limit": "Send limit exceeded.",
       "send_failure_unknown": "Failed to send code.",
       "verify_failure_no_send": "No code sent.",
-      "verify_failure_wrong": "Code does not match.",
-      "verify_failure_unknown": "Verification failed."
+      "verify_failure_unknown": "Verification failed.",
+      "verify_failure_wrong": "Code does not match."
     }
   },
-  "cancel": "Cancel",
-  "confirm": "Confirm",
-  "datetime": {
-    "date_format": "MMMM D, YYYY",
-    "date_time_format": "MMMM D, YYYY h:mm:ss A",
-    "time_format": "h:mm:ss A"
-  },
-  "delete_dialog_desc": "This item will be deleted.",
-  "delete_dialog_title": "Delete?",
-  "no_results": "No results",
   "quit_warning_title": "Discard all changes?",
   "quite_warning_desc": "All changes will be canceled and you will go back to the previous screen.",
   "time": "Time",
-  "unknown_error_occurred": "Unknown error occurred."
+  "unknown_error_occurred": "Unknown error occurred.",
+  "validation_image_aspect_ratio": "Image must have aspect ratio of {{ratio}}",
+  "validation_image_invalid_type": "Unsupported file type. Only {{accept}} files are allowed",
+  "validation_image_max_size": "Image must not exceed {{size}}",
+  "validation_image_oversize": "File must not exceed {{size}}MB",
+  "validation_image_required_size": "Image must be exactly {{size}}"
 }

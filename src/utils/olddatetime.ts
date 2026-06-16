@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import dayjs from "dayjs";
 import {useMemo} from 'react';
-import i18n, {type TFunction} from "i18next";
+import {type TFunction} from "i18next";
 import 'dayjs/locale/ko';
 import 'dayjs/locale/en';
 
@@ -18,9 +18,9 @@ export function useDateTimeFormatters() {
 
   return useMemo(() => ({
     basicDateTimeFormat: (date: Date, formatKey: string) => formatBaseDateTime(date, formatKey, t),
-    dateTimeFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.date_time_format", t),
+    dateTimeFormat: (date: Date) => formatBaseDateTime(date, t("libs:datetime.date_time_format"), t),
     dateFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.date_format", t),
-    timeFormat: (date: Date) => formatBaseDateTime(date, "libs:datetime.time_format", t),
+    timeFormat: (date: Date) => formatBaseDateTime(date, t("libs:datetime.time_format"), t),
   }), [t]);
 }
 
@@ -34,17 +34,5 @@ export function time24Format(date: Date): string {
   return d.isValid() ? d.format("HH:mm") : "";
 }
 
-const syncDayjsLocale = (lng?: string) => {
-  const normalized = lng?.split('-')[0] === 'ko' ? 'ko' : 'en';
-  dayjs.locale(normalized);
-};
 
-// 1) 앱 시작 시 최초 1회 동기화
-if (i18n.isInitialized) {
-  syncDayjsLocale(i18n.resolvedLanguage || i18n.language);
-}
 
-// 2) 이후 언어 변경 이벤트 동기화
-i18n.on('languageChanged', syncDayjsLocale);
-
-export default dayjs;

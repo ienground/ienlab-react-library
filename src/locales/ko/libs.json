@@ -1,11 +1,5 @@
 {
   "add_assets": "애셋 추가",
-  "drop_to_upload": "파일을 끌어다 놓으세요",
-  "validation_image_required_size": "이미지는 {{size}} 크기여야 합니다",
-  "validation_image_max_size": "이미지는 {{size}} 이하여야 합니다",
-  "validation_image_oversize": "파일 용량은 {{size}}MB 이하여야 합니다",
-  "validation_image_aspect_ratio": "이미지 비율은 {{ratio}}이어야 합니다",
-  "validation_image_invalid_type": "지원하지 않는 파일 형식입니다. {{accept}} 형식만 업로드 가능합니다",
   "auth": {
     "errors": {
       "account_exists_with_different_credential": "이미 다른 로그인 방식으로 가입된 이메일이에요. 기존 방식으로 로그인해 주세요.",
@@ -30,27 +24,73 @@
       "wrong_password": "이메일 또는 비밀번호를 다시 확인해 주세요."
     }
   },
+  "cancel": "취소",
+  "confirm": "확인",
+  "datetime": {
+    "date_format": {
+      "default": "YYYY년 M월 D일 dddd",
+      "no_year": "M월 D일 dddd",
+      "no_year_short": "M월 D일",
+      "short": "YYYY년 M월 D일"
+    },
+    "date_time_format": {
+      "default": {
+        "no_sec": "YYYY년 M월 D일 A h:mm",
+        "sec": "YYYY년 M월 D일 A h:mm:ss"
+      },
+      "no_year": {
+        "no_sec": "M월 D일 dddd A h:mm",
+        "sec": "M월 D일 dddd A h:mm:ss",
+        "short": {
+          "no_sec": "M월 D일 A h:mm",
+          "sec": "M월 D일 dddd A h:mm:ss"
+        }
+      },
+      "short": {
+        "no_sec": "YYYY년 M월 D일 A h:mm",
+        "sec": "YYYY년 M월 D일 A h:mm:ss"
+      }
+    },
+    "time_format": {
+      "apm": "A",
+      "f12": {
+        "no_sec": "A h:mm",
+        "sec": "A h:mm:ss"
+      },
+      "f12_no_apm": {
+        "no_sec": "h:mm",
+        "sec": "h:mm:ss"
+      },
+      "f24": {
+        "no_sec": "HH:mm",
+        "sec": "HH:mm:ss"
+      },
+      "f24_short": {
+        "no_sec": "H:mm",
+        "sec": "H:mm:ss"
+      }
+    }
+  },
+  "delete_dialog_desc": "이 항목을 삭제합니다.",
+  "delete_dialog_title": "삭제할까요?",
+  "drop_to_upload": "파일을 끌어다 놓으세요",
+  "no_results": "결과 없음",
   "phone_verify": {
     "errors": {
       "send_failure_over_limit": "인증번호 발송 횟수를 초과했습니다.",
       "send_failure_unknown": "인증번호 발송에 실패했습니다.",
       "verify_failure_no_send": "인증번호가 발송되지 않았습니다.",
-      "verify_failure_wrong": "인증번호가 일치하지 않습니다.",
-      "verify_failure_unknown": "인증에 실패했습니다."
+      "verify_failure_unknown": "인증에 실패했습니다.",
+      "verify_failure_wrong": "인증번호가 일치하지 않습니다."
     }
   },
-  "cancel": "취소",
-  "confirm": "확인",
-  "datetime": {
-    "date_format": "YYYY년 M월 D일",
-    "date_time_format": "YYYY년 M월 D일 A h:mm:ss",
-    "time_format": "A h:mm:ss"
-  },
-  "delete_dialog_desc": "이 항목을 삭제합니다.",
-  "delete_dialog_title": "삭제할까요?",
-  "no_results": "결과 없음",
   "quit_warning_title": "모든 변경 사항을 취소할까요?",
   "quite_warning_desc": "변경된 모든 사항을 취소하고 이전 화면으로 돌아갑니다.",
   "time": "시각",
-  "unknown_error_occurred": "알 수 없는 오류가 발생했습니다."
+  "unknown_error_occurred": "알 수 없는 오류가 발생했습니다.",
+  "validation_image_aspect_ratio": "이미지 비율은 {{ratio}}이어야 합니다",
+  "validation_image_invalid_type": "지원하지 않는 파일 형식입니다. {{accept}} 형식만 업로드 가능합니다",
+  "validation_image_max_size": "이미지는 {{size}} 이하여야 합니다",
+  "validation_image_oversize": "파일 용량은 {{size}}MB 이하여야 합니다",
+  "validation_image_required_size": "이미지는 {{size}} 크기여야 합니다"
 }

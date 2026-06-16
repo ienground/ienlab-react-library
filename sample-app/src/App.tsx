@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import dayjs from "dayjs";
 import "./App.css"
 import {
-  ImageUploadField, CrossfadeImage, FileUploadItem, ImageUploadSortableField, useDateTimeFormatters,
-  GroupedDataTable, Localized, ThemeProvider, useTheme
+  ImageUploadField, CrossfadeImage, FileUploadItem, ImageUploadSortableField, useDateFormatters,
+  GroupedDataTable, Localized, ThemeProvider, useTheme, useTimeFormatter, useDateTimeFormatters
 } from "../../src";
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
@@ -38,7 +38,10 @@ function ScreenBody() {
     await i18n.changeLanguage(lng);
   };
 
-  const { dateTimeFormat } = useDateTimeFormatters()
+  // const { dateTimeFormat } = useDateTimeFormatters()
+  const { dateFormat, dateFormatNoYear, dateFormatShort, dateFormatNoYearShort } = useDateFormatters()
+  const { timeFormat24, timeFormat24Short, timeFormat12, timeFormat12NoApm, apmFormat } = useTimeFormatter()
+  const { dateTimeFormat, dateTimeFormatShort, dateTimeFormatNoYear, dateTimeFormatNoYearShort } = useDateTimeFormatters()
   const time = dayjs()
   const [image, setImage] = useState<FileUploadItem>(new FileUploadItem({}))
   const [images, setImages] = useState<FileUploadItem[]>([])
@@ -103,7 +106,20 @@ function ScreenBody() {
           <button onClick={() => changeLanguage('en')}>English</button>
           <button onClick={() => changeLanguage('ko')}>Korean</button>
         </div>
-        <div>{dateTimeFormat(time.toDate())}</div>
+        {/*<div>{dateTimeFormat(time.toDate())}</div>*/}
+        <div>{dateFormat(time.toDate())}</div>
+        <div>{dateFormatNoYear(time.toDate())}</div>
+        <div>{dateFormatShort(time.toDate())}</div>
+        <div>{dateFormatNoYearShort(time.toDate())}</div>
+        <div>{timeFormat24(time.toDate())} | {timeFormat24(time.toDate(), true)}</div>
+        <div>{timeFormat24Short(time.toDate())} | {timeFormat24Short(time.toDate(), true)}</div>
+        <div>{timeFormat12(time.toDate())} | {timeFormat12(time.toDate(), true)}</div>
+        <div>{timeFormat12NoApm(time.toDate())} | {timeFormat12NoApm(time.toDate(), true)}</div>
+        <div>{apmFormat(time.toDate())}</div>
+        <div>{dateTimeFormat(time.toDate())} | {dateTimeFormat(time.toDate(), true)}</div>
+        <div>{dateTimeFormatShort(time.toDate())} | {dateTimeFormatShort(time.toDate(), true)}</div>
+        <div>{dateTimeFormatNoYear(time.toDate())} | {dateTimeFormatNoYear(time.toDate(), true)}</div>
+        <div>{dateTimeFormatNoYearShort(time.toDate())} | {dateTimeFormatNoYearShort(time.toDate(), true)}</div>
         <div>
           <button
             type="button"
