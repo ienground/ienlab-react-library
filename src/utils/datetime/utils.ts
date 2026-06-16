@@ -1,5 +1,6 @@
 import i18n from "i18next"
 import dayjs, {Dayjs} from "dayjs"
+import 'dayjs/locale/ko'
 
 export function formatBaseDateTime(date: Date | Dayjs, formatStr: string): string {
   const d = date instanceof Date ? dayjs(date) : date;
