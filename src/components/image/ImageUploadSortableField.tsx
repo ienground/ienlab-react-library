@@ -437,6 +437,7 @@ export function ImageUploadSortableField({
                   key={item.url}
                   value={item}
                   style={styles.item}
+                  dragListener={!disabled}
                 >
                   <Card style={cardStyle}>
                     <div style={styles.cardInner}>
