@@ -150,7 +150,7 @@ function ScreenBody() {
           uploadHintText="이미지를 업로드하세요"
           descriptionText="권장 비율은 16:9 입니2다"
           aspectRatio="16/2"
-          width="800px"
+          // width="800px"
           // cardAspectRatio="16/9"
           // requiredAspectRatio
           value={image}
@@ -168,6 +168,8 @@ function ScreenBody() {
           uploadHintText="이미지를 업로드하세요"
           descriptionText="권장 비율은 16:9 입니다"
           items={images}
+          aspectRatio="2/1"
+          cardHeight="15rem"
           onChange={items => setImages(items)}
           // components={{
           //   Input,
