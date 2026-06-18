@@ -62,7 +62,10 @@ type ImageUploadSortableFieldProps = {
   maxSize?: string
   maxFileSizeMB?: number
   requiredAspectRatio?: boolean
+  maxCount?: number
+  disabled?: boolean
   className?: string
+  cardHeight?: string
   width?: string
   height?: string
 }
@@ -229,17 +232,20 @@ const styles = {
  * @param uploadHintText - 업로드 영역에 표시할 힌트 텍스트
  * @param items - 현재 업로드된 이미지 아이템 배열
  * @param onChange - 이미지 목록 변경 시 호출되는 콜백
- * @param aspectRatio - 이미지 표시 영역의 종횡비 (기본값 "1 / 1")
+ * @param aspectRatio - 카드 표시용 종횡비 (기본값 없음, 지정하지 않으면 requiredSize에서 추출하거나 비율 제한 없음)
  * @param cardAspectRatio - 업로드 카드 영역의 종횡비 (설정하지 않으면 aspectRatio와 동일)
  * @param accept - 허용할 파일 MIME 타입 (기본값 "image/*")
  * @param requiredSize - 필수 이미지 크기 (예: "1920x1080")
  * @param maxSize - 최대 이미지 크기 (예: "3840x2160")
  * @param maxFileSizeMB - 최대 파일 크기 (MB 단위)
  * @param requiredAspectRatio - 종횡비 검증 활성화 여부
+ * @param maxCount - 최대 업로드 가능한 파일 개수 (설정하지 않으면 제한 없음)
+ * @param disabled - 업로드 및 삭제 비활성화
  * @param components - 주입 가능한 커스텀 컴포넌트
  * @param className - 컴포넌트에 적용할 CSS 클래스명
- * @param width - 필드 너비 (CSS 값, 예: "20rem", "100%")
- * @param height - 필드 높이 (CSS 값, 예: "20rem", "auto")
+ * @param cardHeight - 개별 이미지 카드 높이 (CSS 값, 예: "12rem"). aspectRatio 대신 높이 우선
+ * @param width - 이미지 업로드 영역 너비 (CSS 값, 예: "20rem", "100%")
+ * @param height - 이미지 업로드 영역 높이 (CSS 값, 예: "20rem", "auto")
  */
 export function ImageUploadSortableField({
                                             id,
@@ -248,15 +254,18 @@ export function ImageUploadSortableField({
                                             uploadHintText,
                                             items,
                                             onChange,
-                                            aspectRatio = "1 / 1",
+                                            aspectRatio,
                                             cardAspectRatio,
                                             accept = "image/*",
                                             requiredSize,
                                             maxSize,
                                             maxFileSizeMB,
                                             requiredAspectRatio,
+                                            maxCount,
+                                            disabled,
                                             components,
                                             className,
+                                            cardHeight,
                                             width,
                                             height,
                                           }: ImageUploadSortableFieldProps) {
@@ -266,7 +275,7 @@ export function ImageUploadSortableField({
     requiredSize,
     maxSize,
     maxFileSizeMB,
-    requiredAspectRatio: requiredAspectRatio ? aspectRatio : undefined,
+    requiredAspectRatio: requiredAspectRatio ? (aspectRatio ?? "1 / 1") : undefined,
     acceptType: accept,
   }
 
@@ -303,17 +312,23 @@ export function ImageUploadSortableField({
 
   /** target 아이템을 목록에서 제거하고 URL을 해제합니다 */
   const removeItem = (target: FileUploadItem) => {
+    if (disabled) return
     target.revokeIfNeeded()
     onChange(items.filter((item) => item !== target))
   }
 
   /** 선택된 파일들을 검증하고 ImageUploadItem 배열로 변환하여 기존 목록에 추가합니다 */
   const handleFilesSelected = async (files: FileList | null) => {
-    if (!files || files.length === 0) return
+    if (!files || files.length === 0 || disabled) return
 
     setErrorMessage(null)
 
     const fileArray = Array.from(files)
+
+    if (maxCount !== undefined && items.length + fileArray.length > maxCount) {
+      setErrorMessage(t("libs:validation_image_max_count", {count: maxCount}))
+      return
+    }
 
     if (hasValidation(validationOptions)) {
       for (const file of fileArray) {
@@ -363,14 +378,25 @@ export function ImageUploadSortableField({
     handleFilesSelected(e.dataTransfer.files)
   }
 
+  const derivedRatio = cardAspectRatio
+    ?? (requiredSize
+      ? (() => {
+        const [w, h] = requiredSize.split("x").map(Number)
+        return w && h ? `${w} / ${h}` : undefined
+      })()
+      : undefined)
+    ?? aspectRatio
+
   const cardStyle: CSSProperties = {
     ...styles.card,
-    aspectRatio: cardAspectRatio ?? aspectRatio,
+    aspectRatio: derivedRatio,
+    ...(cardHeight ? {width: undefined, height: cardHeight} : {}),
   }
 
   const uploadCardStyle: CSSProperties = {
     ...styles.uploadCard,
-    aspectRatio: cardAspectRatio ?? aspectRatio,
+    aspectRatio: cardAspectRatio ?? aspectRatio ?? "1 / 1",
+    ...(cardHeight ? {width: undefined, height: cardHeight} : {}),
   }
 
   const wrapperStyle: CSSProperties = {
@@ -387,11 +413,11 @@ export function ImageUploadSortableField({
         <div
           ref={outerRef}
           style={{...styles.outerBox, position: "relative"}}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
+          onDragOver={disabled ? undefined : handleDragOver}
+          onDragLeave={disabled ? undefined : handleDragLeave}
+          onDrop={disabled ? undefined : handleDrop}
         >
-          {isDragOver && (
+          {isDragOver && !disabled && (
             <div style={styles.dropOverlay}>
               <div style={styles.dropOverlayInner}>
                 {t("libs:drop_to_upload")}
@@ -411,6 +437,7 @@ export function ImageUploadSortableField({
                   key={item.url}
                   value={item}
                   style={styles.item}
+                  dragListener={!disabled}
                 >
                   <Card style={cardStyle}>
                     <div style={styles.cardInner}>
@@ -422,34 +449,42 @@ export function ImageUploadSortableField({
                         draggable={false}
                       />
 
-                      <Button
-                        type="button"
-                        style={styles.removeButton}
-                        onClick={() => removeItem(item)}
-                      >
-                        <CloseIcon />
-                      </Button>
+                      {!disabled && (
+                        <Button
+                          type="button"
+                          style={styles.removeButton}
+                          onClick={() => removeItem(item)}
+                        >
+                          <CloseIcon />
+                        </Button>
+                      )}
                     </div>
                   </Card>
                 </Reorder.Item>
               ))}
 
-              <label htmlFor={id} style={styles.uploadLabel}>
-                <Card
-                  style={uploadCardStyle}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--accent)"
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "var(--card)"
-                  }}
-                >
-                  <div style={styles.uploadCardInner}>
-                    <div style={styles.badge}>{t("libs:add_assets")}</div>
-                    <p style={styles.hint}>{uploadHintText}</p>
-                  </div>
-                </Card>
-              </label>
+              {disabled && items.length === 0 ? (
+                <div style={styles.uploadLabel}>
+                  <Card style={{...uploadCardStyle, opacity: 0.4}} />
+                </div>
+              ) : disabled || (maxCount !== undefined && items.length >= maxCount) ? null : (
+                <label htmlFor={id} style={styles.uploadLabel}>
+                  <Card
+                    style={uploadCardStyle}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = "var(--accent)"
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = "var(--card)"
+                    }}
+                  >
+                    <div style={styles.uploadCardInner}>
+                      <div style={styles.badge}>{t("libs:add_assets")}</div>
+                      <p style={styles.hint}>{uploadHintText}</p>
+                    </div>
+                  </Card>
+                </label>
+              )}
             </Reorder.Group>
 
             <ScrollBar orientation="horizontal" style={styles.scrollBar} />
@@ -460,7 +495,9 @@ export function ImageUploadSortableField({
             type="file"
             accept={accept}
             multiple
+            disabled={disabled}
             onChange={(e) => {
+              if (disabled) return
               handleFilesSelected(e.target.files)
               e.currentTarget.value = ""
             }}

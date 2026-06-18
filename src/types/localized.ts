@@ -21,4 +21,8 @@ export const Localized = {
   ko<T>(value: Localized<T>): T {
     return value.ko
   },
+
+  equals<T>(a: Localized<T>, b: Localized<T>): boolean {
+    return SUPPORTED_LOCALES.every(locale => a[locale] === b[locale])
+  },
 }

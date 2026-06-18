@@ -69,6 +69,32 @@
         "no_sec": "H:mm",
         "sec": "H:mm:ss"
       }
+    },
+    "duration": {
+      "day_one": "{{count}} day",
+      "day_other": "{{count}} days",
+      "hour": {
+        "default_one": "{{count}} hour",
+        "default_other": "{{count}} hours",
+        "short_one": "{{count}} hr",
+        "short_other": "{{count}} hrs"
+      },
+      "minute": {
+        "default_one": "{{count}} minute",
+        "default_other": "{{count}} minutes",
+        "short_one": "{{count}} min",
+        "short_other": "{{count}} mins"
+      },
+      "second": {
+        "default_one": "{{count}} second",
+        "default_other": "{{count}} seconds",
+        "short_one": "{{count}} sec",
+        "short_other": "{{count}} secs"
+      },
+      "zero": {
+        "default": "0 minutes",
+        "short": "0 mins"
+      }
     }
   },
   "delete_dialog_desc": "This item will be deleted.",
@@ -90,6 +116,7 @@
   "unknown_error_occurred": "Unknown error occurred.",
   "validation_image_aspect_ratio": "Image must have aspect ratio of {{ratio}}",
   "validation_image_invalid_type": "Unsupported file type. Only {{accept}} files are allowed",
+  "validation_image_max_count": "You can upload up to {{count}} files",
   "validation_image_max_size": "Image must not exceed {{size}}",
   "validation_image_oversize": "File must not exceed {{size}}MB",
   "validation_image_required_size": "Image must be exactly {{size}}"

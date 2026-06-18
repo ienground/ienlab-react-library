@@ -51,6 +51,7 @@ type ImageUploadFieldProps = {
   maxSize?: string
   maxFileSizeMB?: number
   requiredAspectRatio?: boolean
+  disabled?: boolean
   className?: string
   width?: string
   height?: string
@@ -169,6 +170,7 @@ const styles = {
  * @param maxSize - 최대 이미지 크기 (예: "3840x2160")
  * @param maxFileSizeMB - 최대 파일 크기 (MB 단위)
  * @param requiredAspectRatio - 종횡비 검증 활성화 여부
+ * @param disabled - 업로드 및 삭제 비활성화
  * @param components - 주입 가능한 커스텀 컴포넌트
  * @param className - 컴포넌트에 적용할 CSS 클래스명
  * @param width - 필드 너비 (CSS 값, 예: "20rem", "100%")
@@ -188,6 +190,7 @@ export function ImageUploadField({
                                     maxSize,
                                     maxFileSizeMB,
                                     requiredAspectRatio,
+                                    disabled,
                                     components,
                                     className,
                                     width,
@@ -246,6 +249,7 @@ export function ImageUploadField({
 
   /** 선택된 파일을 검증하고 유효하면 ImageUploadItem으로 변환하여 onChange로 전달합니다 */
   const acceptFile = async (file: File) => {
+    if (disabled) return
     setErrorMessage(null)
     const url = URL.createObjectURL(file)
 
@@ -264,6 +268,7 @@ export function ImageUploadField({
 
   /** 현재 업로드된 이미지를 제거하고 onChange로 빈 ImageUploadItem을 전달합니다 */
   const removeImage = (e: React.MouseEvent) => {
+    if (disabled) return
     e.stopPropagation()
     value.revokeIfNeeded()
     onChange(new FileUploadItem())
@@ -271,6 +276,7 @@ export function ImageUploadField({
 
   /** 드래그 오버 시 기본 동작을 방지하고 isDragOver 상태를 true로 설정합니다 */
   const handleDragOver = (e: React.DragEvent) => {
+    if (disabled) return
     e.preventDefault()
     e.stopPropagation()
     setIsDragOver(true)
@@ -278,6 +284,7 @@ export function ImageUploadField({
 
   /** 드래그 리브 시 기본 동작을 방지하고 isDragOver 상태를 false로 설정합니다 */
   const handleDragLeave = (e: React.DragEvent) => {
+    if (disabled) return
     e.preventDefault()
     e.stopPropagation()
     setIsDragOver(false)
@@ -285,6 +292,7 @@ export function ImageUploadField({
 
   /** 드롭된 파일을 수락하고 검증 후 업로드합니다 */
   const handleDrop = (e: React.DragEvent) => {
+    if (disabled) return
     e.preventDefault()
     e.stopPropagation()
     setIsDragOver(false)
@@ -301,10 +309,11 @@ export function ImageUploadField({
 
       <div style={wrapperStyle}>
         <label
-          htmlFor={id}
+          htmlFor={disabled ? undefined : id}
           style={{
             ...styles.trigger,
             backgroundColor: isHovered || isDragOver ? "var(--accent)" : "var(--card)",
+            ...(disabled ? {cursor: "default", pointerEvents: "none" as const, opacity: 0.5} : {}),
           }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -324,13 +333,15 @@ export function ImageUploadField({
                   />
                 </div>
 
-                <Button
-                  type="button"
-                  style={styles.removeButton}
-                  onClick={removeImage}
-                >
-                  <CloseIcon />
-                </Button>
+                {!disabled && (
+                  <Button
+                    type="button"
+                    style={styles.removeButton}
+                    onClick={removeImage}
+                  >
+                    <CloseIcon />
+                  </Button>
+                )}
               </div>
             ) : (
               <div style={styles.empty}>
@@ -355,7 +366,9 @@ export function ImageUploadField({
           id={id}
           type="file"
           accept={accept}
+          disabled={disabled}
           onChange={(e) => {
+            if (disabled) return
             const file = e.target.files?.[0]
             if (!file) return
             acceptFile(file)

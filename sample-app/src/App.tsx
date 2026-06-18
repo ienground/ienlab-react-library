@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import "./App.css"
 import {
   ImageUploadField, CrossfadeImage, FileUploadItem, ImageUploadSortableField, useDateFormatters,
-  GroupedDataTable, Localized, ThemeProvider, useTheme, useTimeFormatter, useDateTimeFormatters
+  GroupedDataTable, Localized, ThemeProvider, useTheme, useTimeFormatter, useDateTimeFormatters, useDurationFormatter
 } from "../../src";
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
@@ -42,6 +42,7 @@ function ScreenBody() {
   const { dateFormat, dateFormatNoYear, dateFormatShort, dateFormatNoYearShort } = useDateFormatters()
   const { timeFormat24, timeFormat24Short, timeFormat12, timeFormat12NoApm, apmFormat } = useTimeFormatter()
   const { dateTimeFormat, dateTimeFormatShort, dateTimeFormatNoYear, dateTimeFormatNoYearShort } = useDateTimeFormatters()
+  const { minFormat, minFormatShort } = useDurationFormatter()
   const time = dayjs()
   const [image, setImage] = useState<FileUploadItem>(new FileUploadItem({}))
   const [images, setImages] = useState<FileUploadItem[]>([])
@@ -116,6 +117,16 @@ function ScreenBody() {
         <div>{timeFormat12(time.toDate())} | {timeFormat12(time.toDate(), true)}</div>
         <div>{timeFormat12NoApm(time.toDate())} | {timeFormat12NoApm(time.toDate(), true)}</div>
         <div>{apmFormat(time.toDate())}</div>
+        <br/>
+        <div>75분 → {minFormatShort(75)} | long: {minFormat(75)}</div>
+        <div>60분 → {minFormatShort(60)} | long: {minFormat(60)}</div>
+        <div>15분 → {minFormatShort(15)} | long: {minFormat(15)}</div>
+        <div>1440분 → {minFormatShort(1440)} | long: {minFormat(1440)}</div>
+        <div>21440분 → {minFormatShort(21440)} | long: {minFormat(21440)}</div>
+        <div>1500분 → {minFormatShort(1500)} | long: {minFormat(1500)}</div>
+        <div>1분 → {minFormatShort(1)} | long: {minFormat(1)}</div>
+        <div>0분 → {minFormatShort(0)} | long: {minFormat(0)}</div>
+        <br/>
         <div>{dateTimeFormat(time.toDate())} | {dateTimeFormat(time.toDate(), true)}</div>
         <div>{dateTimeFormatShort(time.toDate())} | {dateTimeFormatShort(time.toDate(), true)}</div>
         <div>{dateTimeFormatNoYear(time.toDate())} | {dateTimeFormatNoYear(time.toDate(), true)}</div>
@@ -139,7 +150,7 @@ function ScreenBody() {
           uploadHintText="이미지를 업로드하세요"
           descriptionText="권장 비율은 16:9 입니2다"
           aspectRatio="16/2"
-          width="800px"
+          // width="800px"
           // cardAspectRatio="16/9"
           // requiredAspectRatio
           value={image}
@@ -157,6 +168,8 @@ function ScreenBody() {
           uploadHintText="이미지를 업로드하세요"
           descriptionText="권장 비율은 16:9 입니다"
           items={images}
+          aspectRatio="2/1"
+          cardHeight="15rem"
           onChange={items => setImages(items)}
           // components={{
           //   Input,
