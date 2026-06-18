@@ -15,11 +15,11 @@ export function useTimeFormatter() {
   }), [t])
 }
 
-export interface FormatMinutesOptions {
-  style?: 'long' | 'short'
-}
-
 function splitTime(minutes: number) {
+  if (isNaN(minutes) || !isFinite(minutes)) {
+    return { day: 0, hour: 0, minute: 0 }
+  }
+
   const totalSeconds = Math.round(minutes * 60)
   const days = Math.floor(totalSeconds / 86400)
   const hours = Math.floor((totalSeconds % 86400) / 3600)
