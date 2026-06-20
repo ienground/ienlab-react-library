@@ -1,4 +1,5 @@
-import {documentId, getDoc, getDocs, query, type CollectionReference,
+import {
+  documentId, getDoc, getDocs, query, type CollectionReference,
   where, type DocumentData, type DocumentReference, type DocumentSnapshot, type QueryDocumentSnapshot,
   type Unsubscribe,
   onSnapshot,
@@ -60,7 +61,7 @@ export type SnapshotOptions = {
 function resolveListenOptions(
   options: SnapshotOptions = {}
 ): { listenOptions: SnapshotListenOptions; cache: boolean } {
-  const { cache = true, includeMetadataChanges } = options
+  const {cache = true, includeMetadataChanges} = options
 
   return {
     listenOptions: {
@@ -111,8 +112,8 @@ export function getSnapshots<
     | ((snapshot: QuerySnapshot<AppModelType, DbModelType>) => void),
   options: SnapshotOptions = {}
 ): Unsubscribe {
-  const { listenOptions, cache } = resolveListenOptions(options)
-  const { onError } = options
+  const {listenOptions, cache} = resolveListenOptions(options)
+  const {onError} = options
 
   if (target.type === "document") {
     return onSnapshot(
@@ -120,7 +121,7 @@ export function getSnapshots<
       listenOptions,
       (snapshot) => {
         if (shouldEmitSnapshot(snapshot.metadata.fromCache, cache)) {
-          ;(
+          (
             callback as (
               snapshot: DocumentSnapshot<AppModelType, DbModelType>
             ) => void
@@ -136,7 +137,7 @@ export function getSnapshots<
     listenOptions,
     (snapshot) => {
       if (shouldEmitSnapshot(snapshot.metadata.fromCache, cache)) {
-        ;(
+        (
           callback as (
             snapshot: QuerySnapshot<AppModelType, DbModelType>
           ) => void

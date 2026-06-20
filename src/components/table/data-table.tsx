@@ -6,15 +6,15 @@ import {
   type RowSelectionState
 } from "@tanstack/react-table"
 
-import {useTranslation} from "react-i18next";
-import {type Dispatch, type SetStateAction} from "react";
+import {useTranslation} from "react-i18next"
+import {type Dispatch, type SetStateAction} from "react"
 import {
   DefaultTable, DefaultTableBody, DefaultTableCell,
   DefaultTableHead,
   DefaultTableHeader, DefaultTableRow,
   type TableInjectedComponents
-} from "../../types";
-import {cn} from "../../lib/utils";
+} from "../../types"
+import {cn} from "../../lib/utils"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -39,7 +39,7 @@ export function DataTable<TData, TValue>({columns, data, getRowId, selectionStat
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel()
-  });
+  })
   const { t } = useTranslation()
   const Table = components?.Table ?? DefaultTable
   const TableHeader = components?.TableHeader ?? DefaultTableHeader

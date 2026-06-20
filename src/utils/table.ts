@@ -1,4 +1,4 @@
-export type TreeItem<T> = T & { subRows: TreeItem<T>[] };
+export type TreeItem<T> = T & { subRows: TreeItem<T>[] }
 
 export function buildTreeWithSubRows<T, TId>(
   items: T[],

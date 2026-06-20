@@ -1,15 +1,15 @@
 import {useMemo, useState} from 'react'
 import { useTranslation } from 'react-i18next'
-import dayjs from "dayjs";
+import dayjs from "dayjs"
 import "./App.css"
 import {
   ImageUploadField, CrossfadeImage, FileUploadItem, ImageUploadSortableField, useDateFormatters,
   GroupedDataTable, Localized, ThemeProvider, useTheme, useTimeFormatter, useDateTimeFormatters, useDurationFormatter
-} from "../../src";
+} from "../../src"
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
-import {buildTreeWithSubRows} from "../../src";
-import type {ColumnDef, RowSelectionState} from "@tanstack/react-table";
+import {buildTreeWithSubRows} from "../../src"
+import type {ColumnDef, RowSelectionState} from "@tanstack/react-table"
 
 class Hi {
   name: string = ""
@@ -35,8 +35,8 @@ function ScreenBody() {
   const { resolvedTheme, setTheme } = useTheme()
 
   const changeLanguage = async (lng: string) => {
-    await i18n.changeLanguage(lng);
-  };
+    await i18n.changeLanguage(lng)
+  }
 
   // const { dateTimeFormat } = useDateTimeFormatters()
   const { dateFormat, dateFormatNoYear, dateFormatShort, dateFormatNoYearShort } = useDateFormatters()
