@@ -1,5 +1,5 @@
 export type AppMatch<TData> = {
-  data: TData
+  loaderData: TData
   params: Record<string, string | undefined>
   pathname: string
 }
