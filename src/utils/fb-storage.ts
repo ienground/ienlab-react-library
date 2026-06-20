@@ -1,6 +1,6 @@
-import { getDownloadURL as getFbDownloadURL, type StorageReference, ref, uploadBytes, type FirebaseStorage } from "firebase/storage";
-import {type ImageCompressionPolicy, FileUploadItem} from "../types";
-import {getFileExtension} from "./file";
+import { getDownloadURL as getFbDownloadURL, type StorageReference, ref, uploadBytes, type FirebaseStorage } from "firebase/storage"
+import {type ImageCompressionPolicy, FileUploadItem} from "../types"
+import {getFileExtension} from "./file"
 import {compressImage} from "./image"
 
 /**

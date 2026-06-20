@@ -4,7 +4,7 @@ import type {
   TableHTMLAttributes,
   TdHTMLAttributes,
   ThHTMLAttributes
-} from "react";
+} from "react"
 
 export type TableRootProps = HTMLAttributes<HTMLTableElement>
 export type TableSectionProps = HTMLAttributes<HTMLTableSectionElement>

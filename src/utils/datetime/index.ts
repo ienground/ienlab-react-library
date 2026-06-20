@@ -8,15 +8,15 @@ export * from "./utils"
 
 const syncDayjsLocale = (lng?: string) => {
   const normalized = lng?.split('-')[0] === 'ko' ? 'ko' : 'en';
-  dayjs.locale(normalized);
-};
+  dayjs.locale(normalized)
+}
 
 // 1) 앱 시작 시 최초 1회 동기화
 if (i18n.isInitialized) {
-  syncDayjsLocale(i18n.resolvedLanguage || i18n.language);
+  syncDayjsLocale(i18n.resolvedLanguage || i18n.language)
 }
 
 // 2) 이후 언어 변경 이벤트 동기화
-i18n.on('languageChanged', syncDayjsLocale);
+i18n.on('languageChanged', syncDayjsLocale)
 
-export default dayjs;
+export default dayjs

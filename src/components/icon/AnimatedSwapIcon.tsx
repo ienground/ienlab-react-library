@@ -1,5 +1,5 @@
-import { AnimatePresence, motion, type HTMLMotionProps } from "motion/react"
-import type { ReactNode } from "react"
+import {AnimatePresence, type HTMLMotionProps, motion} from "motion/react"
+import type {ReactNode} from "react"
 
 type AnimatedSwapIconProps = {
   loading: boolean

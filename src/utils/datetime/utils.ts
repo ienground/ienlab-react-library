@@ -3,10 +3,10 @@ import dayjs, {Dayjs} from "dayjs"
 import 'dayjs/locale/ko'
 
 export function formatBaseDateTime(date: Date | Dayjs, formatStr: string): string {
-  const d = date instanceof Date ? dayjs(date) : date;
+  const d = date instanceof Date ? dayjs(date) : date
   if (!date || !d.isValid()) {
-    return '';
+    return ''
   }
-  const locale = i18n.language?.split('-')[0] === 'ko' ? 'ko' : 'en';
-  return d.locale(locale).format(formatStr);
+  const locale = i18n.language?.split('-')[0] === 'ko' ? 'ko' : 'en'
+  return d.locale(locale).format(formatStr)
 }
