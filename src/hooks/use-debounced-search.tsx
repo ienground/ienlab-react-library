@@ -1,5 +1,5 @@
 import {useDebouncedValue} from "./use-debounced-value"
-import {useEffect} from "react"
+import {useEffect, useRef} from "react"
 
 export function useDebouncedSearch(
   query: string,
@@ -8,15 +8,26 @@ export function useDebouncedSearch(
   delay = 300
 ) {
   const debouncedQuery = useDebouncedValue(query, delay)
+  const hasInteractedRef = useRef(false)
+  const prevKeywordRef = useRef("")
 
   useEffect(() => {
     const keyword = debouncedQuery.trim()
 
+    if (!hasInteractedRef.current) {
+      if (!keyword) return
+      hasInteractedRef.current = true
+    }
+
     if (!keyword) {
-      clearSearch()
+      if (prevKeywordRef.current) {
+        prevKeywordRef.current = ""
+        clearSearch()
+      }
       return
     }
 
+    prevKeywordRef.current = keyword
     setSearchKeyword(keyword)
   }, [debouncedQuery, clearSearch, setSearchKeyword])
 }
