@@ -10,9 +10,11 @@ type PrimitiveMap = {
 type ParseType<T extends string> =
   T extends keyof PrimitiveMap
     ? PrimitiveMap[T]
-    : T extends `${infer A} | ${infer B}`
-      ? ParseType<A> | ParseType<B>
-      : never
+    : T extends `${infer A}[]`
+      ? ParseType<A>[]
+      : T extends `${infer A} | ${infer B}`
+        ? ParseType<A> | ParseType<B>
+        : never
 
 type SchemaRecord = {
   name: string
