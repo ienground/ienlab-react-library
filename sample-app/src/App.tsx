@@ -4,12 +4,14 @@ import dayjs from "dayjs"
 import "./App.css"
 import {
   ImageUploadField, CrossfadeImage, FileUploadItem, ImageUploadSortableField, useDateFormatters,
-  GroupedDataTable, Localized, ThemeProvider, useTheme, useTimeFormatter, useDateTimeFormatters, useDurationFormatter
+  GroupedDataTable, Localized, ThemeProvider, useTheme, useTimeFormatter, useDateTimeFormatters, useDurationFormatter,
+  type AnimatedContentStatus
 } from "../../src"
 import 'dayjs/locale/ko' // 한국어 가져오기
 import 'dayjs/locale/en'
 import {buildTreeWithSubRows} from "../../src"
 import type {ColumnDef, RowSelectionState} from "@tanstack/react-table"
+import {AnimatedContent} from "../../src/components/motion/AnimatedContent.tsx"
 
 class Hi {
   name: string = ""
@@ -79,6 +81,19 @@ function ScreenBody() {
 
   const itemsChildren = useMemo(() => buildTreeWithSubRows(items, item => item.id, item => item.parentId, item => item.id === item.parentId), [items])
 
+  const [status, setStatus] = useState<AnimatedContentStatus>("loading")
+
+  useMemo(() => {
+    const statuses: AnimatedContentStatus[] = ["loading", "content", "empty"]
+    let index = 0
+    const interval = setInterval(() => {
+      index = (index + 1) % statuses.length
+      setStatus(statuses[index])
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
+
+
   const text: Localized<string> = { ko: "안녕", en: "Hello" }
   return (
     <section id="center">
@@ -108,6 +123,11 @@ function ScreenBody() {
           <button onClick={() => changeLanguage('ko')}>Korean</button>
         </div>
         {/*<div>{dateTimeFormat(time.toDate())}</div>*/}
+        <AnimatedContent
+          status={status}
+        >
+          <div className="bg-red-400">content</div>
+        </AnimatedContent>
         <div>{dateFormat(time.toDate())}</div>
         <div>{dateFormatNoYear(time.toDate())}</div>
         <div>{dateFormatShort(time.toDate())}</div>
@@ -169,6 +189,7 @@ function ScreenBody() {
           descriptionText="권장 비율은 16:9 입니다"
           items={images}
           aspectRatio="2/1"
+          cardAspectRatio="2/1"
           cardHeight="15rem"
           onChange={items => setImages(items)}
           // components={{

@@ -64,7 +64,7 @@ export function NaverLogin(props: {
       <div
         id="naverIdLogin"
         ref={hiddenRef}
-        style={{ display: "none" }}
+        className="hidden"
         aria-hidden="true"
       />
       {props.render(handleCustomLogin)}
