@@ -32,7 +32,7 @@ function useScrollToBottom({ offset = 80 }: { offset?: number } = {}) {
   return isAtBottom
 }
 
-export default function ScrollDownIndicator({ offset = 80 }: ScrollDownIndicatorProps) {
+export function ScrollDownIndicator({ offset = 80 }: ScrollDownIndicatorProps) {
   const isAtBottom = useScrollToBottom({ offset })
   const showScrollIndicator = !isAtBottom
 
