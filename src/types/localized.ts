@@ -15,7 +15,14 @@ export const Localized = {
       ? (resolved as Locale)
       : fallback
 
-    return value[locale] ?? value[fallback]
+    const current = value[locale]
+    const fallbackValue = value[fallback]
+
+    if (typeof current === "string" && current.trim() === "") {
+      return fallbackValue
+    }
+
+    return current ?? fallbackValue
   },
 
   ko<T>(value: Localized<T>): T {
